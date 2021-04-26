@@ -1,0 +1,8 @@
+{
+  "name": "audio-streaming-app",
+  "template": "PWA",
+  "isConfigured": {
+    "client": false,
+    "server": false
+  }
+}

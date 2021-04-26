@@ -26,7 +26,7 @@ if (env.error) {
 var db = require('./config/connection');
 
 db.on('open', ()=>{
-	console.log('Database connected');
+	console.log('Database connected Successfully');
 });
 
 db.on('error', (err)=>{

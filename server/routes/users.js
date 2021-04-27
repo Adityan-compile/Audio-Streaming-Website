@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/', (req, res)=> {
-	res.json({
-		status: 200,
-		message: "Welcome"
-	});
-});
+var userController = require('../controllers/userController');
 
+
+router.post('/login/', (req, res)=>{userController.login(req, res)});
+router.post('/signup/', (req, res)=>{userController.signUp(req, res)});
 
 module.exports = router;

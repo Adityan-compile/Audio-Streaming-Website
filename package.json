@@ -1,13 +1,17 @@
 {
-  "name": "Audio Streaming App",
+  "name": "audio-streaming-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "client": "cd client && npm run serve",
     "server": "cd server && npm run dev-server",
-    "dev": "concurrently \"npm run client\"\"npm run server\""
+    "dev": "concurrently \"npm run client\"\"npm run server\"",
+    "format": "./node_modules/.bin/prettier --semi --single-quote --trailing-comma es5 --print-width 80 --write --no-bracket-spacing**/*.js *.js "
   },
   "dependencies": {
     "concurrently": "^6.0.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }

@@ -7,30 +7,44 @@ exports.login = async (req, res) => {
    let userData = req.body;
    let foundUser = await user.findOne({ email: userData.email });
    if (foundUser) {
-      await bcrypt.compare(userData.password, foundUser.password, async(err, status) => {
-         if(err) return res.sendStatus(401);
-         if (status) {
-            foundUser.password = null;
-            var accessToken = await functions.generateAccessToken(foundUser.toJSON(), "15m");
-            var refreshToken = await functions.generateRefreshToken(foundUser.toJSON());
-            if(refreshToken === null) return res.status(401).json({status: 401, message: "Authentication Failed"});
-            
-            res.status(200);
-            res.json({
-               status: 200,
-               message: "Authentication Successful",
-               accessToken: accessToken,
-               refreshToken: refreshToken,
-               user: foundUser,
-            });
-         } else {
-            res.status(401);
-            res.json({
-               status: 401,
-               message: "Authentication Failed",
-            });
+      await bcrypt.compare(
+         userData.password,
+         foundUser.password,
+         async (err, status) => {
+            if (err) return res.sendStatus(401);
+            if (status) {
+               foundUser.password = null;
+               var accessToken = await functions.generateAccessToken(
+                  foundUser.toJSON(),
+                  "15m"
+               );
+               var refreshToken = await functions.generateRefreshToken(
+                  foundUser.toJSON()
+               );
+
+               if (refreshToken === null || accessToken === null){
+                  return res
+                     .status(401)
+                     .json({ status: 401, message: "Authentication Failed" });
+               }
+
+               res.status(200);
+               res.json({
+                  status: 200,
+                  message: "Authentication Successful",
+                  accessToken: accessToken,
+                  refreshToken: await refreshToken,
+                  user: foundUser,
+               });
+            } else {
+               res.status(401);
+               res.json({
+                  status: 401,
+                  message: "Authentication Failed",
+               });
+            }
          }
-      });
+      );
    } else {
       res.status(401);
       res.json({
@@ -43,18 +57,22 @@ exports.login = async (req, res) => {
 exports.signUp = async (req, res) => {
    let userData = req.body;
 
-   let foundUser = await user.find({email: userData.email});
-   
-    if(foundUser){
-         foundUser.password = null;
-         return res.status(409).json({status: 409, message: "User already Exists", user: foundUser});
-    }
+   let foundUser = await user.find({ email: userData.email });
+
+   if (foundUser) {
+      foundUser.password = null;
+      return res.status(409).json({
+         status: 409,
+         message: "User already Exists",
+         user: foundUser,
+      });
+   }
 
    if (
       userData.name &&
       userData.email &&
       userData.password &&
-      functions.validate(userData.email)      
+      functions.validate(userData.email)
    ) {
       userData.password = await bcrypt.hash(userData.password, 10);
       let newUser = new user({
@@ -72,10 +90,18 @@ exports.signUp = async (req, res) => {
          } else {
             newUser.password = null;
             newUser = newUser.toJSON();
-            let accessToken = await functions.generateAccessToken(newUser, "15m");
+            let accessToken = await functions.generateAccessToken(
+               newUser,
+               "15m"
+            );
+
             let refreshToken = await functions.generateRefreshToken(newUser);
-            if(refreshToken === null) return res.status(401).json({status: 401, message: "Error Creating User"});
-            
+            if (refreshToken === null || accessToken === null) {
+               return res
+                  .status(401)
+                  .json({ status: 401, message: "Error Creating User" });
+            }
+
             res.status(200);
             res.json({
                status: 200,
@@ -93,4 +119,27 @@ exports.signUp = async (req, res) => {
          message: "Error Creating User",
       });
    }
+};
+
+
+exports.regenerateToken = async (req, res) => {
+   let token = req.body;
+   if (!token) res.sendStatus(401);
+   let user = await functions.verifyToken(token);
+   if (user === null){
+      return res
+         .status(403)
+         .json({ status: 401, message: "Refresh Token Invalid" });
+   }
+
+   let newToken = await functions.generateAccessToken(user, "15m");
+ 
+   if(newToken === null)  return res.status(401).json({status: 401, message: "Access Token Generation Failed"});
+
+   res.status(200).json({
+      status: 200,
+      message: "Token Regenerated Successfully",
+      accessToken: newToken,
+      refreshToken: token,
+   });
 };

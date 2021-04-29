@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+/**
+ * @param {String} title required
+ * @param {String} image required
+ * @param {String} audio required
+ * @param {Date}   dateCreated 
+ * @param {String} creatorId
+ * @param {String} artistName required
+ * 
+ * @returns {Object}
+ */
 const audioSchema = new mongoose.Schema({
 	title:{
 		type: String,
@@ -27,6 +37,6 @@ const audioSchema = new mongoose.Schema({
 	},
 });
 
-const audioModel = mongoose.model('audioModel', audioSchema);
+const audioModel = mongoose.model('audio', audioSchema);
 
 module.exports = audioModel;

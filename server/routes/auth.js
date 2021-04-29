@@ -5,5 +5,6 @@ var authController = require('../controllers/authController');
 
 router.post('/login', (req, res)=>{authController.login(req, res)});
 router.post('/signup', (req, res)=>{authController.signUp(req, res)});
+router.post('/tokens/refresh', (req, res)=>{authController.regenerateToken(req, res)});
 
 module.exports = router;

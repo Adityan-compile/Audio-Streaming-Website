@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 const upload = require('express-fileupload');
 var logger = require('morgan');
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -40,6 +41,9 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(upload());
+app.use(cors({
+	optionsSuccessStatus: 200
+}));
 
 app.use('/api/v1', indexRouter);
 app.use('/api/v1/users', usersRouter);

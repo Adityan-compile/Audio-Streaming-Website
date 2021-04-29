@@ -7,19 +7,20 @@ exports.login = async (req, res) => {
    let userData = req.body;
    let foundUser = await user.findOne({ email: userData.email });
    if (foundUser) {
-      await bcrypt.compare(userData.password, foundUser.password, (err, status) => {
+      await bcrypt.compare(userData.password, foundUser.password, async(err, status) => {
          if(err) return res.sendStatus(401);
          if (status) {
             foundUser.password = null;
-            var accessToken = jwt.sign(
-               foundUser.toJSON(),
-               process.env.ACCESS_TOKEN_KEY
-            );
+            var accessToken = await functions.generateAccessToken(foundUser.toJSON(), "15m");
+            var refreshToken = await functions.generateRefreshToken(foundUser.toJSON());
+            if(refreshToken === null) return res.status(401).json({status: 401, message: "Authentication Failed"});
+            
             res.status(200);
             res.json({
                status: 200,
                message: "Authentication Successful",
                accessToken: accessToken,
+               refreshToken: refreshToken,
                user: foundUser,
             });
          } else {
@@ -41,11 +42,19 @@ exports.login = async (req, res) => {
 
 exports.signUp = async (req, res) => {
    let userData = req.body;
+
+   let foundUser = await user.find({email: userData.email});
+   
+    if(foundUser){
+         foundUser.password = null;
+         return res.status(409).json({status: 409, message: "User already Exists", user: foundUser});
+    }
+
    if (
       userData.name &&
       userData.email &&
       userData.password &&
-      functions.validate(userData.email)
+      functions.validate(userData.email)      
    ) {
       userData.password = await bcrypt.hash(userData.password, 10);
       let newUser = new user({
@@ -55,7 +64,6 @@ exports.signUp = async (req, res) => {
       });
       newUser.save(async (err, newUser) => {
          if (err) {
-            console.error(err);
             res.status(401);
             res.json({
                status: 401,
@@ -64,12 +72,16 @@ exports.signUp = async (req, res) => {
          } else {
             newUser.password = null;
             newUser = newUser.toJSON();
-            accessToken = await jwt.sign(newUser, process.env.ACCESS_TOKEN_KEY);
+            let accessToken = await functions.generateAccessToken(newUser, "15m");
+            let refreshToken = await functions.generateRefreshToken(newUser);
+            if(refreshToken === null) return res.status(401).json({status: 401, message: "Error Creating User"});
+            
             res.status(200);
             res.json({
                status: 200,
                message: "User Created Successfully",
                accessToken: accessToken,
+               refreshToken: refreshToken,
                user: newUser,
             });
          }

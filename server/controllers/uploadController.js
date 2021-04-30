@@ -14,12 +14,11 @@ exports.upload = async (req, res) => {
 	let imageFile = req.files.image;
 	let audioFile = req.files.audio;
 	let data = req.body;
-    let fileId = functions.generateId();
 
 	let audioObject = new audio({
 		title: data.title,
-		image: `${fileId}-${data.userId}.${path.extName(imageFile)}`,
-		audio: `${fileId}-${data.userId}.${path.extName(audioFile)}`,
+		image: `${data.userId}-${imageFile.name}`,
+		audio: `${data.userId}-${audioFile.name}`,
 		creatorId: req.user._id,
 		artistName: data.artist
 	});
@@ -27,9 +26,9 @@ exports.upload = async (req, res) => {
 	audioObject.save(async (err, newAudio)=>{
 		if(err) return res.status(500).json({status: 500, message: "File Upload failed"});
 
-		await imageFile.mv(`${__dirname}/${process.env.UPLOAD_PATH}/${process.env.IMAGE_FOLDER}/${newAudio.image}`,async (err)=>{
+		await imageFile.mv(`${__dirname}/${process.env.UPLOAD_PATH}/${process.env.IMAGE_FOLDER}/${imageFile.name}`,async (err)=>{
 			if(err) return res.status(422).json({status: 422, message: "File Upload failed"});
-		await audioFile.mv(`${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${newAudio.audio}`, (error)=>{
+		await audioFile.mv(`${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${audioFile.name}`, (error)=>{
 			if(error) return res.status(422).json({status: 422, message: "File Upload failed"});
 			res.status(201).json({status: 201, message: "File Upload success"});
 		});

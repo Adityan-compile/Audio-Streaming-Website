@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/user.js</title>
+    <title>JSDoc: Source: routes/uploads.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/user.js</h1>
+    <h1 class="page-title">Source: routes/uploads.js</h1>
 
     
 
@@ -26,37 +26,34 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const mongoose = require('mongoose');
+            <pre class="prettyprint source linenums"><code>const express = require("express");
 
 /**
- * User Model
- * 
- * @module models/user
- * 
- * @param {String} name required
- * @param {String} email required
- * @param {String} password required
- * 
- * @returns {Object}
+ * @alias express.Router
  */
-const userSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: true
-	},
-	email: {
-		type: String,
-		required: true
-	},
-	password: {
-		type: String,
-		required: true
-	}
+const router = express.Router();
+
+const uploadController = require("../controllers/uploadController");
+const authenticator = require("../middleware/authenticate");
+
+
+/**
+ * @name Upload
+ * @route {POST} /uploads/files/new
+ * @method POST
+ * @function
+ * @module routes/uploads
+ * @param {String} path 
+ * @param {Callback} upload
+ * @bodyparam {File} audio
+ * @bodyparam {File} image
+ */
+router.post("/files/new", authenticator.authenticate, (req, res) => {
+	uploadController.upload(req, res);
 });
 
 
-
-module.exports = mongoose.model('user', userSchema);
+module.exports = router;
 </code></pre>
         </article>
     </section>

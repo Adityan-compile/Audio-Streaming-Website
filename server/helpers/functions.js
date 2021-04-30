@@ -3,18 +3,6 @@ const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const token = require("../models/token");
 
-
-/**
- * Generate unique id
- * 
- * @module helpers/functions
- * 
- * @returns {String|uuid}
- */
-exports.generateId = () => {
-	return uuidv4();
-};
-
 /**
  * Validate Email Address
  * 

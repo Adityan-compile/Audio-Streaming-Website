@@ -24,5 +24,8 @@ router.post("/files/new", authenticator.authenticate, (req, res) => {
 	uploadController.upload(req, res);
 });
 
+router.get("/files/delete", authenticator.authenticate, (req, res)=>{
+	uploadController.deleteFile(req,res);
+});
 
 module.exports = router;

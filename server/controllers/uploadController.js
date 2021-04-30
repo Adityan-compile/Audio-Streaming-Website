@@ -65,34 +65,42 @@ exports.upload = async (req, res) => {
 exports.deleteFile = async (req, res) => {
   let audioId = req.query;
   let user = req.user;
-  let savedAudio = audio.findOne({_id: mongoose.Types.ObjectId(audioId)});
-  if(savedAudio.creatorId === user._id){
-  audio.remove(mongoose.Types.ObjectId(audioId), async (err, removedAudio) => {
-    if (err || !removedAudio)
-      return res.status(406).json({ status: 406, message: "Delete Failed" });
-    await fs.unlink(
-      `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.image}`,
-      async (unlinkErr) => {
-        if (unlinkErr)
+  let savedAudio = audio.findOne({ _id: mongoose.Types.ObjectId(audioId) });
+  if (savedAudio.creatorId === user._id) {
+    audio.remove(
+      mongoose.Types.ObjectId(audioId),
+      async (err, removedAudio) => {
+        if (err || !removedAudio)
           return res
-            .status(200)
-            .json({ status: 200, message: "Audio Deleted from Database" });
+            .status(406)
+            .json({ status: 406, message: "Delete Failed" });
         await fs.unlink(
-          `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.audio}`,
-          (unllinkError) => {
+          `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.image}`,
+          async (unlinkErr) => {
             if (unlinkErr)
               return res
                 .status(200)
                 .json({ status: 200, message: "Audio Deleted from Database" });
-            res
-              .status(201)
-              .json({ status: 201, message: "File Deleted successfully" });
+            await fs.unlink(
+              `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.audio}`,
+              (unlinkError) => {
+                if (unlinkError)
+                  return res
+                    .status(200)
+                    .json({
+                      status: 200,
+                      message: "Audio Deleted from Database",
+                    });
+                res
+                  .status(201)
+                  .json({ status: 201, message: "File Deleted successfully" });
+              }
+            );
           }
         );
       }
     );
-  });
-}else{
-   res.status(406).json({ status: 406, message: "Delete Failed" });
-}
+  } else {
+    res.status(406).json({ status: 406, message: "Delete Failed" });
+  }
 };

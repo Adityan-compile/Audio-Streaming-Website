@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 /**
+ * Token Model
+ * 
+ * @module models/token
+ * 
  * @param {String} token required
  * @returns {Object}
  */

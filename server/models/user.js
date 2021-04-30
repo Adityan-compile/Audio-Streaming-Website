@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 /**
+ * User Model
+ * 
+ * @module models/user
+ * 
  * @param {String} name required
  * @param {String} email required
  * @param {String} password required

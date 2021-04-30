@@ -2,7 +2,13 @@ const audio = require("../models/audio");
 const path = require("path");
 const functions = require("../helpers/functions");
 
-
+/**
+ * Upload Files
+ * @module controllers/uploadController
+ * @param {require('express').Request} req 
+ * @param {require('express').Response} res 
+ * @returns {undefined}
+ */
 exports.upload = async (req, res) => {
 	if(!req.files || Object.keys(req.files).length === 0) return res.sendStatus(409);
 	let imageFile = req.files.image;

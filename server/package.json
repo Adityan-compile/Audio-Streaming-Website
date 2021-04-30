@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev-server": "nodemon ./bin/www",
-    "generate-docs": "jsdoc -c ./jsdoc.json"
+    "dev-server": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

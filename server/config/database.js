@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const blueBird = require('bluebird');
 
 
+/**
+ * Connect to Database
+ * @module config/database
+ */
+
 mongoose.promise = blueBird;
 
 let URI = `${process.env.DB_HOST}/${process.env.DB_NAME}`;

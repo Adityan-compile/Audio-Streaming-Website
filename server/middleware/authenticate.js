@@ -1,5 +1,14 @@
 const jwt = require('jsonwebtoken');
 
+/**
+ * @name Authenticate
+ * @module middleware/authenticate
+ * @function
+ * @param {require('express').Request} req 
+ * @param {require('express').Response} res 
+ * @param {require('express').NextFunction} next 
+ * @return {undefined}
+ */
 module.exports.authenticate = async(req, res, next)=>{
 
 const authHeaders = req.headers['authorization'];

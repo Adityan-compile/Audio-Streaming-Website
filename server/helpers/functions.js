@@ -5,22 +5,37 @@ const token = require("../models/token");
 
 
 /**
- * @returns {String}
+ * Generate unique id
+ * 
+ * @module helpers/functions
+ * 
+ * @returns {String|uuid}
  */
 exports.generateId = () => {
 	return uuidv4();
 };
 
 /**
+ * Validate Email Address
+ * 
+ * @module helpers/functions
  * 
  * @param {String} email 
  * @returns {Boolean}
+ * @example 
+ *       let email = "test@example.com"
+ *       validate(email)
+ *       //returns true
  */
 exports.validate = (email) => {
 	return validator.validate(email);
 };
 
 /**
+ * Get Formatted Date
+ * 
+ * @module helpers/functions
+ * 
  * @returns {Date}
  */
 exports.getFormattedDate = () => {
@@ -37,10 +52,21 @@ exports.getFormattedDate = () => {
 
 
 /**
+ * Generate Access Token
+ * 
+ * @module helpers/functions
  * 
  * @param {Object} user 
  * @param {String} expiry 
  * @returns {Promise}
+ * 
+ * @example
+ *      let user = {
+ *          name:"Test",
+ *          email: "test@example.com",
+ *      };
+ *      let expiry = "10m";
+ *      generateAccessToken(user, expiry);
  */
 exports.generateAccessToken = async (user, expiry) => {
 	return new Promise(async (resolve, reject) => {
@@ -59,9 +85,20 @@ exports.generateAccessToken = async (user, expiry) => {
 };
 
 /**
+ * Generate Refresh Token
+ * 
+ * @module helpers/functions
  * 
  * @param {Object} user
- * @returns {Object} 
+ * @returns {Promise}
+ * 
+ * @example
+ *     let user = {
+ *          name:"Test",
+ *          email: "test@example.com",
+ *      };
+ *     generateRefreshToken(user);
+ *  
  */
 exports.generateRefreshToken = async (user) => {
 	return new Promise(async (resolve, reject) => {
@@ -84,9 +121,17 @@ exports.generateRefreshToken = async (user) => {
 };
 
 /**
+ * Verify Refresh Token
+ * 
+ * @module helper/functions
  * 
  * @param {String} refreshToken 
  * @returns {Promise}
+ * 
+ *@example
+ *     let token = "YOUR_REFRESH_TOKEN";
+ *      verifyToken(token);
+ * 
  */
 exports.verifyToken = async (refreshToken) => {
 	return new Promise(async (resolve, reject) => {

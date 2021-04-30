@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 /**
+ * Audio Model
+ * 
+ * @module models/audio
+ * 
  * @param {String} title required
  * @param {String} image required
  * @param {String} audio required

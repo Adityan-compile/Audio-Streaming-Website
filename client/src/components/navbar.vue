@@ -32,7 +32,16 @@
             <a class="nav-link" href="#">PLAYLISTS</a>
           </li>
         </ul>
-        <div v-if="!loggedIn"></div>
+        <div v-if="!loggedIn">
+          <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">LOGIN</a>
+          </li>
+                    <li class="nav-item">
+            <a class="nav-link" href="#">SIGNUP</a>
+          </li>
+        </ul>
+        </div>
         <div v-else>
           <li class="nav-item dropdown">
             <a
@@ -71,6 +80,7 @@ export default {
 
 <style scoped>
 .logo-text {
+  font-weight: bold;
   font-size: 1.7rem;
 }
 

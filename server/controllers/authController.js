@@ -154,6 +154,12 @@ exports.regenerateToken = async (req, res) => {
          .json({ status: 401, message: "Refresh Token Invalid" });
    }
 
+    user = {
+      user.name,
+      user.email,
+      user._id
+    }
+
    let newToken = await functions.generateAccessToken(user, "15m");
  
    if(newToken === null)  return res.status(401).json({status: 401, message: "Access Token Generation Failed"});
@@ -163,5 +169,20 @@ exports.regenerateToken = async (req, res) => {
       message: "Token Regenerated Successfully",
       accessToken: newToken,
       refreshToken: token,
+   });
+};
+
+/**
+ * Logout User
+ * @module controllers/authController
+ * @param {require('express').Request} req 
+ * @param {require('express').Response} res
+ * @returns {undefined} 
+ */
+exports.logout = async (req, res) => {
+   let refreshToken = req.body;
+   await token.delete({token: refreshToken}, (err, deletedToken)=>{
+      if (err) res.status(204).json({status: 204, message: "Logout Failed"});
+      res.status(204).json({status: 204, message: "Logout Successful"});
    });
 };

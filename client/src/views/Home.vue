@@ -1,12 +1,10 @@
 <template>
-  <div class="home">
-    <div class="row">
-      <div class="col-md-6 text-center p-5">
-        <object type="image/svg+xml" class="img-fluid" data="../assets/logo.svg">
-        <img class="img-fluid img-circle" src="../assets/logo.svg">
-        </object>
-      </div>
-      <div class="column"></div>
+  <div class="home container">
+    <div v-if="loggedIn">
+      
+    </div>
+    <div v-else>
+      
     </div>
   </div>
 </template>
@@ -15,6 +13,14 @@
 export default {
   name: 'Home',
   components: {
+  },
+  data(){
+    return{
+      loggedIn: this.$store.state.loggedIn,
+    };
   }
-}
+};
 </script>
+
+<style scoped>
+</style>

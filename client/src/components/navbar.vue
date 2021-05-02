@@ -20,25 +20,25 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-monospace">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">HOME</a>
+            <router-link class="nav-link" aria-current="page" to="/">HOME</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">SEARCH</a>
+            <router-link class="nav-link" to="/search">SEARCH</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">BROWSE</a>
+            <router-link class="nav-link" to="/browse">BROWSE</router-link>
           </li>
                     <li class="nav-item" v-if="loggedIn">
-            <a class="nav-link" href="#">PLAYLISTS</a>
+            <router-link class="nav-link" to="/user/playlists">PLAYLISTS</router-link>
           </li>
         </ul>
         <div v-if="!loggedIn">
           <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">LOGIN</a>
+            <router-link class="nav-link" to="/login">LOGIN</router-link>
           </li>
                     <li class="nav-item">
-            <a class="nav-link" href="#">SIGNUP</a>
+            <router-link class="nav-link" to="/signup">SIGNUP</router-link>
           </li>
         </ul>
         </div>

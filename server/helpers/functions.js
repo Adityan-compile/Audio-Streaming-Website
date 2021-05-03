@@ -1,16 +1,15 @@
 const validator = require("email-validator");
-const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
 const token = require("../models/token");
 
 /**
  * Validate Email Address
- * 
+ *
  * @module helpers/functions
- * 
- * @param {String} email 
+ *
+ * @param {String} email
  * @returns {Boolean}
- * @example 
+ * @example
  *       let email = "test@example.com"
  *       validate(email)
  *       //returns true
@@ -21,9 +20,9 @@ exports.validate = (email) => {
 
 /**
  * Get Formatted Date
- * 
+ *
  * @module helpers/functions
- * 
+ *
  * @returns {Date}
  */
 exports.getFormattedDate = () => {
@@ -38,16 +37,15 @@ exports.getFormattedDate = () => {
 	return date + "/" + month + "/" + year;
 };
 
-
 /**
  * Generate Access Token
- * 
+ *
  * @module helpers/functions
- * 
- * @param {Object} user 
- * @param {String} expiry 
+ *
+ * @param {Object} user
+ * @param {String} expiry
  * @returns {Promise}
- * 
+ *
  * @example
  *      let user = {
  *          name:"Test",
@@ -74,19 +72,19 @@ exports.generateAccessToken = async (user, expiry) => {
 
 /**
  * Generate Refresh Token
- * 
+ *
  * @module helpers/functions
- * 
+ *
  * @param {Object} user
  * @returns {Promise}
- * 
+ *
  * @example
  *     let user = {
  *          name:"Test",
  *          email: "test@example.com",
  *      };
  *     generateRefreshToken(user);
- *  
+ *
  */
 exports.generateRefreshToken = async (user) => {
 	return new Promise(async (resolve, reject) => {
@@ -110,16 +108,16 @@ exports.generateRefreshToken = async (user) => {
 
 /**
  * Verify Refresh Token
- * 
+ *
  * @module helper/functions
- * 
- * @param {String} refreshToken 
+ *
+ * @param {String} refreshToken
  * @returns {Promise}
- * 
+ *
  *@example
  *     let token = "YOUR_REFRESH_TOKEN";
  *      verifyToken(token);
- * 
+ *
  */
 exports.verifyToken = async (refreshToken) => {
 	return new Promise(async (resolve, reject) => {
@@ -130,6 +128,8 @@ exports.verifyToken = async (refreshToken) => {
 				process.env.REFRESH_TOKEN_KEY,
 				(err, user) => {
 					if (err) return resolve(null);
+					delete user.iat;
+					delete user.exp;
 					resolve(user);
 				}
 			);

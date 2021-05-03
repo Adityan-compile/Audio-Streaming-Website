@@ -3,13 +3,12 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const functions = require("../helpers/functions");
 
-
 /**
  * Login user
  * @module controllers/authController
- * @param {require('express').Request} req 
+ * @param {require('express').Request} req
  * @param {require('express').Response} res
- * @returns {undefined} 
+ * @returns {undefined}
  */
 exports.login = async (req, res) => {
    let userData = req.body;
@@ -30,7 +29,7 @@ exports.login = async (req, res) => {
                   foundUser.toJSON()
                );
 
-               if (refreshToken === null || accessToken === null){
+               if (refreshToken === null || accessToken === null) {
                   return res
                      .status(401)
                      .json({ status: 401, message: "Authentication Failed" });
@@ -62,13 +61,12 @@ exports.login = async (req, res) => {
    }
 };
 
-
 /**
  * SignUp User
  * @module controllers/authController
- * @param {require('express').Request} req 
+ * @param {require('express').Request} req
  * @param {require('express').Response} res
- * @returns {undefined} 
+ * @returns {undefined}
  */
 exports.signUp = async (req, res) => {
    let userData = req.body;
@@ -140,29 +138,36 @@ exports.signUp = async (req, res) => {
 /**
  * Regenerate Access Token
  * @module controllers/authController
- * @param {require('express').Request} req 
+ * @param {require('express').Request} req
  * @param {require('express').Response} res
- * @returns {undefined} 
+ * @returns {undefined}
  */
+// exports.regenerateToken = async (req, res) => {
+//    let token = req.body;
+//    if(!token) return res.sendStatus(401);
+//    let verifiedUser = await functions.verifyToken(token);
+//    if(verifiedUser == null){
+//          return res.status(403).json({ status: 403, message: "Refresh Token Invalid" });
+//    }
+
+// }
+
 exports.regenerateToken = async (req, res) => {
    let token = req.body;
    if (!token) res.sendStatus(401);
-   let user = await functions.verifyToken(token);
-   if (user === null){
+   let verifiedUser = await functions.verifyToken(token);
+   if (verifiedUser === null) {
       return res
          .status(403)
          .json({ status: 401, message: "Refresh Token Invalid" });
    }
 
-    user = {
-      user.name,
-      user.email,
-      user._id
-    }
+   let newToken = await functions.generateAccessToken(verifiedUser, "15m");
 
-   let newToken = await functions.generateAccessToken(user, "15m");
- 
-   if(newToken === null)  return res.status(401).json({status: 401, message: "Access Token Generation Failed"});
+   if (newToken === null)
+      return res
+         .status(401)
+         .json({ status: 401, message: "Access Token Generation Failed" });
 
    res.status(200).json({
       status: 200,
@@ -175,14 +180,14 @@ exports.regenerateToken = async (req, res) => {
 /**
  * Logout User
  * @module controllers/authController
- * @param {require('express').Request} req 
+ * @param {require('express').Request} req
  * @param {require('express').Response} res
- * @returns {undefined} 
+ * @returns {undefined}
  */
 exports.logout = async (req, res) => {
    let refreshToken = req.body;
-   await token.delete({token: refreshToken}, (err, deletedToken)=>{
-      if (err) res.status(204).json({status: 204, message: "Logout Failed"});
-      res.status(204).json({status: 204, message: "Logout Successful"});
+   await token.delete({ token: refreshToken }, (err, deletedToken) => {
+      if (err) res.status(204).json({ status: 204, message: "Logout Failed" });
+      res.status(204).json({ status: 204, message: "Logout Successful" });
    });
 };

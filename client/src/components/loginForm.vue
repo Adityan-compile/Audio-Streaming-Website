@@ -1,5 +1,7 @@
 <template>
   <form>
+        <p class="text-danger">{{ errorMessage }}</p>
+
     <div class="mb-3">
       <label for="email" class="form-label">Email address:</label>
       <input
@@ -20,7 +22,7 @@
         name="password"
       />
     </div>
-    <div class="p-3 pt-5">
+        <div class="p-3 pt-5">
       <button type="submit" @click.prevent="login" class="btn btn-primary">Login</button>
     </div>
   </form>
@@ -33,19 +35,20 @@ export default {
     return {
       email: "",
       password: "",
+      errorMessage: "",
     };
   },
   methods: {
     login(){
-      this.$store.dispatch('login', {
+      this.$store.dispatch('auth/login', {
         email: this.email,
         password: this.password
       }).then(res=>{
-        this.router.push("/")
+        this.$router.push("/")
       }).catch(err => {
         console.error(err);
-        this.$alert("Error");
-        this.router.push("/login");
+        this.errorMessage = "Login Error: Check Credentials";
+        this.$router.push("/login");
       })
     }
   }

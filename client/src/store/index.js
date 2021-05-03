@@ -1,25 +1,9 @@
 import { createStore } from "vuex";
 
+import auth from "./modules/auth";
+
 export default createStore({
-	state: {
-		loggedIn: false,
-		accessToken: '',
-		refreshToken: ''
+	modules: {
+		auth
 	},
-	mutations: {},
-	actions: {
-		setAccessToken() {
-			localStorage.accessToken = this.$store.state.accessToken;
-		},
-		setRefreshToken() {
-			localStorage.refreshToken = this.$store.state.refreshToken;
-		},
-		getAccessToken() {
-			return localStorage.accessToken;
-		},
-		getRefreshToken() {
-			return localStorage.refreshToken;
-		},
-	},
-	modules: {},
 });

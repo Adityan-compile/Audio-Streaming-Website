@@ -1,10 +1,10 @@
 <template>
-  <form class="text-white">
+  <form>
     <div class="mb-3">
       <label for="email" class="form-label">Email address:</label>
       <input
         type="email"
-        v-bind="email"
+        v-model="email"
         class="form-control"
         id="email"
         name="email"
@@ -14,14 +14,14 @@
       <label for="password" class="form-label">Password:</label>
       <input
         type="password"
-        v-bind="password"
+        v-model="password"
         class="form-control"
         id="password"
         name="password"
       />
     </div>
     <div class="p-3 pt-5">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" @click.prevent="login" class="btn btn-primary">Login</button>
     </div>
   </form>
 </template>
@@ -35,6 +35,20 @@ export default {
       password: "",
     };
   },
+  methods: {
+    login(){
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password
+      }).then(res=>{
+        this.router.push("/")
+      }).catch(err => {
+        console.error(err);
+        this.$alert("Error");
+        this.router.push("/login");
+      })
+    }
+  }
 };
 </script>
 

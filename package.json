@@ -10,7 +10,8 @@
     "format": "./node_modules/.bin/prettier --semi --single-quote --trailing-comma es5 --print-width 80 --write --no-bracket-spacing **/*.js *.js"
   },
   "dependencies": {
-    "concurrently": "^6.0.2"
+    "concurrently": "^6.0.2",
+    "vue-simple-alert": "^1.1.1"
   },
   "devDependencies": {
     "jsdoc": "^3.6.6",

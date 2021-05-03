@@ -1,7 +1,7 @@
 <template>
 	<div class="login">
 		<div class="container p-5">
-			<h1 class="text-center pt-5 p-3">Login</h1>
+			<h1 class="text-center pt-5 p-3">LOGIN</h1>
 			<div class="container">
 				<LoginForm />
 			</div>

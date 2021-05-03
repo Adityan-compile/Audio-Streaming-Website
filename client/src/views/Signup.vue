@@ -1,7 +1,7 @@
 <template>
-	<div class="login">
+	<div class="signup">
 		<div class="container p-5">
-			<h1 class="text-center pt-5 p-3">Login</h1>
+			<h1 class="text-center pt-5 p-3">SIGNUP</h1>
 			<div class="container">
 				<SignUpForm />
 			</div>
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style scoped>
-.login {
+.signup {
 	font-family: "Akaya Telivigala", cursive;
 	font-weight: bold;
 	color: #fff;

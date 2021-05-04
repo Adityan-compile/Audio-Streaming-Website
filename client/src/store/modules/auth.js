@@ -1,14 +1,13 @@
 import axios from "axios";
 import interceptor from "@/shared/interceptor";
 
-const BASE_URL = process.env.VUE_APP_API_URL;
-
 const auth = {
 	namespaced: true,
 	state: {
-		loggedIn: false,
-		accessToken: "" || null,
-		refreshToken: "" || null,
+		loggedIn: localStorage.getItem("LOGGED_IN"),
+		accessToken: localStorage.getItem("ACCESS_TOKEN") || null,
+		refreshToken: localStorage.getItem("REFRESH_TOKEN") || null,
+		user: localStorage.getItem("USER") || null,
 	},
 	getters: {
 		getAccessToken(state) {
@@ -30,23 +29,29 @@ const auth = {
 		setTokens(state, payload) {
 			localStorage.setItem("ACCESS_TOKEN", payload.accessToken);
 			localStorage.setItem("REFRESH_TOKEN", payload.refreshToken);
+			localStorage.setItem("USER", payload.user);
 			state.refreshToken = payload.refreshToken;
 			state.accessToken = payload.accessToken;
+			state.user = payload.user;
+			console.log("payload:", payload)
 		},
 		setLoginStatus(state, status){
 			state.loggedIn = status;
+			localStorage.setItem("LOGGED_IN", status);
 		}
 	},
 	actions: {
 		login: ({ commit }, payload)=>{
 			return new Promise((resolve, reject) => {
-				interceptor.post(`${BASE_URL}/auth/login`, payload).then(({data, status})=>{
+				axios.post(`${process.env.VUE_APP_API_URL}/auth/login`, payload).then(({data, status})=>{
 					if(status === 200){
+						console.log(data)
 						commit('setTokens', {
 							accessToken: data.accessToken,
-							refreshToken: data.refreshToken
+							refreshToken: data.refreshToken,
+							user: data.user
 						});
-						commit('setLoginStatus', {status: true});
+						commit('setLoginStatus', true);
 						resolve(true);
 					}else{
 						reject(`Error: ${status}`);
@@ -55,6 +60,9 @@ const auth = {
 					reject(err);
 				})
 			});
+		},
+		setTokens: ({ commit }, payload)=>{
+			commit('setTokens', payload);
 		},
 	},
 };

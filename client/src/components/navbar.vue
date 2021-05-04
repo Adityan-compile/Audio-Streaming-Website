@@ -20,7 +20,9 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-monospace">
           <li class="nav-item">
-            <router-link class="nav-link" aria-current="page" to="/">HOME</router-link>
+            <router-link class="nav-link" aria-current="page" to="/"
+              >HOME</router-link
+            >
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/search">SEARCH</router-link>
@@ -28,21 +30,13 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/browse">BROWSE</router-link>
           </li>
-                    <li class="nav-item" v-if="loggedIn">
-            <router-link class="nav-link" to="/user/playlists">PLAYLISTS</router-link>
+          <li class="nav-item" v-if="loggedIn">
+            <router-link class="nav-link" to="/user/playlists"
+              >PLAYLISTS</router-link
+            >
           </li>
         </ul>
-        <div v-if="!loggedIn">
-          <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/login">LOGIN</router-link>
-          </li>
-                    <li class="nav-item">
-            <router-link class="nav-link" to="/signup">SIGNUP</router-link>
-          </li>
-        </ul>
-        </div>
-        <div v-else>
+        <div v-if="loggedIn">
           <li class="nav-item dropdown">
             <a
               class="nav-link text-white dropdown-toggle"
@@ -54,13 +48,26 @@
             >
               Account
             </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><a class="dropdown-item" href="#">Playlists</a></li>
+            <ul
+              class="dropdown-menu dropdown-menu-dark"
+              aria-labelledby="navbarDropdown"
+            >
+              <li><a class="dropdown-item" href="/profile">Profile</a></li>
+              <li><a class="dropdown-item" href="/playlists">Playlists</a></li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
           </li>
+        </div>
+        <div v-else>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/login">LOGIN</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/signup">SIGNUP</router-link>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -68,13 +75,18 @@
 </template>
 
 <script>
+import store from "@/store/index";
+console.log(store.state.auth.loggedIn);
 export default {
   name: "Navbar",
   data() {
     return {
-      loggedIn: this.$store.state.loggedIn,
+      loggedIn: false,
     };
   },
+  created(){
+      this.loggedIn = store.state.auth.loggedIn
+  }
 };
 </script>
 
@@ -93,12 +105,11 @@ export default {
   font-size: 1.1rem;
 }
 
-.dropdown{
+.dropdown {
   margin-right: 3rem;
 }
 
-.nav-link{
-  font-family: 'Akaya Telivigala', cursive;
+.nav-link {
+  font-family: "Akaya Telivigala", cursive;
 }
-
 </style>

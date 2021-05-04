@@ -1,17 +1,3 @@
-// import axios from "axios";
-// import store from '../store/index';
- 
-// const interceptor = axios.create({});
- 
-// interceptor.interceptors.request.use((config) => {
-//   const authData = store.getters["auth/getAuthData"];
-//   if(authData == null) return null;
-//   config.headers.common["Authorization"] = `bearer ${authData.token}`;
-//   return config;
-// });
-
-// export default interceptor
-
 import axios from "axios";
 import store from '../store/index';
  
@@ -35,19 +21,20 @@ interceptor.interceptors.request.use((config) => {
     async (error) => {
       if (error.response.status === 401) {
         const authData = store.getters["auth/getAuthData"];
+        console.log(authData);
         const payload = {
           access_token: authData.accessToken,
           refresh_token: authData.refreshToken,
         };
   
         var response = await axios.post(
-          `${process.env.VUE_APP_API_URL}/auth/tokens/refresh`,
+          `/auth/tokens/refresh`,
           payload
         );
-        await store.actions("auth/setTokens", response.data);
+        await store.dispatch("auth/setTokens", response.data);
         error.config.headers[
           "Authorization"
-        ] = `bearer ${response.data.access_token}`;
+        ] = `bearer ${response.data.accessToken}`;
         return axios(error.config);
       } else {
         return Promise.reject(error);

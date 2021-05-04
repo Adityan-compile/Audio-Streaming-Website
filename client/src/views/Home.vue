@@ -15,22 +15,21 @@
     </div>
 
     <div v-if="!loggedIn" class="text-center">
-      <button
+      <router-link
         class="btn btn-outline-info rounded-pill fw-bold border mb-5 border-info border-2"
+        to="/signup"
       >
         Get Track Wiz it's Free
-      </button>
+      </router-link>
     </div>
-    
    <div class="text-center" v-else>
-           <button
-        class="btn btn-outline-info rounded-pill fw-bold border mb-5 border-info border-2"
+           <router-link
+        class="btn btn-outline-danger rounded-pill fw-bold border mb-5 border-danger border-2"
+        to="/player"
       >
         Go to Web Player
-      </button>
+      </router-link>
    </div>
-
-
 <hr class="bg-white "/>
 
     <Footer />
@@ -39,15 +38,25 @@
 
 <script>
 import Footer from "@/components/footer.vue";
+import store from "@/store/index"
+import { mapState } from "vuex"
+
+
+console.log(store.state.auth.loggedIn);
 
 export default {
   name: "Home",
   components: {
     Footer,
   },
+  computed(){
+    return{
+        ...mapState('auth/auth', ['loggedIn', 'user'])
+    }
+  },
   data() {
     return {
-      loggedIn: this.$store.state.loggedIn,
+      loggedIn: store.state.auth.loggedIn,
     };
   },
 };

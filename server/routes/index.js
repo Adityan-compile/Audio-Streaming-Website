@@ -1,11 +1,20 @@
-var express = require('express');
+var express = require("express");
+
+/**
+ * @alias express.Router()
+ */
 var router = express.Router();
 
-router.get('/', (req, res)=> {
-	res.json({
-		status: 200,
-		message: "Welcome"
-	});
+var userController = require("../controllers/userController");
+
+var authenticator = require("../middleware/authenticate");
+
+router.get("/", authenticator.authenticate, (req, res) => {
+	res.send("index");
+});
+
+router.get("/search", (req, res) => {
+	userController.search(req, res);
 });
 
 module.exports = router;

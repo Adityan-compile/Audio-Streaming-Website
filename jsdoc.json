@@ -1,0 +1,29 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$",
+        "include": [
+            "./server/"
+        ],
+        "exclude": [
+            "node_modules",
+            "server/node_modules",
+            "./client"
+        ]
+    },
+    "plugins":[
+        "jsdoc-route-plugin"
+    ],
+    "templates":{
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "recurseDepth": 10,
+    "opts": {
+        "destination": "./docs/",
+        "recurse": true
+    }
+}

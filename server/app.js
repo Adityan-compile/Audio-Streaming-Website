@@ -1,80 +1,77 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo');
-var logger = require('morgan');
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const upload = require("express-fileupload");
+const logger = require("morgan");
+const cors = require("cors");
 
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
+const uploadsRouter = require("./routes/uploads");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const errorHandler = require('./middleware/errorHandler');
 
 var app = express();
 
 //Configure environment variables
-var env = require('dotenv').config();
+var env = require("dotenv").config();
 
 if (env.error) {
-  console.log('Error Loading Environment Variables');
+  console.log("Error Loading Environment Variables");
   throw env.error;
 } else {
-  console.log('Environment Variables Loaded Successfully');
+  console.log("Environment Variables Loaded Successfully");
 }
 
 //Configure Database connection
-var db = require('./config/connection');
+var db = require("./config/database");
 
-db.on('open', ()=>{
-	console.log('Database connected Successfully');
+db.on("open", () => {
+  console.log("Database connected Successfully");
 });
 
-db.on('error', (err)=>{
-	console.log('Error connecting to Database');
-	console.log(err);
+db.on("error", (err) => {
+  console.log("Error connecting to Database");
+  console.log(err);
+  process.exit(1);
 });
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  upload({
+    safeFileNames: true,
+    preserveExtension: true,
+    useTempFiles: true,
+    tempFileDir: "/temp/",
+  })
+);
+app.use(
+  cors({
+    optionsSuccessStatus: 200,
+  })
+);
 
-// app.use(
-//   session({
-//     secret: process.env.SECRET_KEY,
-//     cookie: {
-//       maxAge: 2592000000,
-//     },
-//     store: MongoStore.create({
-//       mongoUrl: `${process.env.DB_HOST}/${process.env.DB_NAME}`,
-//     }),
-//     saveUninitialized: false,
-//     resave: true,
-//   })
-// );
+app.use("/api/v1", indexRouter);
+app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/uploads", uploadsRouter);
 
-
-
-app.use('/api/v1/', indexRouter);
-app.use('/api/v1/users/', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
+// catch error and forward to error handler
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  res.status(err.status || 500);
-  res.json({
-  	"status": 500,
-  	"message": "500 Internal Server Error"
-  });
+app.use(function (req, res, next) {
+  next(createError(500));
 });
+
+//error handler
+app.use((err, req, res, next)=>{errorHandler.handler(err, req, res, next)});
 
 module.exports = app;

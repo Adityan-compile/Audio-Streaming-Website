@@ -1,4 +1,4 @@
-exports.guardRoute = (to, from, next)=>{
+exports.routeGuard = (to, from, next)=>{
 	if(localStorage.getItem("LOGGED_IN")){
 		next();
 	}else{
@@ -8,8 +8,8 @@ exports.guardRoute = (to, from, next)=>{
 
 exports.authGuard = (to, from, next)=>{
 	if(localStorage.getItem("LOGGED_IN")){
-		next("/")
+		next("/");
 	}else{
-		next("/login");
+		next();
 	}
 }

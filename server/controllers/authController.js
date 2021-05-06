@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
          async (err, status) => {
             if (err) return res.sendStatus(401);
             if (status) {
-               foundUser.password = null;
+               foundUser.password = undefined;
                var accessToken = await functions.generateAccessToken(
                   foundUser.toJSON(),
                   "15m"
@@ -71,14 +71,11 @@ exports.login = async (req, res) => {
 exports.signUp = async (req, res) => {
    let userData = req.body;
 
-   let foundUser = await user.find({ email: userData.email });
-
-   if (foundUser) {
-      foundUser.password = null;
+   let count = await user.countDocuments({ email: userData.email });
+   if (count > 0) {
       return res.status(409).json({
          status: 409,
          message: "User already Exists",
-         user: foundUser,
       });
    }
 
@@ -102,7 +99,7 @@ exports.signUp = async (req, res) => {
                message: "Error Creating User",
             });
          } else {
-            newUser.password = null;
+            newUser.password = undefined;
             newUser = newUser.toJSON();
             let accessToken = await functions.generateAccessToken(
                newUser,

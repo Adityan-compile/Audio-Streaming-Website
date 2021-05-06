@@ -21,7 +21,6 @@ interceptor.interceptors.request.use((config) => {
     async (error) => {
       if (error.response.status === 401) {
         const authData = store.getters["auth/getAuthData"];
-        console.log(authData);
         const payload = {
           access_token: authData.accessToken,
           refresh_token: authData.refreshToken,

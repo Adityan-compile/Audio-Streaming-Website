@@ -1,7 +1,7 @@
 <template>
 	<div class="signup">
 		<div class="container p-5">
-			<h1 class="text-center pt-5 p-3">SIGNUP</h1>
+			<h1 class="text-center pt-5 p-3">Join Us</h1>
 			<div class="container">
 				<SignUpForm />
 			</div>

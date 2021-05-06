@@ -89,6 +89,28 @@ const auth = {
 		setTokens: ({ commit }, payload) => {
 			commit("setTokens", payload);
 		},
+		register: ({ commit }, payload)=>{
+			return new Promise((resolve, reject) => {
+				axios
+					.post(`${process.env.VUE_APP_API_URL}/auth/signup`, payload)
+					.then(({ data, status }) => {
+						if (status === 200) {
+							commit("setTokens", {
+								accessToken: data.accessToken,
+								refreshToken: data.refreshToken,
+								user: data.user,
+							});
+							commit("setLoginStatus", true);
+							resolve(true);
+						} else {
+							reject(`Error: ${status}`);
+						}
+					})
+					.catch((err) => {
+						reject(err);
+					});
+			});
+		},
 	},
 };
 

@@ -94,6 +94,7 @@ const auth = {
 				axios
 					.post(`${process.env.VUE_APP_API_URL}/auth/signup`, payload)
 					.then(({ data, status }) => {
+						console.log(data);
 						if (status === 200) {
 							commit("setTokens", {
 								accessToken: data.accessToken,

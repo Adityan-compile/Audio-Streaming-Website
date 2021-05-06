@@ -1,8 +1,6 @@
 <template>
   <form>
-
-        <p class="text-danger text-center">{{ message }}</p>
-
+    <p class="text-danger text-center">{{ message }}</p>
 
     <div class="mb-3">
       <label for="name" class="form-label">Name:</label>
@@ -35,14 +33,17 @@
       />
     </div>
     <div class="p-3 pt-5">
-      <button type="submit" class="btn btn-primary">Sign Up</button>
+      <button type="submit" class="btn btn-primary" @click.prevent="signup">
+        Sign Up
+      </button>
     </div>
   </form>
 </template>
 
 <script>
+import store from "@/store/index";
 export default {
-  name: "SignUpForm",
+  name: "SignupForm",
   data() {
     return {
       name: "",
@@ -52,7 +53,8 @@ export default {
     };
   },
   methods: {
-    signUp: () => {
+    signup() {
+      console.log(this);
       this.$store
         .dispatch("auth/register", {
           name: this.name,
@@ -64,7 +66,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          this.message = "Register Error: Please try again later:";
+          this.message = "Registration Error: Please try again later:";
           this.$router.push("/signup");
         });
     },

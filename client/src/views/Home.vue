@@ -6,8 +6,8 @@
           <img class="img-fluid pt-5" src="../assets/musician.png" />
         </div>
         <div class="col-md-6 align-self-center p-5 fw-bold text-center">
-          <h1 class="logo-text text-white">Track Wiz</h1>
-          <h5 class="text-white home-text">
+          <h1 class="logo-text text-white pt-4">Track Wiz</h1>
+          <h5 class="text-white home-text pt-3">
             Listen To Music that awakens the inner musician in You.
           </h5>
         </div>

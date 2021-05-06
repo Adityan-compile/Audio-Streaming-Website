@@ -70,7 +70,7 @@ exports.login = async (req, res) => {
  */
 exports.signUp = async (req, res) => {
    let userData = req.body;
-
+console.log(userData);
    let count = await user.countDocuments({ email: userData.email });
    if (count > 0) {
       return res.status(409).json({
@@ -93,6 +93,7 @@ exports.signUp = async (req, res) => {
       });
       newUser.save(async (err, newUser) => {
          if (err) {
+            console.log(err);
             res.status(401);
             res.json({
                status: 401,

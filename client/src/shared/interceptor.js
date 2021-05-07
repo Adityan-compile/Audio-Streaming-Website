@@ -1,44 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import store from '../store/index';
  
-const interceptor = axios.create({});
- 
- 
-interceptor.interceptors.request.use((config) => {
-    const authData = store.getters["auth/getAuthData"];
-    if (authData == null) {
-      return config;
-    }
-  
-    config.headers.common["Authorization"] = `bearer ${authData.accessToken}`;
-    return config;
+createAuthRefreshInterceptor(axios, (req)=>{
+  let authData = store.getters["auth/getAuthData"];
+  if(authData == null) return Promise.reject();
+  axios.post(`${process.env.VUE_APP_API_URL}/auth/tokens/refresh`, authData).then((res)=>{
+    req.response.config.headers['Authorization'] = `bearer ${res.data.accessToken}`;
+    return Promise.resolve();
   });
-  
-  interceptor.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-    async (error) => {
-      if (error.response.status === 401) {
-        const authData = store.getters["auth/getAuthData"];
-        const payload = {
-          access_token: authData.accessToken,
-          refresh_token: authData.refreshToken,
-        };
-  
-        var response = await axios.post(
-          `/auth/tokens/refresh`,
-          payload
-        );
-        await store.dispatch("auth/setTokens", response.data);
-        error.config.headers[
-          "Authorization"
-        ] = `bearer ${response.data.accessToken}`;
-        return axios(error.config);
-      } else {
-        return Promise.reject(error);
-      }
-    }
-  );
-  
-  export default interceptor;
+});
+

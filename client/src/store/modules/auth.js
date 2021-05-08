@@ -16,14 +16,6 @@ const auth = {
 		getRefreshToken(state) {
 			return state.refreshToken;
 		},
-		getAuthData(state) {
-			if (state.loggedIn === false) return null;
-			let data = {
-				accessToken: state.accessToken,
-				refreshToken: state.refreshToken,
-			};
-			return data;
-		},
 		isLoggedIn(state){
 			return state.loggedIn;
 		},
@@ -112,6 +104,13 @@ const auth = {
 					});
 			});
 		},
+		getAuthData: ()=>{
+			return {
+				accessToken: localStorage.getItem("ACCESS_TOKEN"),
+				refreshToken: localStorage.setItem("REFRESH_TOKEN"),
+			    user: JSON.parse(localStorage.getItem("USER"))
+			}
+		};
 	},
 };
 

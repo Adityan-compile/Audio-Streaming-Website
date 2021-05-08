@@ -2,6 +2,12 @@ import axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import store from '../store/index';
  
+
+axios.interceptors.request.use((req)=>{
+  req.headers['Authorization'] = `bearer ${store.dispatch("auth/getAuthData")}`;
+  return req;
+});
+
 createAuthRefreshInterceptor(axios, (req)=>{
   let authData = store.getters["auth/getAuthData"];
   if(authData == null) return Promise.reject();

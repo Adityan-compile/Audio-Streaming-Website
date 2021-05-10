@@ -1,5 +1,5 @@
 <template>
-	<div class="searchbar">
+	<div class="searchbar p-4">
 		<form>
 			<div class="input-group mb-3">
 				<input

@@ -7,7 +7,7 @@ const auth = {
 		loggedIn: localStorage.getItem("LOGGED_IN") || false,
 		accessToken: localStorage.getItem("ACCESS_TOKEN") || null,
 		refreshToken: localStorage.getItem("REFRESH_TOKEN") || null,
-		user: JSON.parse(localStorage.getItem("USER")) || null,
+		user: localStorage.getItem("USER") || null,
 	},
 	getters: {
 		getAccessToken(state) {
@@ -24,7 +24,7 @@ const auth = {
 		setTokens(state, payload) {
 			localStorage.setItem("ACCESS_TOKEN", payload.accessToken);
 			localStorage.setItem("REFRESH_TOKEN", payload.refreshToken);
-			localStorage.setItem("USER", JSON.stringify(payload.user));
+			localStorage.setItem("USER", payload.user);
 			state.refreshToken = payload.refreshToken;
 			state.accessToken = payload.accessToken;
 			state.user = payload.user;

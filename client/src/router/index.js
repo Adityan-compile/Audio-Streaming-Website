@@ -16,9 +16,14 @@ const routes = [
   },
   {
     path: '/signup',
-    name: 'SignUp',
+    name: 'Signup',
     beforeEnter: authGuard,
     component: () => import('../views/Signup.vue')   
+  },
+  {
+    path: '/search',
+    name: 'Seach',
+    component: () => import('../views/Search.vue')   
   }
 ]
 

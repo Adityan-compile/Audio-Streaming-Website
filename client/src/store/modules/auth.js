@@ -16,14 +16,14 @@ const auth = {
 		getRefreshToken(state) {
 			return state.refreshToken;
 		},
-		isLoggedIn(state){
+		isLoggedIn(state) {
 			return state.loggedIn;
 		},
 	},
 	mutations: {
 		setTokens(state, payload) {
 			localStorage.setItem("ACCESS_TOKEN", payload.accessToken);
-			localStorage.setItem("REFRESH_TOKEN",payload.refreshToken);
+			localStorage.setItem("REFRESH_TOKEN", payload.refreshToken);
 			localStorage.setItem("USER", JSON.stringify(payload.user));
 			state.refreshToken = payload.refreshToken;
 			state.accessToken = payload.accessToken;
@@ -41,7 +41,7 @@ const auth = {
 		login: ({ commit }, payload) => {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${process.env.VUE_APP_API_URL}/auth/login`, payload)
+					.post(`${process.env.VUE_APP_API_URL}/auth/login`, payload, {skipAuthRefresh: true})
 					.then(({ data, status }) => {
 						if (status === 200) {
 							commit("setTokens", {
@@ -60,10 +60,10 @@ const auth = {
 					});
 			});
 		},
-		logout: ({ commit }) => {
+		logout: ({ commit }, payload) => {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${process.env.VUE_APP_API_URL}/auth/logout`)
+					.post(`${process.env.VUE_APP_API_URL}/auth/logout`, payload, {skipAuthRefresh: true})
 					.then(({ data, status }) => {
 						if (status === 200) {
 							commit("deleteTokens");
@@ -81,10 +81,10 @@ const auth = {
 		setTokens: ({ commit }, payload) => {
 			commit("setTokens", payload);
 		},
-		register: ({ commit }, payload)=>{
+		register: ({ commit }, payload) => {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${process.env.VUE_APP_API_URL}/auth/signup`, payload)
+					.post(`${process.env.VUE_APP_API_URL}/auth/signup`, payload, {skipAuthRefresh: true})
 					.then(({ data, status }) => {
 						console.log(data);
 						if (status === 200) {
@@ -104,13 +104,13 @@ const auth = {
 					});
 			});
 		},
-		getAuthData: ()=>{
+		getAuthData: () => {
 			return {
 				accessToken: localStorage.getItem("ACCESS_TOKEN"),
-				refreshToken: localStorage.setItem("REFRESH_TOKEN"),
-			    user: JSON.parse(localStorage.getItem("USER"))
-			}
-		};
+				refreshToken: localStorage.getItem("REFRESH_TOKEN"),
+				user: JSON.parse(localStorage.getItem("USER")),
+			};
+		},
 	},
 };
 

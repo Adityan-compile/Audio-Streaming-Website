@@ -24,18 +24,19 @@
 </template>
 
 <script>
+
 export default {
 	name: "searchBar",
 	data() {
 		return {
-			query: "",
+			query: "" || this.$store.state.utils.prevQuery,
 		};
 	},
 	methods: {
-		search(){
-			alert(this.query);
-		}
-	}
+		search() {
+			this.$emit("search", this.query);
+		},
+	},
 };
 </script>
 

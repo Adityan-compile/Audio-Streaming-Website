@@ -1,5 +1,4 @@
 import axios from "axios";
-import interceptor from "@/shared/interceptor";
 
 const auth = {
 	namespaced: true,

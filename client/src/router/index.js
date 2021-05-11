@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import { authGuard } from '../shared/guard';
+import { authGuard, routeGuard } from '../shared/guard';
 
 const routes = [
   {
@@ -22,9 +22,15 @@ const routes = [
   },
   {
     path: '/search',
-    name: 'Seach',
+    name: 'Search',
     component: () => import('../views/Search.vue')   
-  }
+  },
+  {
+    path: '/user/profile',
+    name: 'Profile',
+    beforeEnter: routeGuard,
+    component: () => import('../views/Profile.vue')   
+  },
 ]
 
 const router = createRouter({

@@ -3,7 +3,7 @@ import axios from "axios";
 const utils = {
 	namespaced: true,
 	state: {
-		prevQuery: "sdfkjds",
+		prevQuery: "",
 	},
 	getters: {},
 	mutations: {

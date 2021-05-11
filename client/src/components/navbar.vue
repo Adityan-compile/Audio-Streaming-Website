@@ -49,7 +49,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li>
-                <router-link class="dropdown-item" to="/profile"
+                <router-link class="dropdown-item" to="/user/profile"
                   >Profile</router-link
                 >
               </li>

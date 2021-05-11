@@ -3,7 +3,9 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-3">
-					<img :src="data.image" class="thubmnail">
+					<object :data="data.image" class="thumbnail">
+						<img src="../assets/default.png" />
+					</object>
 				</div>
 				<div class="col-md-3 p-4">
 					<span class="align-middle">{{ data.title }}</span>
@@ -22,6 +24,9 @@
 <script>
 export default {
 	name: "musicCard",
+	data() {
+		return {};
+	},
 	props: {
 		data: {
 			type: Object,
@@ -31,14 +36,13 @@ export default {
 };
 </script>
 
-
 <style scoped>
-.thubmnail{
-height: 80px;
-width: 80px;
-object-fit: cover;
+.thubmnail {
+	height: 80px;
+	width: 80px;
+	object-fit: cover;
 }
-.play{
+.play {
 	font-size: 2.3rem;
 }
 </style>

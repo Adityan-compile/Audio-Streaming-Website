@@ -151,7 +151,7 @@ console.log(userData);
 // }
 
 exports.regenerateToken = async (req, res) => {
-   let token = req.body;
+   let token = req.body.refreshToken;
    if (!token) res.sendStatus(401);
    let verifiedUser = await functions.verifyToken(token);
    if (verifiedUser === null) {

@@ -8,34 +8,43 @@ var user = require("../models/user");
  */
 exports.search = async (req, res) => {
 	let query = req.query;
-	if (query === null || query === undefined || query == '') return res.status(400).json({ status: 400, message: "" });
+	if (query === null || query === undefined || query == "")
+		return res.status(400).json({ status: 400, message: "" });
 	await audio.find(
-		{ title: { $regex: new RegExp(query, "i")}},
+		{ title: { $regex: new RegExp(query, "i") } },
 		(err, tracks) => {
-			if (err) return res.status(500).json({ status: 500, message: "Search Failed" , error: err});
-			user.find(
-				{ name: { $regex: new RegExp(query, "i")}},
-				(error, artists) => {
-					if (error) {
-						res.status(200);
-						res.json({
-							status: 200,
-							results: tracks,
-						});
-					} else {
-						artists = artists.map(artist =>{
-							return artist.name;
-						})
-						let results = artists.concat(tracks);
-						results.sort();
-						res.status(200);
-						res.json({
-							status: 200,
-							results: tracks,
-						});
-					}
-				}
-			);
+			if (err) {
+				return res
+					.status(500)
+					.json({ status: 500, message: "Search Failed" });
+			}
+
+			res.status(200);
+			res.json({
+				status: 200,
+				results: tracks,
+			});
 		}
 	);
+};
+
+exports.uploads = async (req, res) => {
+	let user = req.user;
+	await audio.find({ creatorId: user._id }, (err, uploads) => {
+		if (err) return res.status(500);
+		res.status(200).json({ status: 200, results: uploads });
+	});
+};
+
+exports.getArtists = async (req, res) => {
+	let count = req.query.count;
+	let artists = await user.aggregate([
+		{
+			$sample: {
+				size: count,
+			},
+		},
+	]);
+	console.log(artists);
+	res.json({ status: 200, artists: artists});
 };

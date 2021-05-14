@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<object :data="data.image" class="thumbnail">
-						<img src="../assets/default.png" />
+						<!-- <img src="../assets/default.png" class="thumbnail" /> -->
 					</object>
 				</div>
 				<div class="col-md-3 p-4">
@@ -23,7 +23,7 @@
 
 <script>
 export default {
-	name: "musicCard",
+	name: "MusicCard",
 	data() {
 		return {};
 	},

@@ -1,12 +1,13 @@
 import axios from "axios";
+import instance from "@/shared/interceptor.js";
 
 const auth = {
 	namespaced: true,
 	state: {
 		loggedIn: localStorage.getItem("LOGGED_IN") || false,
-		accessToken: localStorage.getItem("ACCESS_TOKEN") || null,
-		refreshToken: localStorage.getItem("REFRESH_TOKEN") || null,
-		user: JSON.parse(localStorage.getItem("USER")) || null,
+		accessToken: localStorage.getItem("ACCESS_TOKEN") || "",
+		refreshToken: localStorage.getItem("REFRESH_TOKEN") || "",
+		user: JSON.parse(localStorage.getItem("USER")) || {},
 	},
 	getters: {
 		getAccessToken(state) {
@@ -32,15 +33,19 @@ const auth = {
 			state.loggedIn = status;
 			localStorage.setItem("LOGGED_IN", status);
 		},
-		deleteTokens(state) {
+		clearState(state) {
 			localStorage.clear();
+			state.loggedIn = false;
+			state.accessToken = "";
+			state.refreshToken = "";
+			state.user = {};
 		},
 	},
 	actions: {
 		login: ({ commit }, payload) => {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${process.env.VUE_APP_API_URL}/auth/login`, payload, {skipAuthRefresh: true})
+					.post(`${process.env.VUE_APP_API_URL}/auth/login`, payload)
 					.then(({ data, status }) => {
 						if (status === 200) {
 							commit("setTokens", {
@@ -62,10 +67,14 @@ const auth = {
 		logout: ({ commit }, payload) => {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${process.env.VUE_APP_API_URL}/auth/logout`, payload, {skipAuthRefresh: true})
+					.post(
+						`${process.env.VUE_APP_API_URL}/auth/logout`,
+						payload,
+						{ skipAuthRefresh: true }
+					)
 					.then(({ data, status }) => {
 						if (status === 200) {
-							commit("deleteTokens");
+							commit("clearState");
 							commit("setLoginStatus", false);
 							resolve(true);
 						} else {
@@ -83,7 +92,11 @@ const auth = {
 		register: ({ commit }, payload) => {
 			return new Promise((resolve, reject) => {
 				axios
-					.post(`${process.env.VUE_APP_API_URL}/auth/signup`, payload, {skipAuthRefresh: true})
+					.post(
+						`${process.env.VUE_APP_API_URL}/auth/signup`,
+						payload,
+						{ skipAuthRefresh: true }
+					)
 					.then(({ data, status }) => {
 						console.log(data);
 						if (status === 200) {
@@ -109,6 +122,23 @@ const auth = {
 				refreshToken: localStorage.getItem("REFRESH_TOKEN"),
 				user: JSON.parse(localStorage.getItem("USER")),
 			};
+		},
+		regenerateToken({ commit }, payload) {
+			return new Promise((resolve, reject) => {
+				instance
+					.post(`/auth/tokens/refresh`, payload)
+					.then(({ data, status }) => {
+						if (status === 200) {
+							commit("setTokens", data);
+							commit("setLoginStatus", true);
+							resolve(true);
+						}else{
+							reject(status);
+						}
+					}).catch((err)=>{
+						reject(err);
+					});
+			});
 		},
 	},
 };

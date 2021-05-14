@@ -31,6 +31,12 @@ const routes = [
     beforeEnter: routeGuard,
     component: () => import('../views/Profile.vue')   
   },
+  {
+    path: '/player',
+    name: 'Player',
+    beforeEnter: routeGuard,
+    component: () => import('../views/Player.vue')   
+  },
 ]
 
 const router = createRouter({

@@ -1,3 +1,4 @@
+import instance from "@/axios.js";
 import axios from "axios";
 
 const utils = {
@@ -14,7 +15,7 @@ const utils = {
 	actions: {
 		search({ commit }, query) {
 			return new Promise((resolve, reject) => {
-				axios.get(`${process.env.VUE_APP_API_URL}/search?query=${query}`, { skipAuthRefresh: true })
+				instance.get(`/search?query=${query}`)
 					.then(({data, status}) => {
 						if (status === 200) {
 							commit('setPrevQuery', query);
@@ -28,6 +29,13 @@ const utils = {
 					});
 			});
 		},
+		getArtists({ commit }){
+			return new Promise((resolve, reject) => {
+				instance.get(`${process.env.VUE_APP_API_URL}/artists?count=6`).then(({data, status})=>{
+					console.log(status, data);
+				})
+			});
+		}
 	},
 };
 

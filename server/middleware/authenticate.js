@@ -18,7 +18,7 @@ if(token === null) return res.status(401).json({status: 401, message:"Unauthoriz
 
 await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user)=>{
 	if(err){
-		return res.sendStatus(403);
+		return res.status(403).json({status: 403, message:"Forbidden"});
 	}else{
 		req.user = user;
 		next();

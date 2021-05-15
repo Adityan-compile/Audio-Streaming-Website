@@ -17,7 +17,7 @@ router.get("/search", (req, res) => {
 	userController.search(req, res);
 });
 
-router.get("/artists", authenticator.authenticate, (req, res)=>{
+router.get("/artists", (req, res)=>{
 	userController.getArtists(req, res);
 });
 

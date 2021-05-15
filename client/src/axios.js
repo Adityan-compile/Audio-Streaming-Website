@@ -27,9 +27,9 @@ instance.interceptors.response.use((res)=>{
 			refreshToken: localStorage.getItem("REFRESH_TOKEN")
 		})
 		if(refresh === true){
-			return instance(req);
+			return axios(req);
 		}else{
-			return Promise.reject(err);
+			return Promise.reject(err);                      
 		}
 	}
 });

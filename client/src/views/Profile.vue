@@ -2,7 +2,7 @@
 	<div class="profile">
 		<div class="container p-5">
 			<h1 class="text-center pt-5 p-3">PROFILE</h1>
-			<UserCard />
+			<UserCard v-bind:user="user"/>
 			<Uploads />
 		</div>
 	</div>
@@ -14,9 +14,14 @@ import Uploads from "@/components/uploads.vue";
 
 export default {
 	name: "Profile",
+	data() {
+		return {
+			user: this.$store.state.auth.user || {},
+		};
+	},
 	components: {
 		UserCard,
-		Uploads
+		Uploads,
 	},
 };
 </script>

@@ -32,8 +32,14 @@ const utils = {
 		getArtists({ commit }){
 			return new Promise((resolve, reject) => {
 				instance.get(`${process.env.VUE_APP_API_URL}/artists?count=6`).then(({data, status})=>{
-					console.log(status, data);
-				})
+					if (status === 200) {
+						resolve(data.artists);
+					}else{
+						reject(`Error: ${status}`);
+					}
+				}).catch((err) => {
+					reject(err);
+				});
 			});
 		}
 	},

@@ -5,19 +5,26 @@
 		</div>
 		<div class="artists ps-2">
 			<h1 class="ps-5">Artists</h1>
-			<p class="text-warning">{{ artistError }}</p>
+			<p class="text-danger">{{ artistError }}</p>
+			<div class="row">
+				<div class="col-md-6" v-for="artist in artists" v-bind:key="artist._id">
+					<ArtistCard v-bind:artist="artist"/>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import getTime from "@/shared/time.js";
+import ArtistCard from "@/components/artistCard.vue";
+
 export default {
 	name: "Player",
 	data() {
 		return {
 			time: "",
-			artists: "",
+			artists: [],
 			artistError: "",
 		};
 	},
@@ -38,6 +45,9 @@ export default {
 			console.error(err);
 		});
 	},
+	components: {
+		ArtistCard,
+	}
 };
 </script>
 

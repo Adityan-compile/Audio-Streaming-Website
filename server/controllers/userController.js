@@ -37,7 +37,7 @@ exports.uploads = async (req, res) => {
 };
 
 exports.getArtists = async (req, res) => {
-	let count = req.query.count;
+	let count = Number(req.query.count);
 	let artists = await user.aggregate([
 		{
 			$sample: {
@@ -45,6 +45,12 @@ exports.getArtists = async (req, res) => {
 			},
 		},
 	]);
-	console.log(artists);
-	res.json({ status: 200, artists: artists});
+	artists = artists.map(artist =>{
+		return {
+			_id: artist._id,
+			name: artist.name,
+			email: artist.email,
+		}
+	})
+	res.status(200).json({ status: 200, artists: artists});
 };

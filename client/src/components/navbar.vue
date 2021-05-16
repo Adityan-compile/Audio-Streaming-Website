@@ -15,7 +15,7 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <i class="fa fa-bars fw-bold"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-monospace">
@@ -82,17 +82,16 @@
 
 <script>
 import store from "@/store/index";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   name: "Navbar",
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
-    ...mapGetters('auth', ['isLoggedIn'])
-  }
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
   // logout() {
   //   store
   //     .dispatch("auth/logout")

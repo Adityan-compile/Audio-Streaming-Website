@@ -29,7 +29,7 @@ const utils = {
 					});
 			});
 		},
-		getArtists({ commit }){
+		fetchArtists(){
 			return new Promise((resolve, reject) => {
 				instance.get(`${process.env.VUE_APP_API_URL}/artists?count=6`).then(({data, status})=>{
 					if (status === 200) {
@@ -41,7 +41,20 @@ const utils = {
 					reject(err);
 				});
 			});
-		}
+		},
+		fetchTracks(){
+			return new Promise((resolve, reject) => {
+				instance.get(`${process.env.VUE_APP_API_URL}/tracks`).then(({data, status})=>{
+					if (status === 200) {
+						resolve(data.tracks);
+					}else{
+						reject(`Error: ${status}`);
+					}
+				}).catch((err) => {
+					reject(err);
+				});
+			});
+		},
 	},
 };
 

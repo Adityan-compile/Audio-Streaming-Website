@@ -38,19 +38,24 @@ exports.uploads = async (req, res) => {
 
 exports.getArtists = async (req, res) => {
 	let count = Number(req.query.count);
-	let artists = await user.aggregate([
-		{
-			$sample: {
-				size: count,
+	await user
+		.aggregate([
+			{
+				$sample: {
+					size: count,
+				},
 			},
-		},
-	]);
-	artists = artists.map(artist =>{
-		return {
-			_id: artist._id,
-			name: artist.name,
-			email: artist.email,
-		}
-	})
-	res.status(200).json({ status: 200, artists: artists});
+		])
+		.then((artists) => {
+			artists = artists.map((artist) => {
+				return {
+					_id: artist._id,
+					name: artist.name,
+					email: artist.email,
+				};
+			});
+			res.status(200).json({ status: 200, artists: artists });
+		}).catch((err)=>{
+			res.status(500).json({status: 500, message: "Error Fetching Artists"});
+		});
 };

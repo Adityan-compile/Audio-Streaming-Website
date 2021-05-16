@@ -7,7 +7,7 @@ const auth = {
 		loggedIn: localStorage.getItem("LOGGED_IN") || false,
 		accessToken: localStorage.getItem("ACCESS_TOKEN") || "",
 		refreshToken: localStorage.getItem("REFRESH_TOKEN") || "",
-		user: JSON.parse(localStorage.getItem("USER")) || {},
+		user: localStorage.getItem("USER") || {},
 	},
 	getters: {
 		getAccessToken(state) {

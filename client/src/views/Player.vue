@@ -5,11 +5,24 @@
 		</div>
 		<div class="artists ps-2">
 			<h1 class="ps-5">Artists</h1>
-			<p class="text-danger">{{ artistError }}</p>
+			<p class="text-danger p-3">{{ artistError }}</p>
 			<div class="row">
-				<div class="col-md-6" v-for="artist in artists" v-bind:key="artist._id">
-					<ArtistCard v-bind:artist="artist"/>
+				<div
+					class="col-md-6"
+					v-for="artist in artists"
+					v-bind:key="artist._id"
+				>
+					<ArtistCard v-bind:artist="artist" />
 				</div>
+			</div>
+		</div>
+		<div class="tracks">
+			<h1 class="ps-5">Tracks</h1>
+			<p class="text-warning p-3">{{ trackError }}</p>
+			<div>
+				<span v-for="track in tracks" v-bind:key="track._id">
+					<MusicCard V-bind:data="track" />
+				</span>
 			</div>
 		</div>
 	</div>
@@ -18,6 +31,7 @@
 <script>
 import getTime from "@/shared/time.js";
 import ArtistCard from "@/components/artistCard.vue";
+import MusicCard from "@/components/musicCard.vue";
 
 export default {
 	name: "Player",
@@ -25,7 +39,9 @@ export default {
 		return {
 			time: "",
 			artists: [],
+			tracks: [],
 			artistError: "",
+			trackError: "",
 		};
 	},
 	created() {
@@ -38,16 +54,38 @@ export default {
 			this.time = "Evening";
 		}
 
-		this.$store.dispatch("utils/getArtists").then((artists)=>{
-			this.artists = artists;
-		}).catch((err)=>{
-			this.artistError = "We can't fetch Artists at this time hang in there !!"
-			console.error(err);
-		});
+		this.$store
+			.dispatch("utils/fetchArtists")
+			.then((artists) => {
+				if (artists.length === 0) {
+					this.trackError = "Oops We Can't Find any Artists !!!";
+				}
+				this.artists = artists;
+			})
+			.catch((err) => {
+				this.artistError =
+					"We can't fetch Artists at this time hang in there !!";
+				console.error(err);
+			});
+
+		this.$store
+			.dispatch("utils/fetchTracks")
+			.then((tracks) => {
+				if (tracks.length === 0) {
+					this.trackError = "Oops We Can't Find any Tracks !!!";
+				}
+				this.tracks = tracks;
+			})
+			.catch((err) => {
+				this.trackError =
+					"We can't fetch Tracks at this time hang in there !!";
+				console.error(err);
+			});
 	},
 	components: {
 		ArtistCard,
-	}
+		MusicCard,
+	},
 };
 </script>
 

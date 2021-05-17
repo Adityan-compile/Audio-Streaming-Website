@@ -6,6 +6,7 @@ var express = require("express");
 var router = express.Router();
 
 var userController = require("../controllers/userController");
+var audioController = require("../controllers/audioController");
 
 var authenticator = require("../middleware/authenticate");
 
@@ -15,6 +16,14 @@ router.get("/", authenticator.authenticate, (req, res) => {
 
 router.get("/search", (req, res) => {
 	userController.search(req, res);
+});
+
+router.get("/artists", (req, res)=>{
+	userController.getArtists(req, res);
+});
+
+router.get("/tracks", (req, res)=>{
+	audioController.getTracks(req, res);
 });
 
 module.exports = router;

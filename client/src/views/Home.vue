@@ -6,15 +6,15 @@
           <img class="img-fluid pt-5" src="../assets/musician.png" />
         </div>
         <div class="col-md-6 align-self-center p-5 fw-bold text-center">
-          <h1 class="logo-text text-white">Track Wiz</h1>
-          <h5 class="text-white home-text">
+          <h1 class="logo-text text-white pt-4">Track Wiz</h1>
+          <h5 class="text-white home-text pt-3">
             Listen To Music that awakens the inner musician in You.
           </h5>
         </div>
       </div>
     </div>
 
-    <div v-if="!loggedIn" class="text-center">
+    <!--     <div v-if="loggedIn === true" class="text-center">
       <router-link
         class="btn btn-outline-info rounded-pill fw-bold border mb-5 border-info border-2"
         to="/signup"
@@ -29,8 +29,28 @@
       >
         Go to Web Player
       </router-link>
-   </div>
-<hr class="bg-white "/>
+   </div> -->
+
+    <div class="text-center" >
+            <router-link
+            v-if="isLoggedIn"
+        class="btn btn-outline-danger rounded-pill fw-bold border mb-5 border-danger border-2"
+        to="/player"
+      >
+        Go to Web Player
+      </router-link>
+
+      <router-link
+        class="btn btn-outline-info rounded-pill fw-bold border mb-5 border-info border-2"
+        to="/signup"
+        v-else
+      >
+        Get Track Wiz it's Free
+      </router-link>
+
+    </div>
+
+    <hr class="bg-white" />
 
     <Footer />
   </div>
@@ -38,27 +58,23 @@
 
 <script>
 import Footer from "@/components/footer.vue";
-import store from "@/store/index"
-import { mapState } from "vuex"
+import store from "@/store/index";
+import { mapGetters, mapState } from 'vuex';
 
-
-console.log(store.state.auth.loggedIn);
 
 export default {
   name: "Home",
   components: {
     Footer,
   },
-  computed(){
-    return{
-        ...mapState('auth/auth', ['loggedIn', 'user'])
-    }
-  },
   data() {
     return {
       loggedIn: store.state.auth.loggedIn,
     };
   },
+  computed: {
+    ...mapGetters('auth', ['isLoggedIn'])
+  } 
 };
 </script>
 

@@ -15,7 +15,7 @@
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <i class="fa fa-bars fw-bold"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-monospace">
@@ -30,34 +30,40 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/browse">BROWSE</router-link>
           </li>
-          <li class="nav-item" v-if="loggedIn">
+          <li class="nav-item" v-if="isLoggedIn">
             <router-link class="nav-link" to="/user/playlists"
               >PLAYLISTS</router-link
             >
           </li>
         </ul>
-        <div v-if="loggedIn">
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link text-white dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
+        <div v-if="isLoggedIn">
+          <div class="dropdown">
+            <button
+              class="btn btn-warning dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               Account
-            </a>
-            <ul
-              class="dropdown-menu dropdown-menu-dark"
-              aria-labelledby="navbarDropdown"
-            >
-              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-              <li><a class="dropdown-item" href="/playlists">Playlists</a></li>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <router-link class="dropdown-item" to="/user/profile"
+                  >Profile</router-link
+                >
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/playlists"
+                  >Playlists</router-link
+                >
+              </li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="/logout">Logout</a></li>
+              <li>
+                <a class="dropdown-item" @click.prevent="logout">Logout</a>
+              </li>
             </ul>
-          </li>
+          </div>
         </div>
         <div v-else>
           <ul class="navbar-nav">
@@ -76,17 +82,29 @@
 
 <script>
 import store from "@/store/index";
-console.log(store.state.auth.loggedIn);
+import { mapGetters } from "vuex";
+
 export default {
   name: "Navbar",
   data() {
-    return {
-      loggedIn: false,
-    };
+    return {};
   },
-  created(){
-      this.loggedIn = store.state.auth.loggedIn
-  }
+  computed: {
+    ...mapGetters("auth", ["isLoggedIn"]),
+  },
+  // logout() {
+  //   store
+  //     .dispatch("auth/logout")
+  //     .then((res) => {
+  //       alert("Logged Out Successfully");
+  //       window.location.reload;
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       alert("Error Logging Out");
+  //       this.$router.push("/");
+  //     });
+  // },
 };
 </script>
 

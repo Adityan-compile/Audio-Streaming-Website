@@ -1,6 +1,8 @@
 <template>
   <form>
-        <div class="mb-3">
+    <p class="text-danger text-center">{{ message }}</p>
+
+    <div class="mb-3">
       <label for="name" class="form-label">Name:</label>
       <input
         type="text"
@@ -9,7 +11,7 @@
         id="name"
         name="name"
       />
-    </div>  
+    </div>
     <div class="mb-3">
       <label for="email" class="form-label">Email address:</label>
       <input
@@ -30,33 +32,44 @@
         name="password"
       />
     </div>
-  <!--   <div class="mb-3">
-      <label for="confirmPassword" class="form-label">Confirm Password:</label>
-      <input
-        type="password"
-        v-model="confirmPassword"
-        class="form-control"
-        id="confirmPassword"
-        name="confirmPassword"
-      /> 
-    </div> -->
     <div class="p-3 pt-5">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" @click.prevent="signup">
+        Sign Up
+      </button>
     </div>
   </form>
 </template>
 
 <script>
+import store from "@/store/index";
 export default {
-  name: "SignUpForm",
+  name: "SignupForm",
   data() {
     return {
-      name : "",
+      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
       message: "",
     };
+  },
+  methods: {
+    signup() {
+      console.log(this);
+      this.$store
+        .dispatch("auth/register", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          console.error(err);
+          this.message = "Registration Error: Please try again later:";
+          this.$router.push("/signup");
+        });
+    },
   },
 };
 </script>

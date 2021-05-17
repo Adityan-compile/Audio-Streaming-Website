@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import { authGuard, routeGuard } from '../shared/guard';
 
 const routes = [
   {
@@ -10,13 +11,32 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
+    beforeEnter: authGuard,
     component: () => import('../views/Login.vue')
   },
   {
     path: '/signup',
-    name: 'SignUp',
+    name: 'Signup',
+    beforeEnter: authGuard,
     component: () => import('../views/Signup.vue')   
-  }
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('../views/Search.vue')   
+  },
+  {
+    path: '/user/profile',
+    name: 'Profile',
+    beforeEnter: routeGuard,
+    component: () => import('../views/Profile.vue')   
+  },
+  {
+    path: '/player',
+    name: 'Player',
+    beforeEnter: routeGuard,
+    component: () => import('../views/Player.vue')   
+  },
 ]
 
 const router = createRouter({

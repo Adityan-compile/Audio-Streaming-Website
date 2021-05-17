@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
          async (err, status) => {
             if (err) return res.sendStatus(401);
             if (status) {
-               foundUser.password = null;
+               foundUser.password = undefined;
                var accessToken = await functions.generateAccessToken(
                   foundUser.toJSON(),
                   "15m"
@@ -70,15 +70,12 @@ exports.login = async (req, res) => {
  */
 exports.signUp = async (req, res) => {
    let userData = req.body;
-
-   let foundUser = await user.find({ email: userData.email });
-
-   if (foundUser) {
-      foundUser.password = null;
+console.log(userData);
+   let count = await user.countDocuments({ email: userData.email });
+   if (count > 0) {
       return res.status(409).json({
          status: 409,
          message: "User already Exists",
-         user: foundUser,
       });
    }
 
@@ -96,13 +93,14 @@ exports.signUp = async (req, res) => {
       });
       newUser.save(async (err, newUser) => {
          if (err) {
+            console.log(err);
             res.status(401);
             res.json({
                status: 401,
                message: "Error Creating User",
             });
          } else {
-            newUser.password = null;
+            newUser.password = undefined;
             newUser = newUser.toJSON();
             let accessToken = await functions.generateAccessToken(
                newUser,
@@ -153,7 +151,7 @@ exports.signUp = async (req, res) => {
 // }
 
 exports.regenerateToken = async (req, res) => {
-   let token = req.body;
+   let token = req.body.refreshToken;
    if (!token) res.sendStatus(401);
    let verifiedUser = await functions.verifyToken(token);
    if (verifiedUser === null) {

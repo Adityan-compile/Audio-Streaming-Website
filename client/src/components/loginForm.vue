@@ -44,7 +44,8 @@ export default {
         email: this.email,
         password: this.password
       }).then(res=>{
-        this.$router.push("/")
+        this.errorMessage = "";
+        this.$router.push("/");
       }).catch(err => {
         console.error(err);
         this.errorMessage = "Login Error: Check Credentials";

@@ -41,33 +41,33 @@
 </template>
 
 <script>
-import store from "@/store/index";
+import store from '@/store/index';
 export default {
-  name: "SignupForm",
+  name: 'SignupForm',
   data() {
     return {
-      name: "",
-      email: "",
-      password: "",
-      message: "",
+      name: '',
+      email: '',
+      password: '',
+      message: '',
     };
   },
   methods: {
     signup() {
       console.log(this);
       this.$store
-        .dispatch("auth/register", {
+        .dispatch('auth/register', {
           name: this.name,
           email: this.email,
           password: this.password,
         })
         .then((res) => {
-          this.$router.push("/");
+          this.$router.push('/');
         })
         .catch((err) => {
           console.error(err);
-          this.message = "Registration Error: Please try again later:";
-          this.$router.push("/signup");
+          this.message = 'Registration Error: Please try again later:';
+          this.$router.push('/signup');
         });
     },
   },

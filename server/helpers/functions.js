@@ -1,6 +1,6 @@
-const validator = require("email-validator");
-const jwt = require("jsonwebtoken");
-const token = require("../models/token");
+const validator = require('email-validator');
+const jwt = require('jsonwebtoken');
+const token = require('../models/token');
 
 /**
  * Validate Email Address
@@ -15,7 +15,7 @@ const token = require("../models/token");
  *       //returns true
  */
 exports.validate = (email) => {
-	return validator.validate(email);
+  return validator.validate(email);
 };
 
 /**
@@ -26,15 +26,15 @@ exports.validate = (email) => {
  * @returns {Date}
  */
 exports.getFormattedDate = () => {
-	let dateObj = new Date();
+  let dateObj = new Date();
 
-	const date = ("0" + date_ob.getDate()).slice(-2);
+  const date = ('0' + date_ob.getDate()).slice(-2);
 
-	const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  const month = ('0' + (date_ob.getMonth() + 1)).slice(-2);
 
-	const year = date_ob.getFullYear();
+  const year = date_ob.getFullYear();
 
-	return date + "/" + month + "/" + year;
+  return date + '/' + month + '/' + year;
 };
 
 /**
@@ -55,19 +55,19 @@ exports.getFormattedDate = () => {
  *      generateAccessToken(user, expiry);
  */
 exports.generateAccessToken = async (user, expiry) => {
-	return new Promise(async (resolve, reject) => {
-		await jwt.sign(
-			user,
-			process.env.ACCESS_TOKEN_KEY,
-			{
-				expiresIn: expiry,
-			},
-			(err, generatedToken) => {
-				if (err) return resolve(null);
-				resolve(generatedToken);
-			}
-		);
-	});
+  return new Promise(async (resolve, reject) => {
+    await jwt.sign(
+      user,
+      process.env.ACCESS_TOKEN_KEY,
+      {
+        expiresIn: expiry,
+      },
+      (err, generatedToken) => {
+        if (err) return resolve(null);
+        resolve(generatedToken);
+      }
+    );
+  });
 };
 
 /**
@@ -87,23 +87,23 @@ exports.generateAccessToken = async (user, expiry) => {
  *
  */
 exports.generateRefreshToken = async (user) => {
-	return new Promise(async (resolve, reject) => {
-		await jwt.sign(
-			user,
-			process.env.REFRESH_TOKEN_KEY,
-			(err, generatedToken) => {
-				if (err) return resolve(null);
-				let newToken = new token({ token: generatedToken });
-				newToken.save(async (err, savedToken) => {
-					if (err) {
-						console.log(err);
-						resolve(null);
-					}
-					resolve(savedToken.token);
-				});
-			}
-		);
-	});
+  return new Promise(async (resolve, reject) => {
+    await jwt.sign(
+      user,
+      process.env.REFRESH_TOKEN_KEY,
+      (err, generatedToken) => {
+        if (err) return resolve(null);
+        let newToken = new token({token: generatedToken});
+        newToken.save(async (err, savedToken) => {
+          if (err) {
+            console.log(err);
+            resolve(null);
+          }
+          resolve(savedToken.token);
+        });
+      }
+    );
+  });
 };
 
 /**
@@ -120,21 +120,17 @@ exports.generateRefreshToken = async (user) => {
  *
  */
 exports.verifyToken = async (refreshToken) => {
-	return new Promise(async (resolve, reject) => {
-		let savedToken = await token.find({ token: refreshToken });
-		if (savedToken) {
-			jwt.verify(
-				refreshToken,
-				process.env.REFRESH_TOKEN_KEY,
-				(err, user) => {
-					if (err) return resolve(null);
-					delete user.iat;
-					delete user.exp;
-					resolve(user);
-				}
-			);
-		} else {
-			resolve(null);
-		}
-	});
+  return new Promise(async (resolve, reject) => {
+    let savedToken = await token.find({token: refreshToken});
+    if (savedToken) {
+      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
+        if (err) return resolve(null);
+        delete user.iat;
+        delete user.exp;
+        resolve(user);
+      });
+    } else {
+      resolve(null);
+    }
+  });
 };

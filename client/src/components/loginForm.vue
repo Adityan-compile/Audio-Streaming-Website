@@ -1,6 +1,6 @@
 <template>
   <form>
-        <p class="text-danger">{{ errorMessage }}</p>
+    <p class="text-danger">{{ errorMessage }}</p>
 
     <div class="mb-3">
       <label for="email" class="form-label">Email address:</label>
@@ -22,37 +22,42 @@
         name="password"
       />
     </div>
-        <div class="p-3 pt-5">
-      <button type="submit" @click.prevent="login" class="btn btn-primary">Login</button>
+    <div class="p-3 pt-5">
+      <button type="submit" @click.prevent="login" class="btn btn-primary">
+        Login
+      </button>
     </div>
   </form>
 </template>
 
 <script>
 export default {
-  name: "LoginForm",
+  name: 'LoginForm',
   data() {
     return {
-      email: "",
-      password: "",
-      errorMessage: "",
+      email: '',
+      password: '',
+      errorMessage: '',
     };
   },
   methods: {
-    login(){
-      this.$store.dispatch('auth/login', {
-        email: this.email,
-        password: this.password
-      }).then(res=>{
-        this.errorMessage = "";
-        this.$router.push("/");
-      }).catch(err => {
-        console.error(err);
-        this.errorMessage = "Login Error: Check Credentials";
-        this.$router.push("/login");
-      })
-    }
-  }
+    login() {
+      this.$store
+        .dispatch('auth/login', {
+          email: this.email,
+          password: this.password,
+        })
+        .then((res) => {
+          this.errorMessage = '';
+          this.$router.push('/');
+        })
+        .catch((err) => {
+          console.error(err);
+          this.errorMessage = 'Login Error: Check Credentials';
+          this.$router.push('/login');
+        });
+    },
+  },
 };
 </script>
 

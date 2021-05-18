@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div style="position: relative;">
+    <div style="position: relative">
       <div class="row">
         <div class="col-md-6 text-center align-self-center">
           <img class="img-fluid pt-5" src="../assets/musician.png" />
@@ -31,9 +31,9 @@
       </router-link>
    </div> -->
 
-    <div class="text-center" >
-            <router-link
-            v-if="isLoggedIn"
+    <div class="text-center">
+      <router-link
+        v-if="isLoggedIn"
         class="btn btn-outline-danger rounded-pill fw-bold border mb-5 border-danger border-2"
         to="/player"
       >
@@ -47,7 +47,6 @@
       >
         Get Track Wiz it's Free
       </router-link>
-
     </div>
 
     <hr class="bg-white" />
@@ -57,13 +56,12 @@
 </template>
 
 <script>
-import Footer from "@/components/footer.vue";
-import store from "@/store/index";
-import { mapGetters, mapState } from 'vuex';
-
+import Footer from '@/components/footer.vue';
+import store from '@/store/index';
+import {mapGetters, mapState} from 'vuex';
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Footer,
   },
@@ -73,8 +71,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('auth', ['isLoggedIn'])
-  } 
+    ...mapGetters('auth', ['isLoggedIn']),
+  },
 };
 </script>
 
@@ -85,6 +83,6 @@ export default {
 
 .home-text {
   font-size: 3rem;
-  font-family: "Sevillana", cursive;
+  font-family: 'Sevillana', cursive;
 }
 </style>

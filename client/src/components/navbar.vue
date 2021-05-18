@@ -81,16 +81,16 @@
 </template>
 
 <script>
-import store from "@/store/index";
-import { mapGetters } from "vuex";
+import store from '@/store/index';
+import {mapGetters} from 'vuex';
 
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   data() {
     return {};
   },
   computed: {
-    ...mapGetters("auth", ["isLoggedIn"]),
+    ...mapGetters('auth', ['isLoggedIn']),
   },
   // logout() {
   //   store
@@ -128,6 +128,6 @@ export default {
 }
 
 .nav-link {
-  font-family: "Akaya Telivigala", cursive;
+  font-family: 'Akaya Telivigala', cursive;
 }
 </style>

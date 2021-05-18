@@ -1,7 +1,6 @@
 // import axios from 'axios';
 // // import createAuthRefreshInterceptor from 'axios-auth-refresh';
 // import store from '../store/index';
- 
 
 // axios.interceptors.request.use((req)=>{
 //   req.headers['Authorization'] = `bearer ${store.dispatch("auth/getAuthData")}`;
@@ -17,4 +16,3 @@
 // //     return Promise.resolve();
 // //   });
 // // });
-

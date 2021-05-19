@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search component">
     <div class="container p-5">
       <h1 class="text-center pt-5 p-3">SEARCH</h1>
       <p class="text-danger text-center">{{ errorMessage }}</p>
@@ -49,11 +49,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.search {
-  font-family: 'Akaya Telivigala', cursive;
-  font-weight: bold;
-  color: #fff;
-}
-</style>

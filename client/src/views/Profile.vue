@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="profile component">
     <div class="container p-5">
       <h1 class="text-center pt-5 p-3">PROFILE</h1>
       <UserCard v-bind:user="user" />
@@ -25,11 +25,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.profile {
-  font-family: 'Akaya Telivigala', cursive;
-  font-weight: bold;
-  color: #fff;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home component">
     <div style="position: relative">
       <div class="row">
         <div class="col-md-6 text-center align-self-center">

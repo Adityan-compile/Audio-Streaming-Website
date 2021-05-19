@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player component">
     <div class="greeting p-5">
       <h1 class="pt-5">Good {{ time }} ,</h1>
     </div>
@@ -83,11 +83,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.player {
-  font-family: 'Akaya Telivigala', cursive;
-  font-weight: bold;
-  color: #fff;
-}
-</style>

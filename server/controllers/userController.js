@@ -23,6 +23,12 @@ exports.search = async (req, res) => {
   });
 };
 
+/**
+ * Find All Uploads
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
 exports.uploads = async (req, res) => {
   let user = req.user;
   await audio.find({creatorId: user._id}, (err, uploads) => {
@@ -31,6 +37,12 @@ exports.uploads = async (req, res) => {
   });
 };
 
+/**
+ * Get a Finite number of Artists
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
 exports.getArtists = async (req, res) => {
   let count = Number(req.query.count);
   await user

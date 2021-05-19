@@ -47,20 +47,36 @@ const utils = {
           });
       });
     },
-    fetchTracks() {
+    fetchTracks(options) {
       return new Promise((resolve, reject) => {
-        instance
-          .get(`${process.env.VUE_APP_API_URL}/tracks`)
-          .then(({data, status}) => {
-            if (status === 200) {
-              resolve(data.tracks);
-            } else {
-              reject(`Error: ${status}`);
-            }
-          })
-          .catch((err) => {
-            reject(err);
-          });
+        if(options.sort === true){
+          instance
+            .get(`${process.env.VUE_APP_API_URL}/tracks?sort=1`)
+            .then(({data, status}) => {
+              if (status === 200) {
+                resolve(data.tracks);
+              } else {
+                reject(`Error: ${status}`);
+              }
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        }else{
+          instance
+            .get(`${process.env.VUE_APP_API_URL}/tracks`)
+            .then(({data, status}) => {
+              if (status === 200) {
+                resolve(data.tracks);
+              } else {
+                reject(`Error: ${status}`);
+              }
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        }
+
       });
     },
   },

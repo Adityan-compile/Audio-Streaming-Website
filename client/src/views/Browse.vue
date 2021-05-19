@@ -12,10 +12,20 @@ export default {
   name: 'Browse',
   data() {
     return {
-      tracks: '',
+      tracks: [],
       errorMessage: '',
     };
   },
-  created() {},
+  created() {
+    this.$store.dispatch('utils/fetchTracks', {sort:true}).then((tracks)=>{
+      if(tracks.length === 0){
+        this.errorMessage = "Whoops! No Tracks";
+      }else{
+        this.tracks = tracks;
+      }
+    }).catch((err)=>{
+      this.errorMessage = "OH,NO We Encountered an Error";
+    });
+  },
 };
 </script>

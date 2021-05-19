@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: middleware/authenticate.js</title>
+    <title>JSDoc: Source: controllers/audioController.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: middleware/authenticate.js</h1>
+    <h1 class="page-title">Source: controllers/audioController.js</h1>
 
     
 
@@ -26,32 +26,57 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const jwt = require('jsonwebtoken');
+            <pre class="prettyprint source linenums"><code>const audio = require('../models/audio');
+var _ = require('lodash');
 
 /**
- * @name Authenticate
- * @module middleware/authenticate
- * @function
+ * Get all Tracks in Random or Sorted Order
  * @param {require('express').Request} req
  * @param {require('express').Response} res
- * @param {require('express').NextFunction} next
- * @return {undefined}
+ * @returns {undefined}
  */
-module.exports.authenticate = async (req, res, next) => {
-  const authHeaders = req.headers['authorization'];
-  const token = authHeaders &amp;&amp; authHeaders.split(' ')[1];
+exports.getTracks = async (req, res) => {
+  let sort = req.query.sort;
+  if (sort === 1) {
+    await audio
+      .find()
+      .sort({_id: -1})
+      .then((tracks) => {
+        tracks = _.shuffle(tracks);
 
-  if (token === null)
-    return res.status(401).json({status: 401, message: 'Unauthorized'});
+        res.status(200).json({status: 200, tracks: tracks});
+      })
+      .catch((err) => {
+        return res
+          .status(500)
+          .json({status: 500, message: 'Search Error', error: err});
+      });
+  } else {
+    await audio
+      .find()
+      .then((tracks) => {
+        tracks = _.shuffle(tracks);
 
-  await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user) => {
-    if (err) {
-      return res.status(403).json({status: 403, message: 'Forbidden'});
-    } else {
-      req.user = user;
-      next();
-    }
-  });
+        res.status(200).json({status: 200, tracks: tracks});
+      })
+      .catch((err) => {
+        return res
+          .status(500)
+          .json({status: 500, message: 'Search Error', error: err});
+      });
+  }
+  await audio
+    .find()
+    .then((tracks) => {
+      tracks = _.shuffle(tracks);
+
+      res.status(200).json({status: 200, tracks: tracks});
+    })
+    .catch((err) => {
+      return res
+        .status(500)
+        .json({status: 500, message: 'Search Error', error: err});
+    });
 };
 </code></pre>
         </article>

@@ -1,0 +1,13 @@
+{
+  "appId": "main.track.wiz",
+  "appName": "Track-Wiz",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

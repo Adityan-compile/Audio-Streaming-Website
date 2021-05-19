@@ -23,6 +23,7 @@ exports.upload = async (req, res) => {
     audio: `${data.userId}-${audioFile.name}`,
     creatorId: req.user._id,
     artistName: data.artist,
+    private: data.private || true,
   });
 
   audioObject.save(async (err, newAudio) => {

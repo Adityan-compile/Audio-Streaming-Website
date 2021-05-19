@@ -10,7 +10,7 @@ exports.search = async (req, res) => {
   let query = req.query;
   if (query === null || query === undefined || query == '')
     return res.status(400).json({status: 400, message: ''});
-  await audio.find({title: {$regex: new RegExp(query, 'i')}}, (err, tracks) => {
+  await audio.find({title: {$regex: new RegExp(query, 'i')}, private: false}, (err, tracks) => {
     if (err) {
       return res.status(500).json({status: 500, message: 'Search Failed'});
     }

@@ -31,14 +31,22 @@ const audioSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  dateReleased: {
+    type: Date,
+    default: Date.now()
+  },
   creatorId: {
     type: mongoose.Types.ObjectId,
     ref: 'user',
   },
-  artistName: {
+  artist: {
     type: String,
     required: true,
   },
+  private: {
+    type: Boolean,
+    default: true
+  }
 });
 
 const audioModel = mongoose.model('audio', audioSchema);

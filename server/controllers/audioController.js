@@ -11,7 +11,7 @@ exports.getTracks = async (req, res) => {
   let sort = req.query.sort;
   if (sort === 1) {
     await audio
-      .find()
+      .find({private:false})
       .sort({_id: -1})
       .then((tracks) => {
         tracks = _.shuffle(tracks);
@@ -25,7 +25,7 @@ exports.getTracks = async (req, res) => {
       });
   } else {
     await audio
-      .find()
+      .find({private: false})
       .then((tracks) => {
         tracks = _.shuffle(tracks);
 

@@ -49,7 +49,7 @@ const utils = {
     },
     fetchTracks(options) {
       return new Promise((resolve, reject) => {
-        if(options.sort === true){
+        if (options.sort === true) {
           instance
             .get(`${process.env.VUE_APP_API_URL}/tracks?sort=1`)
             .then(({data, status}) => {
@@ -62,7 +62,7 @@ const utils = {
             .catch((err) => {
               reject(err);
             });
-        }else{
+        } else {
           instance
             .get(`${process.env.VUE_APP_API_URL}/tracks`)
             .then(({data, status}) => {
@@ -76,7 +76,6 @@ const utils = {
               reject(err);
             });
         }
-
       });
     },
   },

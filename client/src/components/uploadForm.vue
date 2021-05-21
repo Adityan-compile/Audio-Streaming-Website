@@ -89,8 +89,14 @@ export default {
       formData.append('year', this.year);
       formData.append('thumbnail', this.$refs.thumbnail.files[0]);
       formData.append('audio', this.$refs.audio.files[0]);
-
-      this.$store.dispatch('');
+      this.$emit("upload", true);
+      this.$store.dispatch('uploads/uploadTrack').then(res =>{
+        this.$emit("upload", false);
+        this.$emit("success", "success");
+      }).catch(err =>{
+        this.$emit("upload", false);
+        this.$emit("error", "error");
+      });
     },
   },
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import instance from '@/shared/interceptor.js';
+import instance from '@/axios.js';
 
 const auth = {
   namespaced: true,

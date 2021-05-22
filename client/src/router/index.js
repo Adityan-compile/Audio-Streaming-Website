@@ -42,6 +42,12 @@ const routes = [
     name: 'Browse',
     component: () => import('../views/Browse.vue'),
   },
+  {
+    path: '/tracks/new',
+    name: 'Upload',
+    beforeEnter: routeGuard,
+    component: () => import('../views/Upload.vue'),
+  },
 ];
 
 const router = createRouter({

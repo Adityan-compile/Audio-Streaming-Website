@@ -34,13 +34,16 @@ exports.login = async (req, res) => {
               .status(401)
               .json({status: 401, message: 'Authentication Failed'});
           }
+          
+          foundUser.password = undefined;
 
+          res.cookie("refresh_token", refreshToken, {maxAge: 31536000, sameSite: true, httpOnly: true, secure: true});
+          res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: true, secure: true});
+          res.cookie("user", json.stringify(foundUser), {sameSite: true, secure: true});
           res.status(200);
           res.json({
             status: 200,
             message: 'Authentication Successful',
-            accessToken: accessToken,
-            refreshToken: await refreshToken,
             user: foundUser,
           });
         } else {
@@ -110,13 +113,13 @@ exports.signUp = async (req, res) => {
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
         }
-
+        res.cookie("refresh_token", refreshToken, {maxAge: 31536000, httpOnly: true, sameSite: true, secure: true});
+        res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: true, secure: true});
+        res.cookie("user", json.stringify(newUser), {sameSite: true, secure: true});
         res.status(200);
         res.json({
           status: 200,
           message: 'User Created Successfully',
-          accessToken: accessToken,
-          refreshToken: refreshToken,
           user: newUser,
         });
       }

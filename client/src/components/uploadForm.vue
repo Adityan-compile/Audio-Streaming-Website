@@ -15,6 +15,7 @@
           v-model="title"
           id="title"
           name="title"
+          required
         />
       </div>
       <div class="col-md-6">
@@ -26,6 +27,7 @@
           id="artist"
           v-model="artist"
           name="artist"
+          required
         />
       </div>
       <div class="col-lg-4">
@@ -36,6 +38,7 @@
           v-model="year"
           id="year"
           name="year"
+          required
         />
       </div>
       <div class="col-lg-4">
@@ -46,8 +49,10 @@
           id="thumbnail"
           ref="thumbnail"
           name="thumbnail"
+          accept="image/jpg,image/png,image/jpeg"
+          required
         />
-        <p class="text-muted">jpeg, png</p>
+        <p class="text-muted">jpeg,jpg,png</p>
       </div>
       <div class="col-lg-4">
         <label for="audio" class="form-label">Audio File</label>
@@ -57,6 +62,8 @@
           id="audio"
           ref="audio"
           name="audio"
+          accept="audio/mp3,audio/m4a"
+          required
         />
         <p class="text-muted">mp3, m4a</p>
       </div>
@@ -69,34 +76,34 @@
 
 <script>
 export default {
-  name: 'UploadForm',
+  name: "UploadForm",
   data() {
     return {
-      title: '',
-      artist: '',
-      year: new Date().getFullYear() || '',
-      //  files: null,
+      title: "",
+      artist: "",
+      year: new Date().getFullYear() || "",
     };
   },
   methods: {
-    // setFiles(){
-    //   console.log(this.$refs.thumbnail.files[0])
-    // },
     upload() {
       let formData = new FormData();
-      formData.append('title', this.title);
-      formData.append('artist', this.artist);
-      formData.append('year', this.year);
-      formData.append('thumbnail', this.$refs.thumbnail.files[0]);
-      formData.append('audio', this.$refs.audio.files[0]);
+      formData.append("title", this.title);
+      formData.append("artist", this.artist);
+      formData.append("year", this.year);
+      formData.append("thumbnail", this.$refs.thumbnail.files[0]);
+      formData.append("audio", this.$refs.audio.files[0]);
+
       this.$emit("upload", true);
-      this.$store.dispatch('uploads/uploadTrack').then(res =>{
-        this.$emit("upload", false);
-        this.$emit("success", "success");
-      }).catch(err =>{
-        this.$emit("upload", false);
-        this.$emit("error", "error");
-      });
+      this.$store
+        .dispatch("uploads/uploadTrack", formData)
+        .then((res) => {
+          this.$emit("upload", false);
+          this.$emit("success", "success");
+        })
+        .catch((err) => {
+          this.$emit("upload", false);
+          this.$emit("error", "error");
+        });
     },
   },
 };

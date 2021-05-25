@@ -153,11 +153,11 @@ exports.regenerateToken = async (req, res) => {
   let verifiedUser = await functions.verifyToken(token);
   if (verifiedUser === null) {
     return res
-      .status(403)
+      .status(401)
       .json({status: 401, message: 'Refresh Token Invalid'});
   }
 
-  let newToken = await functions.generateAccessToken(verifiedUser, '15m');
+  let newToken = await functions.generateAccessToken(verifiedUser, '30m');
 
   if (newToken === null)
     return res
@@ -168,7 +168,7 @@ exports.regenerateToken = async (req, res) => {
     status: 200,
     message: 'Token Regenerated Successfully',
     accessToken: newToken,
-    refreshToken: token,
+    refreshToken: token
   });
 };
 

@@ -7,15 +7,17 @@ const uploads = {
   getters: {},
   mutations: {},
   actions: {
-      uploadTrack(payload){
+      uploadTrack({ commit } ,payload){
           return new Promise((resolve, reject)=>{
-              instance.post(`${process.env.VUE_APP_API_URL}/uploads/tracks/new`, payload).then(({status, data})=>{
+              instance.post(`/uploads/tracks/new`, payload).then(({status, data})=>{
+                console.log(data);
                   if(status === 201){
                       resolve(true);
                   }else{
                       reject(`Error: ${status}`);
                   }
               }).catch(err => {
+                console.log(err);
                   reject(err);
               });
           });

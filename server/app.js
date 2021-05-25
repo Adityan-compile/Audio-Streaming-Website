@@ -47,15 +47,9 @@ app.use(
   upload({
     safeFileNames: true,
     preserveExtension: true,
-    useTempFiles: true,
-    tempFileDir: '/temp/',
   })
 );
-app.use(
-  cors({
-    optionsSuccessStatus: 200,
-  })
-);
+app.use(cors());
 
 app.use('/api/v1', indexRouter);
 app.use('/api/v1/users', usersRouter);

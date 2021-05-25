@@ -24,10 +24,12 @@ const auth = {
     setTokens(state, payload) {
       localStorage.setItem('ACCESS_TOKEN', payload.accessToken);
       localStorage.setItem('REFRESH_TOKEN', payload.refreshToken);
-      localStorage.setItem('USER', JSON.stringify(payload.user));
       state.refreshToken = payload.refreshToken;
       state.accessToken = payload.accessToken;
+      if(payload.user){
+      localStorage.setItem('USER', JSON.stringify(payload.user));
       state.user = payload.user;
+      }
     },
     setLoginStatus(state, status) {
       state.loggedIn = status;
@@ -94,7 +96,7 @@ const auth = {
             skipAuthRefresh: true,
           })
           .then(({data, status}) => {
-            console.log(data);
+            console.log("Data: "+data);
             if (status === 200) {
               commit('setTokens', {
                 accessToken: data.accessToken,
@@ -120,10 +122,12 @@ const auth = {
       };
     },
     regenerateToken({commit}, payload) {
+      console.log("inside regenerateToken");
       return new Promise((resolve, reject) => {
         instance
           .post(`/auth/tokens/refresh`, payload)
           .then(({data, status}) => {
+            console.log(data);
             if (status === 200) {
               commit('setTokens', data);
               commit('setLoginStatus', true);

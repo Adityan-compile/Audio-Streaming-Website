@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const functions = require('../helpers/functions');
 
 /**
  * @name Authenticate
@@ -18,7 +19,7 @@ module.exports.authenticate = async (req, res, next) => {
 
   await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user) => {
     if (err) {
-      return res.status(403).json({status: 403, message: 'Forbidden'});
+      return res.status(401).json({status: 401, message: 'Unauthorized'});
     } else {
       req.user = user;
       next();

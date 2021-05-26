@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import instance from '@/axios.js';
+import instance from '@/axios.js';
 
 const uploads = {
   namespaced: true,
@@ -9,7 +9,7 @@ const uploads = {
   actions: {
       uploadTrack({ commit } ,payload){
           return new Promise((resolve, reject)=>{
-              axios.post(`/uploads/tracks/new`, payload).then(({status, data})=>{
+              instance.post(`/uploads/tracks/new`, payload).then(({status, data})=>{
                 console.log(data);
                   if(status === 201){
                       resolve(true);

@@ -2,9 +2,9 @@ import axios from "axios";
 import store from './store/index';
 import router from './router/index';
 
-// let instance = axios.create({
-//   baseURL: process.env.VUE_APP_API_URL
-// });
+let instance = axios.create({
+  baseURL: process.env.VUE_APP_API_URL
+});
 
 // instance.defaults.headers.common["Authorization"] = `bearer ${localStorage.getItem("ACCESS_TOKEN")}`;
 
@@ -36,9 +36,9 @@ import router from './router/index';
 // );
 
 
-axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+// axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
-axios.interceptors.response.use((res)=>{
+instance.interceptors.response.use((res)=>{
   return res;
 }, async(err)=>{
   let req = err.config;
@@ -48,4 +48,4 @@ axios.interceptors.response.use((res)=>{
   }
 });
 
-// export default instance;
+export default instance;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import instance from '@/axios.js';
+import instance from '@/axios.js';
 
 const auth = {
   namespaced: true,
@@ -30,7 +30,7 @@ const auth = {
   actions: {
     login: ({commit}, payload) => {
       return new Promise((resolve, reject) => {
-        axios
+        instance
           .post(`/auth/login`, payload)
           .then(({data, status}) => {
             if (status === 200) {
@@ -48,7 +48,7 @@ const auth = {
     },
     logout: ({commit}, payload) => {
       return new Promise((resolve, reject) => {
-        axios
+        instance
           .post(`/auth/logout`, payload)
           .then(({data, status}) => {
             if (status === 200) {
@@ -66,7 +66,7 @@ const auth = {
     },
     register: ({commit}, payload) => {
       return new Promise((resolve, reject) => {
-        axios
+        instance
           .post(`/auth/signup`, payload)
           .then(({data, status}) => {
             console.log("Data: "+data);
@@ -91,7 +91,7 @@ const auth = {
     regenerateToken({commit}, payload) {
       console.log("inside regenerateToken");
       return new Promise((resolve, reject) => {
-        axios
+        instance
           .post(`/auth/tokens/refresh`, payload)
           .then(({data, status}) => {
             console.log(data);

@@ -37,9 +37,9 @@ exports.login = async (req, res) => {
           
           foundUser.password = undefined;
 
-          res.cookie("refresh_token", refreshToken, {maxAge: 31536000, sameSite: true, httpOnly: true, secure: true});
-          res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: true, secure: true});
-          res.cookie("user", json.stringify(foundUser), {sameSite: true, secure: true});
+          res.cookie("refresh_token", refreshToken, {maxAge: 31536000, sameSite: 'Lax', httpOnly: true, path: '/'});
+          res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: 'Lax', path: '/'});
+          res.cookie("user", JSON.stringify(foundUser), {sameSite: 'Lax', path: '/'});
           res.status(200);
           res.json({
             status: 200,
@@ -113,9 +113,9 @@ exports.signUp = async (req, res) => {
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
         }
-        res.cookie("refresh_token", refreshToken, {maxAge: 31536000, httpOnly: true, sameSite: true, secure: true});
-        res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: true, secure: true});
-        res.cookie("user", json.stringify(newUser), {sameSite: true, secure: true});
+        res.cookie("refresh_token", refreshToken, {maxAge: 31536000, httpOnly: true, sameSite: 'Lax', path: '/'});
+        res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: 'Lax', path: '/'});
+        res.cookie("user", JSON.stringify(newUser), {sameSite: 'Lax', path: '/'});
         res.status(200);
         res.json({
           status: 200,
@@ -185,7 +185,12 @@ exports.regenerateToken = async (req, res) => {
 exports.logout = async (req, res) => {
   let refreshToken = req.body;
   await token.delete({token: refreshToken}, (err, deletedToken) => {
-    if (err) res.status(204).json({status: 204, message: 'Logout Failed'});
-    res.status(204).json({status: 204, message: 'Logout Successful'});
+    if (err){
+      res.status(204).json({status: 204, message: 'Logout Failed'});
+  }
+    res.clearCookie("refresh_token");
+    res.clearCookie("access_token");
+    res.clearCookie("user");
+    res.status(200).json({status: 200, message: 'Logout Successful'});
   });
 };

@@ -31,13 +31,14 @@ module.exports.authenticate = async(req, res, next) => {
   const accessToken = req.cookies.acces_token;
   const refreshToken = req.cookies.refresh_token;
   const user = req.cookies.user;
+  console.log(req.cookies);
   if(accessToken && refreshToken){
     await jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY, async (err, foundUser)=>{
       if(err){
          functions.verifyToken(refreshToken).then((token)=>{
           if(user){
           functions.generateAccessToken(user).then((newToken)=>{
-                  res.cookie("access_token", newToken, {maxAge: 3600, httpOnly: true, sameSite: true, secure: true});
+                  res.cookie("access_token", newToken, {maxAge: 3600, httpOnly: true, sameSite: 'Lax', path: '/'});
                   next();
           });
           }else{

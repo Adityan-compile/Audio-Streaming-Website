@@ -1,4 +1,4 @@
-// import instance from '@/axios.js';
+import instance from '@/axios.js';
 import axios from 'axios';
 
 const utils = {
@@ -15,7 +15,7 @@ const utils = {
   actions: {
     search({commit}, query) {
       return new Promise((resolve, reject) => {
-       axios
+       instance
           .get(`/search?query=${query}`)
           .then(({data, status}) => {
             if (status === 200) {
@@ -33,7 +33,7 @@ const utils = {
     },
     fetchArtists() {
       return new Promise((resolve, reject) => {
-        axios
+        instance
           .get(`/artists?count=6`)
           .then(({data, status}) => {
             if (status === 200) {
@@ -50,7 +50,7 @@ const utils = {
     fetchTracks(options) {
       return new Promise((resolve, reject) => {
         if (options.sort === true) {
-          axios
+          instance
             .get(`/tracks?sort=1`)
             .then(({data, status}) => {
               if (status === 200) {
@@ -63,7 +63,7 @@ const utils = {
               reject(err);
             });
         } else {
-          axios
+          instance
             .get(`/tracks`)
             .then(({data, status}) => {
               if (status === 200) {

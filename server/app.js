@@ -49,7 +49,7 @@ app.use(
     preserveExtension: true,
   })
 );
-app.use(cors());
+app.use(cors({credentials: true}));
 
 app.use('/api/v1', indexRouter);
 app.use('/api/v1/users', usersRouter);

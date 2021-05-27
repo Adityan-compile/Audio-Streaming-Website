@@ -37,9 +37,9 @@ exports.login = async (req, res) => {
           
           foundUser.password = undefined;
 
-          res.cookie("refresh_token", refreshToken, {maxAge: 31536000, sameSite: 'Lax', httpOnly: true, path: '/'});
-          res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: 'Lax', path: '/'});
-          res.cookie("user", JSON.stringify(foundUser), {sameSite: 'Lax', path: '/'});
+          res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, sameSite: 'none', httpOnly: true, path: '/'});
+          res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: true, sameSite: 'none', path: '/'});
+          res.cookie("user", JSON.stringify(foundUser), {maxAge: 31556952000, sameSite: 'none', path: '/'});
           res.status(200);
           res.json({
             status: 200,
@@ -113,9 +113,9 @@ exports.signUp = async (req, res) => {
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
         }
-        res.cookie("refresh_token", refreshToken, {maxAge: 31536000, httpOnly: true, sameSite: 'Lax', path: '/'});
-        res.cookie("access_token", accessToken, {maxAge: 3600, httpOnly: true, sameSite: 'Lax', path: '/'});
-        res.cookie("user", JSON.stringify(newUser), {sameSite: 'Lax', path: '/'});
+        res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, httpOnly: true, sameSite: 'none', path: '/'});
+        res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: true, sameSite: 'none', path: '/'});
+        res.cookie("user", JSON.stringify(newUser), {maxAge: 31556952000, sameSite: 'none', path: '/'});
         res.status(200);
         res.json({
           status: 200,

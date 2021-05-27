@@ -38,7 +38,7 @@ module.exports.authenticate = async(req, res, next) => {
          functions.verifyToken(refreshToken).then((token)=>{
           if(user){
           functions.generateAccessToken(user).then((newToken)=>{
-                  res.cookie("access_token", newToken, {maxAge: 3600, httpOnly: true, sameSite: 'Lax', path: '/'});
+                  res.cookie("access_token", newToken, {maxAge: 3600000, httpOnly: true, sameSite: 'none', path: '/'});
                   next();
           });
           }else{

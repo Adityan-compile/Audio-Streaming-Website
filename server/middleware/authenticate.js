@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
 
+let env = process.env;
+
 /**
  * @name Authenticate
  * @module middleware/authenticate
@@ -38,7 +40,7 @@ module.exports.authenticate = async(req, res, next) => {
          functions.verifyToken(refreshToken).then((token)=>{
           if(user){
           functions.generateAccessToken(user).then((newToken)=>{
-                  res.cookie("access_token", newToken, {maxAge: 3600000, httpOnly: true, sameSite: 'none', path: '/'});
+                  res.cookie("access_token", newToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, path: '/', secure: env.SECURE});
                   next();
           });
           }else{

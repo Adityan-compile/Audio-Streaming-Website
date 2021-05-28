@@ -52,9 +52,16 @@ app.use(
 app.use(
   cors({ 
     credentials: true,
-    // domain: process.env.CLIENT_DOMAIN 
+    origin: process.env.CLIENT
   })
 );
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', process.env.CLIENT);
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.use("/api/v1", indexRouter);
 app.use("/api/v1/users", usersRouter);

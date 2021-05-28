@@ -2,6 +2,12 @@ var user = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
+const Blob = require("cross-blob");
+const env = process.env;
+
+console.log(process.env.SECURE);
+
+const byteSize = str => new Blob([str]).size;
 
 /**
  * Login user
@@ -37,9 +43,11 @@ exports.login = async (req, res) => {
           
           foundUser.password = undefined;
 
-          res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, sameSite: 'none', httpOnly: true, path: '/'});
-          res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: true, sameSite: 'none', path: '/'});
-          res.cookie("user", JSON.stringify(foundUser), {maxAge: 31556952000, sameSite: 'none', path: '/'});
+          console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
+
+          res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, httpOnly: env.HTTP_ONLY, path: '/'});
+          res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});
+          res.cookie("user", JSON.stringify(foundUser), {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, httpOnly: env.HTTP_ONLY, path: '/'});
           res.status(200);
           res.json({
             status: 200,
@@ -113,9 +121,9 @@ exports.signUp = async (req, res) => {
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
         }
-        res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, httpOnly: true, sameSite: 'none', path: '/'});
-        res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: true, sameSite: 'none', path: '/'});
-        res.cookie("user", JSON.stringify(newUser), {maxAge: 31556952000, sameSite: 'none', path: '/'});
+        res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: true, path: '/'});
+        res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});
+        res.cookie("user", JSON.stringify(newUser), {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});
         res.status(200);
         res.json({
           status: 200,

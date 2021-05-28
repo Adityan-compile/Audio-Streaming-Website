@@ -12,6 +12,7 @@ axios.defaults.withCredentials = true;
 instance.interceptors.response.use((res)=>{
   return res;
 }, async(err)=>{
+	console.log(err);
   let req = err.config;
   if(err.response.status === 401){
     router.push("/login");

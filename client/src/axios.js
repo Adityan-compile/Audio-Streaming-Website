@@ -9,8 +9,9 @@ let instance = axios.create({
 });
 
 
-axios.defaults.withCredentials = true;
-axios.defaults.credentials = 'include';
+instance.defaults.withCredentials = true; 
+instance.defaults.credentials = 'include';
+instance.defaults.crossDomain = true;
 
 instance.interceptors.response.use((res)=>{
   return res;

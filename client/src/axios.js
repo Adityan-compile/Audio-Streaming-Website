@@ -10,6 +10,7 @@ let instance = axios.create({
 
 
 axios.defaults.withCredentials = true;
+axios.defaults.credentials = 'include';
 
 instance.interceptors.response.use((res)=>{
   return res;

@@ -18,7 +18,5 @@
     "prettier": "^2.2.1",
     "standard": "^16.0.3"
   },
-  "dependencies": {
-    "cross-blob": "^2.0.0"
-  }
+  "dependencies": {}
 }

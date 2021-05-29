@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "depend": "npm i && cd client && npm i && cd ../server && npm i",
     "client": "cd client && npm run serve",
     "server": "cd server && npm run dev-server",
     "start": "npm run client & npm run server",

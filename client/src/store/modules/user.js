@@ -1,3 +1,5 @@
+"use strict";
+
 const user = {
 	namespaced: true,
 	state: {

@@ -1,3 +1,5 @@
+"use strict";
+
 const audio = require('../models/audio');
 const mongoose = require('mongoose');
 const fs = require('fs');

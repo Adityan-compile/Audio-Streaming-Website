@@ -1,3 +1,5 @@
+"use strict";
+
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
 
@@ -12,23 +14,6 @@ let env = process.env;
  * @param {require('express').NextFunction} next
  * @return {undefined}
  */
-// module.exports.authenticate = async (req, res, next) => {
-//   const authHeaders = req.headers['authorization'];
-//   const token = authHeaders && authHeaders.split(' ')[1];
-
-//   if (token === null)
-//     return res.status(401).json({status: 401, message: 'Unauthorized'});
-
-//   await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user) => {
-//     if (err) {
-//       return res.status(401).json({status: 401, message: 'Unauthorized'});
-//     } else {
-//       req.user = user;
-//       next();
-//     }
-//   });
-// };
-
 module.exports.authenticate = async(req, res, next) => {
   const accessToken = req.cookies.acces_token;
   const refreshToken = req.cookies.refresh_token;
@@ -56,3 +41,22 @@ module.exports.authenticate = async(req, res, next) => {
     return res.status(401).json({status: 401, message: 'Unauthorized'});
   }
 }
+
+
+
+// module.exports.authenticate = async (req, res, next) => {
+//   const authHeaders = req.headers['authorization'];
+//   const token = authHeaders && authHeaders.split(' ')[1];
+
+//   if (token === null)
+//     return res.status(401).json({status: 401, message: 'Unauthorized'});
+
+//   await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user) => {
+//     if (err) {
+//       return res.status(401).json({status: 401, message: 'Unauthorized'});
+//     } else {
+//       req.user = user;
+//       next();
+//     }
+//   });
+// };

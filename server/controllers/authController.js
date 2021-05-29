@@ -1,13 +1,17 @@
+"use strict";
+
 var user = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
-const Blob = require("cross-blob");
 const env = process.env;
 
-console.log(process.env.SECURE);
+// const Blob = require("cross-blob");
 
-const byteSize = str => new Blob([str]).size;
+
+// console.log(process.env.SECURE);
+
+// const byteSize = str => new Blob([str]).size;
 
 /**
  * Login user
@@ -43,7 +47,7 @@ exports.login = async (req, res) => {
           
           foundUser.password = undefined;
 
-          console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
+         // console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
 
           res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, httpOnly: env.HTTP_ONLY, path: '/'});
           res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});

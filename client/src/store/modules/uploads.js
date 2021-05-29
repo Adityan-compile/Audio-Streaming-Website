@@ -1,3 +1,5 @@
+"use strict";
+
 import axios from 'axios';
 import instance from '@/axios.js';
 

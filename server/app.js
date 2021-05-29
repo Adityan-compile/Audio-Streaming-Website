@@ -63,10 +63,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use("/api/v1", indexRouter);
-app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/uploads", uploadsRouter);
+app.use("/api/", indexRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/uploads", uploadsRouter);
 
 // catch error and forward to error handler
 app.use(function (req, res, next) {

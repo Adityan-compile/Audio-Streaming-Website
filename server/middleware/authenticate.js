@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
@@ -14,35 +14,45 @@ let env = process.env;
  * @param {require('express').NextFunction} next
  * @return {undefined}
  */
-module.exports.authenticate = async(req, res, next) => {
+module.exports.authenticate = async (req, res, next) => {
   const accessToken = req.cookies.acces_token;
   const refreshToken = req.cookies.refresh_token;
   const user = req.cookies.user;
   console.log(req.cookies);
-  if(accessToken && refreshToken){
-    await jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY, async (err, foundUser)=>{
-      if(err){
-         functions.verifyToken(refreshToken).then((token)=>{
-          if(user){
-          functions.generateAccessToken(user).then((newToken)=>{
-                  res.cookie("access_token", newToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, path: '/', secure: env.SECURE});
-                  next();
+  if (accessToken && refreshToken) {
+    await jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_KEY,
+      async (err, foundUser) => {
+        if (err) {
+          functions.verifyToken(refreshToken).then((token) => {
+            if (user) {
+              functions.generateAccessToken(user).then((newToken) => {
+                res.cookie('access_token', newToken, {
+                  maxAge: 3600000,
+                  httpOnly: env.HTTP_ONLY,
+                  sameSite: env.SAME_SITE,
+                  path: '/',
+                  secure: env.SECURE,
+                });
+                next();
+              });
+            } else {
+              return res
+                .status(401)
+                .json({status: 401, message: 'Unauthorized'});
+            }
           });
-          }else{
-            return res.status(401).json({status: 401, message: 'Unauthorized'});    
-          }
-         });
-      }else{
-        req.user = foundUser;
-        next();
+        } else {
+          req.user = foundUser;
+          next();
+        }
       }
-    });
-  }else{
+    );
+  } else {
     return res.status(401).json({status: 401, message: 'Unauthorized'});
   }
-}
-
-
+};
 
 // module.exports.authenticate = async (req, res, next) => {
 //   const authHeaders = req.headers['authorization'];

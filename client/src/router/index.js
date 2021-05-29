@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 import {createRouter, createWebHistory} from 'vue-router';
-import Home from '../views/Home.vue';
 import {authGuard, routeGuard} from '../shared/guard';
+import Home from '../views/Home.vue';
 
 const routes = [
   {
@@ -57,7 +57,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next)=>{
+router.beforeEach((to, from, next) => {
   document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`;
   next();
 });

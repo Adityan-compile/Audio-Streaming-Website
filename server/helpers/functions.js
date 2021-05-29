@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const validator = require('email-validator');
 const jwt = require('jsonwebtoken');
@@ -127,13 +127,13 @@ exports.verifyToken = async (refreshToken) => {
     let savedToken = await token.findOne({token: refreshToken});
     if (savedToken) {
       jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
-        if (err) return reject("error");
+        if (err) return reject('error');
         delete user.iat;
         delete user.exp;
         resolve(user);
       });
     } else {
-      reject("error");
+      reject('error');
     }
   });
 };

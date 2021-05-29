@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const audio = require('../models/audio');
 var _ = require('lodash');

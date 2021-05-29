@@ -1,7 +1,6 @@
-"use strict";
+'use strict';
 
 import instance from '@/axios.js';
-import axios from 'axios';
 
 const utils = {
   namespaced: true,
@@ -17,7 +16,7 @@ const utils = {
   actions: {
     search({commit}, query) {
       return new Promise((resolve, reject) => {
-       instance
+        instance
           .get(`/search?query=${query}`)
           .then(({data, status}) => {
             if (status === 200) {

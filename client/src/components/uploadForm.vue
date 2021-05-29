@@ -76,33 +76,33 @@
 
 <script>
 export default {
-  name: "UploadForm",
+  name: 'UploadForm',
   data() {
     return {
-      title: "",
-      artist: "",
-      year: new Date().getFullYear() || "",
+      title: '',
+      artist: '',
+      year: new Date().getFullYear() || '',
     };
   },
   methods: {
     upload() {
       let formData = new FormData();
-      formData.append("title", this.title);
-      formData.append("artist", this.artist);
-      formData.append("year", this.year);
-      formData.append("thumbnail", this.$refs.thumbnail.files[0]);
-      formData.append("audio", this.$refs.audio.files[0]);
+      formData.append('title', this.title);
+      formData.append('artist', this.artist);
+      formData.append('year', this.year);
+      formData.append('thumbnail', this.$refs.thumbnail.files[0]);
+      formData.append('audio', this.$refs.audio.files[0]);
 
-      this.$emit("upload", true);
+      this.$emit('upload', true);
       this.$store
-        .dispatch("uploads/uploadTrack", formData)
+        .dispatch('uploads/uploadTrack', formData)
         .then((res) => {
-          this.$emit("upload", false);
-          this.$emit("success", "success");
+          this.$emit('upload', false);
+          this.$emit('success', 'success');
         })
         .catch((err) => {
-          this.$emit("upload", false);
-          this.$emit("error", "error");
+          this.$emit('upload', false);
+          this.$emit('error', 'error');
         });
     },
   },

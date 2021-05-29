@@ -11,13 +11,13 @@
  * See https://goo.gl/2aRDsh
  */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
-
 importScripts(
-  "/precache-manifest.595bc60b67b8fb3eb6a09518d40d9c12.js"
+  'https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js'
 );
 
-workbox.core.setCacheNameDetails({prefix: "client"});
+importScripts('/precache-manifest.595bc60b67b8fb3eb6a09518d40d9c12.js');
+
+workbox.core.setCacheNameDetails({prefix: 'client'});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {

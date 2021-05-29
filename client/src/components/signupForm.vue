@@ -41,16 +41,10 @@
 </template>
 
 <script>
-import store from '@/store/index';
 export default {
   name: 'SignupForm',
   data() {
-    return {
-      name: '',
-      email: '',
-      password: '',
-      message: '',
-    };
+    return {name: '', email: '', password: '', message: ''};
   },
   methods: {
     signup() {

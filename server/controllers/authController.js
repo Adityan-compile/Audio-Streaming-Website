@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var user = require('../models/user');
 const bcrypt = require('bcrypt');
@@ -7,7 +7,6 @@ const functions = require('../helpers/functions');
 const env = process.env;
 
 // const Blob = require("cross-blob");
-
 
 // console.log(process.env.SECURE);
 
@@ -44,14 +43,32 @@ exports.login = async (req, res) => {
               .status(401)
               .json({status: 401, message: 'Authentication Failed'});
           }
-          
+
           foundUser.password = undefined;
 
-         // console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
+          // console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
 
-          res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, httpOnly: env.HTTP_ONLY, path: '/'});
-          res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});
-          res.cookie("user", JSON.stringify(foundUser), {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, httpOnly: env.HTTP_ONLY, path: '/'});
+          res.cookie('refresh_token', refreshToken, {
+            maxAge: 31556952000,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            httpOnly: env.HTTP_ONLY,
+            path: '/',
+          });
+          res.cookie('access_token', accessToken, {
+            maxAge: 3600000,
+            httpOnly: env.HTTP_ONLY,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            path: '/',
+          });
+          res.cookie('user', JSON.stringify(foundUser), {
+            maxAge: 31556952000,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            httpOnly: env.HTTP_ONLY,
+            path: '/',
+          });
           res.status(200);
           res.json({
             status: 200,
@@ -125,9 +142,26 @@ exports.signUp = async (req, res) => {
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
         }
-        res.cookie("refresh_token", refreshToken, {maxAge: 31556952000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: true, path: '/'});
-        res.cookie("access_token", accessToken, {maxAge: 3600000, httpOnly: env.HTTP_ONLY, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});
-        res.cookie("user", JSON.stringify(newUser), {maxAge: 31556952000, sameSite: env.SAME_SITE, secure: env.SECURE, path: '/'});
+        res.cookie('refresh_token', refreshToken, {
+          maxAge: 31556952000,
+          httpOnly: env.HTTP_ONLY,
+          sameSite: env.SAME_SITE,
+          secure: true,
+          path: '/',
+        });
+        res.cookie('access_token', accessToken, {
+          maxAge: 3600000,
+          httpOnly: env.HTTP_ONLY,
+          sameSite: env.SAME_SITE,
+          secure: env.SECURE,
+          path: '/',
+        });
+        res.cookie('user', JSON.stringify(newUser), {
+          maxAge: 31556952000,
+          sameSite: env.SAME_SITE,
+          secure: env.SECURE,
+          path: '/',
+        });
         res.status(200);
         res.json({
           status: 200,
@@ -183,7 +217,7 @@ exports.regenerateToken = async (req, res) => {
     status: 200,
     message: 'Token Regenerated Successfully',
     accessToken: newToken,
-    refreshToken: token
+    refreshToken: token,
   });
 };
 
@@ -197,12 +231,12 @@ exports.regenerateToken = async (req, res) => {
 exports.logout = async (req, res) => {
   let refreshToken = req.body;
   await token.delete({token: refreshToken}, (err, deletedToken) => {
-    if (err){
+    if (err) {
       res.status(204).json({status: 204, message: 'Logout Failed'});
-  }
-    res.clearCookie("refresh_token");
-    res.clearCookie("access_token");
-    res.clearCookie("user");
+    }
+    res.clearCookie('refresh_token');
+    res.clearCookie('access_token');
+    res.clearCookie('user');
     res.status(200).json({status: 200, message: 'Logout Successful'});
   });
 };

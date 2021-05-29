@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import getTime from '@/shared/time.js';
 import ArtistCard from '@/components/artistCard.vue';
 import MusicCard from '@/components/musicCard.vue';
+import getTime from '@/shared/time.js';
 
 export default {
   name: 'Player',
@@ -41,7 +41,6 @@ export default {
     };
   },
   created() {
-
     this.time = getTime();
 
     this.$store

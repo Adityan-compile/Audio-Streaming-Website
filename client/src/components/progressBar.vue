@@ -7,7 +7,7 @@
         v-bind:aria-valuenow="progress"
         aria-valuemin="0"
         aria-valuemax="100"
-        v-bind:style="'width: '+progress+'%;'"
+        v-bind:style="'width: ' + progress + '%;'"
       ></div>
     </div>
   </div>
@@ -17,10 +17,10 @@
 export default {
   name: 'ProgressBar',
   props: {
-      progress: {
-          type: Number,
-          default: 0
-      }
-  }
+    progress: {
+      type: Number,
+      default: 0,
+    },
+  },
 };
 </script>

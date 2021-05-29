@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import MusicCard from '@/components/musicCard.vue';
-
 export default {
   name: 'Uploads',
   components: {
-    // MusicCard
+    rt default {
   },
   methods: {
     loadUploads() {},

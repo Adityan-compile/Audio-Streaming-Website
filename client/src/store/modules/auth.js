@@ -1,6 +1,5 @@
-"use strict";
+'use strict';
 
-import axios from 'axios';
 import instance from '@/axios.js';
 
 const auth = {
@@ -71,7 +70,7 @@ const auth = {
         instance
           .post(`/auth/signup`, payload)
           .then(({data, status}) => {
-            console.log("Data: "+data);
+            console.log('Data: ' + data);
             if (status === 200) {
               commit('setUser', data.user);
               commit('setLoginStatus', true);
@@ -91,7 +90,7 @@ const auth = {
       };
     },
     regenerateToken({commit}, payload) {
-      console.log("inside regenerateToken");
+      console.log('inside regenerateToken');
       return new Promise((resolve, reject) => {
         instance
           .post(`/auth/tokens/refresh`, payload)

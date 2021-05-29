@@ -53,22 +53,20 @@
 
     <Footer />
 
-<!--    <CookieConsent v-if="" /> -->
-
+    <!--    <CookieConsent v-if="" /> -->
   </div>
 </template>
 
 <script>
-import Footer from "@/components/footer.vue";
+import Footer from '@/components/footer.vue';
 // import CookieConsent from "@/components/cookieConsent";
 // import store from "@/store/index";
-import { mapGetters, mapState } from "vuex";
-
+import {mapGetters} from 'vuex';
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    Footer,
-    // CookieConsent
+    Footer, oter,
+    // Coo
   },
   data() {
     return {
@@ -77,13 +75,13 @@ export default {
     };
   },
   methods: {
-    // showConsent(){
-
-    // }
+    ds: {
+    // show
+    t(){
   },
   computed: {
-    ...mapGetters("auth", ["isLoggedIn"]),
-    ...mapGetters("user", ["show_cookie_consent"]),
+    ...mapGetters('auth', ['isLoggedIn']),
+    ...mapGetters('user', ['show_cookie_consent']),
   },
 };
 </script>
@@ -95,6 +93,6 @@ export default {
 
 .home-text {
   font-size: 3rem;
-  font-family: "Sevillana", cursive;
+  font-family: 'Sevillana', cursive;
 }
 </style>

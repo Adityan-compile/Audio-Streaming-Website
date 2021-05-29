@@ -81,9 +81,7 @@
 </template>
 
 <script>
-import store from '@/store/index';
 import {mapGetters} from 'vuex';
-
 export default {
   name: 'Navbar',
   data() {
@@ -91,20 +89,15 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
-  },
+  }, ('auth', ['is gedIn']), ,
   // logout() {
-  //   store
-  //     .dispatch("auth/logout")
+  //   store /     .dispatch("auth/l ut")
   //     .then((res) => {
-  //       alert("Logged Out Successfully");
-  //       window.location.reload;
-  //     })
-  //     .catch((err) => {
+  // rt("Logged Out Successfully");        wi w.location.reload;
+  //  })
+  //     .catch((err) {
   //       console.log(err);
-  //       alert("Error Logging Out");
-  //       this.$router.push("/");
-  //     });
-  // },
+  //    alert("Error Logging Out");        thi route
 };
 </script>
 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const audio = require('../models/audio');
 const mongoose = require('mongoose');

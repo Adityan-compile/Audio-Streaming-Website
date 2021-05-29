@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var audio = require('../models/audio');
 var user = require('../models/user');

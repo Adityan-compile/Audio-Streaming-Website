@@ -14,10 +14,8 @@
 </template>
 
 <script>
-import SearchBar from '@/components/searchBar.vue';
 import MusicCard from '@/components/musicCard.vue';
-import axios from 'axios';
-
+import SearchBar from '@/components/searchBar.vue';
 export default {
   name: 'Search',
   data() {

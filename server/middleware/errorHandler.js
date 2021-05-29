@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 exports.handler = (err, req, res, next) => {
   // set locals, only providing error in development

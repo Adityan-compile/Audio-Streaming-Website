@@ -60,7 +60,7 @@ app.use(
   })
 );
 
-app.use(sanitizer.clean());
+// app.use(sanitizer.clean());
 
 app.use(
   history({

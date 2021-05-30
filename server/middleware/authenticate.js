@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const jwt = require('jsonwebtoken');
-const functions = require('../helpers/functions');
+const jwt = require("jsonwebtoken");
+const functions = require("../helpers/functions");
 
 let env = process.env;
 
@@ -28,11 +28,11 @@ module.exports.authenticate = async (req, res, next) => {
           functions.verifyToken(refreshToken).then((token) => {
             if (user) {
               functions.generateAccessToken(user).then((newToken) => {
-                res.cookie('access_token', newToken, {
+                res.cookie("access_token", newToken, {
                   maxAge: 3600000,
                   httpOnly: env.HTTP_ONLY,
                   sameSite: env.SAME_SITE,
-                  path: '/',
+                  path: "/",
                   secure: env.SECURE,
                 });
                 next();
@@ -40,7 +40,7 @@ module.exports.authenticate = async (req, res, next) => {
             } else {
               return res
                 .status(401)
-                .json({status: 401, message: 'Unauthorized'});
+                .json({ status: 401, message: "Unauthorized" });
             }
           });
         } else {
@@ -49,24 +49,25 @@ module.exports.authenticate = async (req, res, next) => {
         }
       }
     );
+  } else if (refreshToken) {
+    functions.verifyToken(refreshToken).then((token) => {
+      if (user) {
+        functions.generateAccessToken(user).then((newToken) => {
+          res.cookie("access_token", newToken, {
+            maxAge: 3600000,
+            httpOnly: env.HTTP_ONLY,
+            sameSite: env.SAME_SITE,
+            path: "/",
+            secure: env.SECURE,
+          });
+          next();
+        });
+      } else {
+        return res.status(401).json({ status: 401, message: "Unauthorized" });
+      }
+    });
   } else {
-    return res.status(401).json({status: 401, message: 'Unauthorized'});
+    return res.status(401).json({ status: 401, message: "Unauthorized" });
   }
 };
 
-// module.exports.authenticate = async (req, res, next) => {
-//   const authHeaders = req.headers['authorization'];
-//   const token = authHeaders && authHeaders.split(' ')[1];
-
-//   if (token === null)
-//     return res.status(401).json({status: 401, message: 'Unauthorized'});
-
-//   await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user) => {
-//     if (err) {
-//       return res.status(401).json({status: 401, message: 'Unauthorized'});
-//     } else {
-//       req.user = user;
-//       next();
-//     }
-//   });
-// };

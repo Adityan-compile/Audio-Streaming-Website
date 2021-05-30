@@ -3,8 +3,8 @@
 var sanitize = require('mongo-sanitize');
 
 exports.clean = (req, res, next) => {
-  req.body = mongoSanitize(req.body);
-  req.query = mongoSanitize(req.query);
-  req.params = mongoSanitize(req.params);
+  req.body = sanitize(req.body);
+  req.query = sanitize(req.query);
+  req.params = sanitize(req.params);
   next();
 };

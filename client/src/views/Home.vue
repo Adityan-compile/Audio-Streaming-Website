@@ -65,8 +65,7 @@ import {mapGetters} from 'vuex';
 export default {
   name: 'Home',
   components: {
-    Footer, oter,
-    // Coo
+    Footer,
   },
   data() {
     return {
@@ -75,9 +74,6 @@ export default {
     };
   },
   methods: {
-    ds: {
-    // show
-    t(){
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),

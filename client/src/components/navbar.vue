@@ -89,7 +89,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
-  }, ('auth', ['is gedIn']), ,
+  },
   // logout() {
   //   store /     .dispatch("auth/l ut")
   //     .then((res) => {

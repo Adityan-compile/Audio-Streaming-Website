@@ -71,38 +71,73 @@
         <button type="submit" class="btn btn-outline-info">Start Upload</button>
       </div>
     </form>
+    <div v-if="uploading">
+      <h3 class="pt-3 text-center">Progress: {{ uploadProgress }}%</h3>
+      <ProgressBar v-bind:progress="uploadProgress" />
+    </div>
   </div>
 </template>
 
 <script>
+import instance from "@/axios.js"
+import ProgressBar from "./progressBar.vue";
+
 export default {
-  name: 'UploadForm',
+  name: "UploadForm",
+  components: {
+    ProgressBar,
+  },
   data() {
     return {
-      title: '',
-      artist: '',
-      year: new Date().getFullYear() || '',
+      uploading: false,
+      uploadProgress: 0,
+      title: "",
+      artist: "",
+      year: new Date().getFullYear() || "",
     };
   },
   methods: {
+    uploadTrack(payload) {
+      return new Promise((resolve, reject) => {
+        instance
+          .post(`/uploads/tracks/new`, payload, {
+            onUploadProgress: function(e) {
+              this.uploadProgress = parseInt(
+                Math.round((e.loaded / e.total) * 100)
+              );
+            }.bind(this),
+          })
+          .then(({ status, data }) => {
+            console.log(data);
+            if (status === 201) {
+              resolve(true);
+            } else {
+              reject(`Error: ${status}`);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            reject(err);
+          });
+      });
+    },
     upload() {
       let formData = new FormData();
-      formData.append('title', this.title);
-      formData.append('artist', this.artist);
-      formData.append('year', this.year);
-      formData.append('thumbnail', this.$refs.thumbnail.files[0]);
-      formData.append('audio', this.$refs.audio.files[0]);
+      formData.append("title", this.title);
+      formData.append("artist", this.artist);
+      formData.append("year", this.year);
+      formData.append("thumbnail", this.$refs.thumbnail.files[0]);
+      formData.append("audio", this.$refs.audio.files[0]);
 
-      this.$emit('upload', true);
-      this.$store
-        .dispatch('uploads/uploadTrack', formData)
+      this.uploading = true;
+      this.uploadTrack(formData)
         .then((res) => {
-          this.$emit('upload', false);
-          this.$emit('success', 'success');
+          this.uploading = true;
+          this.$emit("success", "success");
         })
         .catch((err) => {
-          this.$emit('upload', false);
-          this.$emit('error', 'error');
+          this.uploading = false;
+          this.$emit("error", "error");
         });
     },
   },

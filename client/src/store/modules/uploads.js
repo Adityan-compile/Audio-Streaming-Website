@@ -1,18 +1,24 @@
-'use strict';
+"use strict";
 
-import instance from '@/axios.js';
+import instance from "@/axios.js";
 
 const uploads = {
   namespaced: true,
-  state: {},
+  state: {
+    progress: 0,
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    setProgress(state, progress) {
+      state.progress = progress;
+    },
+  },
   actions: {
-    uploadTrack({commit}, payload) {
+    uploadTrack({ commit }, payload) {
       return new Promise((resolve, reject) => {
         instance
           .post(`/uploads/tracks/new`, payload)
-          .then(({status, data}) => {
+          .then(({ status, data }) => {
             console.log(data);
             if (status === 201) {
               resolve(true);

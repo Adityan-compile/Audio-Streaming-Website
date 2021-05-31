@@ -1,11 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">
+      <router-link class="navbar-brand" to="/">
         <div class="logo-text">
           <h3>Track Wiz</h3>
         </div>
-      </a>
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -33,6 +33,11 @@
           <li class="nav-item" v-if="isLoggedIn">
             <router-link class="nav-link" to="/user/playlists"
               >PLAYLISTS</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link class="nav-link" to="/tracks/new"
+              >NEW TRACK</router-link
             >
           </li>
         </ul>

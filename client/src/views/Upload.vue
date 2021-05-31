@@ -26,6 +26,7 @@ export default {
   },
   methods: {
     uploadSuccess() {
+      this.errorMessage = "";
       this.successMessage = "Track Uploaded Successfully";
     },
     uploadError() {

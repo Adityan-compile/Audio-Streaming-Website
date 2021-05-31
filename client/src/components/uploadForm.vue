@@ -1,5 +1,9 @@
 <template>
   <div class="upload-form component p-5">
+    <div v-if="uploading">
+      <h3 class="pt-3 text-center">Progress: {{ uploadProgress }}%</h3>
+      <ProgressBar v-bind:progress="uploadProgress" />
+    </div>
     <form
       class="row g-3"
       id="uploadForm"
@@ -71,10 +75,6 @@
         <button type="submit" class="btn btn-outline-info">Start Upload</button>
       </div>
     </form>
-    <div v-if="uploading">
-      <h3 class="pt-3 text-center">Progress: {{ uploadProgress }}%</h3>
-      <ProgressBar v-bind:progress="uploadProgress" />
-    </div>
   </div>
 </template>
 
@@ -108,7 +108,6 @@ export default {
             }.bind(this),
           })
           .then(({ status, data }) => {
-            console.log(data);
             if (status === 201) {
               resolve(true);
             } else {
@@ -132,7 +131,7 @@ export default {
       this.uploading = true;
       this.uploadTrack(formData)
         .then((res) => {
-          this.uploading = true;
+          this.uploading = false;
           this.$emit("success", "success");
         })
         .catch((err) => {

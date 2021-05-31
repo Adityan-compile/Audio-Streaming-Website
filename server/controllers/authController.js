@@ -196,30 +196,30 @@ exports.signUp = async (req, res) => {
 
 // }
 
-exports.regenerateToken = async (req, res) => {
-  let token = req.body.refreshToken;
-  if (!token) res.sendStatus(401);
-  let verifiedUser = await functions.verifyToken(token);
-  if (verifiedUser === null) {
-    return res
-      .status(401)
-      .json({status: 401, message: 'Refresh Token Invalid'});
-  }
+// exports.regenerateToken = async (req, res) => {
+//   let token = req.body.refreshToken;
+//   if (!token) res.sendStatus(401);
+//   let verifiedUser = await functions.verifyToken(token);
+//   if (verifiedUser === null) {
+//     return res
+//       .status(401)
+//       .json({status: 401, message: 'Refresh Token Invalid'});
+//   }
 
-  let newToken = await functions.generateAccessToken(verifiedUser, '30m');
+//   let newToken = await functions.generateAccessToken(verifiedUser, '30m');
 
-  if (newToken === null)
-    return res
-      .status(401)
-      .json({status: 401, message: 'Access Token Generation Failed'});
+//   if (newToken === null)
+//     return res
+//       .status(401)
+//       .json({status: 401, message: 'Access Token Generation Failed'});
 
-  res.status(200).json({
-    status: 200,
-    message: 'Token Regenerated Successfully',
-    accessToken: newToken,
-    refreshToken: token,
-  });
-};
+//   res.status(200).json({
+//     status: 200,
+//     message: 'Token Regenerated Successfully',
+//     accessToken: newToken,
+//     refreshToken: token,
+//   });
+// };
 
 /**
  * Logout User

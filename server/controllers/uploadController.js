@@ -1,9 +1,10 @@
-'use strict';
+"use strict";
 
-const audio = require('../models/audio');
-const mongoose = require('mongoose');
-const fs = require('fs');
-const functions = require('../helpers/functions');
+const audio = require("../models/audio");
+const mongoose = require("mongoose");
+const fs = require("fs");
+const functions = require("../helpers/functions");
+const path = require("path");
 
 /**
  * Upload Files
@@ -13,45 +14,54 @@ const functions = require('../helpers/functions');
  * @returns {undefined}
  */
 exports.upload = async (req, res) => {
-  console.log(req.files, req.body);
-// res.sendStatus(201);
-// if (!req.files || Object.keys(req.files).length === 0) return res.sendStatus(409);
+  // console.log(req.files, req.body);
+  if (!req.files || Object.keys(req.files).length === 0)
+    return res.sendStatus(409);
 
-// let imageFile = req.files.thumbnail;
-// let audioFile = req.files.audio;
-// let data = req.body;
+  let imageFile = req.files.thumbnail;
+  let audioFile = req.files.audio;
+  let data = req.body;
+  let user = req.user;
 
-// let audioObject = new audio({
-//   title: data.title,
-//   image: `${data.userId}-${imageFile.name}`,
-//   audio: `${data.userId}-${audioFile.name}`,
-//   creatorId: req.user._id,
-//   artistName: data.artist,
-// });
+  let audioObject = new audio({
+    title: data.title,
+    image: `${user._id}-${imageFile.name}`,
+    audio: `${user._id}-${audioFile.name}`,
+    yearCreated: data.year,
+    creatorId: user._id,
+    artistName: data.artist,
+  });
+  console.log(audioObject);
+  //   res.sendStatus(201);
 
-// audioObject.save(async (err, newAudio) => {
-//   if (err)
-//     return res.status(500).json({status: 500, message: 'File Upload failed'});
+  audioObject.save(async (err, newAudio) => {
+    if (err)
+      return res
+        .status(500)
+        .json({ status: 500, message: "File Upload failed" });
 
-//   await imageFile.mv(__dirname, ''
-//     async (err) => {
-//       if (err)
-//         return res
-//           .status(422)
-//           .json({status: 422, message: 'File Upload failed'});
-//       await audioFile.mv(
-//         `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${audioFile.name}`,
-//         (error) => {
-//           if (error)
-//             return res
-//               .status(422)
-//               .json({status: 422, message: 'File Upload failed'});
-//           res.status(201).json({status: 201, message: 'File Upload success'});
-//         }
-//       );
-//     }
-//   );
-// });
+    await imageFile.mv(
+      path.resolve(`./Uploads/Images/${audioObject.image}`),
+      async (err) => {
+        if (err)
+          return res
+            .status(422)
+            .json({ status: 422, message: "File Upload failed" });
+        await audioFile.mv(
+          path.resolve(`./Uploads/Audio/${audioObject.audio}`),
+          (error) => {
+            if (error)
+              return res
+                .status(422)
+                .json({ status: 422, message: "File Upload failed" });
+            res
+              .status(201)
+              .json({ status: 201, message: "File Upload success" });
+          }
+        );
+      }
+    );
+  });
 };
 
 /**
@@ -64,31 +74,33 @@ exports.upload = async (req, res) => {
 exports.deleteFile = async (req, res) => {
   let audioId = req.query;
   let user = req.user;
-  let savedAudio = audio.findOne({_id: mongoose.Types.ObjectId(audioId)});
+  let savedAudio = audio.findOne({ _id: mongoose.Types.ObjectId(audioId) });
   if (savedAudio.creatorId === user._id) {
     audio.remove(
       mongoose.Types.ObjectId(audioId),
       async (err, removedAudio) => {
         if (err || !removedAudio)
-          return res.status(406).json({status: 406, message: 'Delete Failed'});
+          return res
+            .status(406)
+            .json({ status: 406, message: "Delete Failed" });
         await fs.unlink(
           `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.image}`,
           async (unlinkErr) => {
             if (unlinkErr)
               return res
                 .status(200)
-                .json({status: 200, message: 'Audio Deleted from Database'});
+                .json({ status: 200, message: "Audio Deleted from Database" });
             await fs.unlink(
               `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.audio}`,
               (unlinkError) => {
                 if (unlinkError)
                   return res.status(200).json({
                     status: 200,
-                    message: 'Audio Deleted from Database',
+                    message: "Audio Deleted from Database",
                   });
                 res
                   .status(201)
-                  .json({status: 201, message: 'File Deleted successfully'});
+                  .json({ status: 201, message: "File Deleted successfully" });
               }
             );
           }
@@ -96,6 +108,6 @@ exports.deleteFile = async (req, res) => {
       }
     );
   } else {
-    res.status(406).json({status: 406, message: 'Delete Failed'});
+    res.status(406).json({ status: 406, message: "Delete Failed" });
   }
 };

@@ -17,8 +17,7 @@ let env = process.env;
 module.exports.authenticate = async (req, res, next) => {
   const accessToken = req.cookies.acces_token;
   const refreshToken = req.cookies.refresh_token;
-  const user = req.cookies.user;
-  console.log(req.cookies);
+  const user = JSON.parse(req.cookies.user);
   if (accessToken && refreshToken) {
     await jwt.verify(
       accessToken,
@@ -35,6 +34,7 @@ module.exports.authenticate = async (req, res, next) => {
                   path: "/",
                   secure: env.SECURE,
                 });
+                req.user = user;
                 next();
               });
             } else {
@@ -44,7 +44,7 @@ module.exports.authenticate = async (req, res, next) => {
             }
           });
         } else {
-          req.user = foundUser;
+          req.user = user;
           next();
         }
       }
@@ -60,6 +60,7 @@ module.exports.authenticate = async (req, res, next) => {
             path: "/",
             secure: env.SECURE,
           });
+          req.user = user;
           next();
         });
       } else {

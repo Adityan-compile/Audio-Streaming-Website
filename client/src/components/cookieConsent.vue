@@ -1,23 +1,22 @@
 <template>
-  <div class="modal" ref="CookieConsent" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+  <div class="row component">
+    <div class="col-md-4 col-sm-12 button-fixed">
+      <div class="p-3 pb-4 bg-custom box-shadow text-white">
+        <div class="row">
+          <div class="col-10">
+            <h2>Allow Cookies</h2>
+          </div>
+          <div class="col-2 text-center" @click="hide">
+            <i class="fas fa-times"></i>
+          </div>
         </div>
-        <div class="modal-body">
-          <p>This Website Uses Cookies To Improve your Experience.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-            Got It
-          </button>
-        </div>
+        <p>
+          This Website uses Cookies in Order to Improve Your Experience.
+          <router-link to="/privacypolicy">Read More</router-link>
+        </p>
+        <button type="button"  @click="hide" class="btn btn-danger w-100">
+          Accept Cookies
+        </button>
       </div>
     </div>
   </div>
@@ -25,14 +24,30 @@
 
 <script>
 export default {
-  name: 'CookieConsent',
-  mounted() {
-    // this.showModal();
-  },
+  name: "CookieConsent",
   methods: {
-    showModal() {
-      this.$refs.CookieConsent.show();
-    },
-  },
+    hide(){
+      this.$emit("hide");
+    }
+  }
 };
 </script>
+
+<style scoped>
+.bg-custom {
+  background-color: #394047;
+}
+.button-fixed {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  border-radius: 4px;
+}
+.fas {
+  cursor: pointer;
+  font-size: 24px;
+}
+p {
+  font-size: 14px;
+}
+</style>

@@ -36,31 +36,34 @@
 
     <Footer />
 
-    <!--    <CookieConsent v-if="" /> -->
+       <CookieConsent v-if="!hidden" @hide="Hide"/>
   </div>
 </template>
 
 <script>
 import Footer from '@/components/footer.vue';
-// import CookieConsent from "@/components/cookieConsent";
-// import store from "@/store/index";
+import CookieConsent from "@/components/cookieConsent";
 import {mapGetters} from 'vuex';
 export default {
   name: 'Home',
   components: {
     Footer,
+    CookieConsent
   },
   data() {
     return {
       loggedIn: this.$store.state.auth.loggedIn,
-      showCookieConsent: this.$store.state.user.showCookieConsent || true,
+      hidden: this.$store.state.user.hidden || false,
     };
   },
   methods: {
+        Hide(status) {
+            this.hidden = true;
+            this.$store.commit("user/setConsent", true);
+        },
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
-    ...mapGetters('user', ['show_cookie_consent']),
   },
 };
 </script>

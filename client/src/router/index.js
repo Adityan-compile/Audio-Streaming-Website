@@ -1,59 +1,64 @@
-'use strict';
+"use strict";
 
-import {createRouter, createWebHistory} from 'vue-router';
-import {authGuard, routeGuard} from '../shared/guard';
-import Home from '../views/Home.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import { authGuard, routeGuard } from "../shared/guard";
+import Home from "../views/Home.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     beforeEnter: authGuard,
-    component: () => import('../views/Login.vue'),
+    component: () => import("../views/Login.vue"),
   },
   {
-    path: '/signup',
-    name: 'Signup',
+    path: "/signup",
+    name: "Signup",
     beforeEnter: authGuard,
-    component: () => import('../views/Signup.vue'),
+    component: () => import("../views/Signup.vue"),
   },
   {
-    path: '/search',
-    name: 'Search',
-    component: () => import('../views/Search.vue'),
+    path: "/search",
+    name: "Search",
+    component: () => import("../views/Search.vue"),
   },
   {
-    path: '/user/profile',
-    name: 'Profile',
+    path: "/user/profile",
+    name: "Profile",
     beforeEnter: routeGuard,
-    component: () => import('../views/Profile.vue'),
+    component: () => import("../views/Profile.vue"),
   },
   {
-    path: '/player',
-    name: 'Player',
+    path: "/player",
+    name: "Player",
     beforeEnter: routeGuard,
-    component: () => import('../views/Player.vue'),
+    component: () => import("../views/Player.vue"),
   },
   {
-    path: '/browse',
-    name: 'Browse',
-    component: () => import('../views/Browse.vue'),
+    path: "/browse",
+    name: "Browse",
+    component: () => import("../views/Browse.vue"),
   },
   {
-    path: '/tracks/new',
-    name: 'Upload',
+    path: "/tracks/new",
+    name: "Upload",
     beforeEnter: routeGuard,
-    component: () => import('../views/Upload.vue'),
+    component: () => import("../views/Upload.vue"),
   },
   {
-    path: '/:catchAll(.*)',
-    name: 'Error',
-    component: () => import('../views/Errors.vue'),
+    path: "/privacypolicy",
+    name: "Privacy Policy",
+    component: () => import("../views/Policy.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "Error",
+    component: () => import("../views/Errors.vue"),
   },
 ];
 

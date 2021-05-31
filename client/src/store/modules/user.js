@@ -3,17 +3,17 @@
 const user = {
   namespaced: true,
   state: {
-    showCookieConsent: localStorage.getItem('COOKIE_CONSENT') || true,
+    hidden: localStorage.getItem('HIDDEN') || false,
   },
   getters: {
     show_cookie_consent(state) {
-      return state.showCookieConsent;
+      return state.hidden;
     },
   },
   mutations: {
     setConsent(state, consent) {
-      localStorage.setItem('COOKIE_CONSENT', consent);
-      state.showCookieConsent = consent;
+      localStorage.setItem('HIDDEN', consent);
+      state.hidden = consent;
     },
   },
   actions: {},

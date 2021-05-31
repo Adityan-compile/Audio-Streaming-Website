@@ -50,6 +50,11 @@ const routes = [
     beforeEnter: routeGuard,
     component: () => import('../views/Upload.vue'),
   },
+  {
+    path: '/:catchAll(.*)',
+    name: 'Error',
+    component: () => import('../views/Errors.vue'),
+  },
 ];
 
 const router = createRouter({

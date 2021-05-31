@@ -14,23 +14,6 @@
       </div>
     </div>
 
-    <!--     <div v-if="loggedIn === true" class="text-center">
-      <router-link
-        class="btn btn-outline-info rounded-pill fw-bold border mb-5 border-info border-2"
-        to="/signup"
-      >
-        Get Track Wiz it's Free
-      </router-link>
-    </div>
-   <div class="text-center" v-else>
-           <router-link
-        class="btn btn-outline-danger rounded-pill fw-bold border mb-5 border-danger border-2"
-        to="/player"
-      >
-        Go to Web Player
-      </router-link>
-   </div> -->
-
     <div class="text-center">
       <router-link
         v-if="isLoggedIn"

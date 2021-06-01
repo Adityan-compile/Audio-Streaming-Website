@@ -13,16 +13,16 @@
             <img src="../assets/default.png" class="thumbnail" />
           </object>
         </div>
-        <div class="col-md-3 p-4">
+        <div class="col-md-3 p-3">
           <span class="align-middle card-text">{{ data.title }}</span>
         </div>
-        <div class="col-md-2 p-4">
+        <div class="col-md-2 p-3">
           <span class="align-middle card-text">{{ data.artistName }}</span>
         </div>
-        <div class="col-md-2 p-4">
+        <div class="col-md-2 p-3">
           <span class="align-middle card-text">{{ data.yearCreated }}</span>
         </div>
-        <div class="col-md-2 p-4">
+        <div class="col-md-2 p-3">
           <i class="fa fa-play-circle play align-middle"></i>
         </div>
       </div>
@@ -54,6 +54,6 @@ export default {
   object-fit: cover;
 }
 .play {
-  font-size: 2.3rem;
+  font-size: 4rem;
 }
 </style>

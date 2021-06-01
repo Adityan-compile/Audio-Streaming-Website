@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const stream = require('stream')
 const cookieParser = require('cookie-parser');
 const upload = require('express-fileupload');
 const logger = require('morgan');
@@ -81,11 +82,18 @@ app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/uploads', uploadsRouter);
+app.use('*/assets/images', express.static('Uploads/Images'));
 
 //Serve FrontEnd App
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
+
+// serve static assets
+// app.get('/assets/images/:id', (req, res)=>{
+//     let id = req.params.id;
+//     res.sendFile(path.join(__dirname, `Uploads/Images/${id}`));
+// });
 
 // catch error and forward to error handler
 app.use(function (req, res, next) {

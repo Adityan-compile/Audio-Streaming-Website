@@ -40,6 +40,11 @@
               >NEW TRACK</router-link
             >
           </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link class="nav-link" to="/player"
+              >PLAYER</router-link
+            >
+          </li>
         </ul>
         <div v-if="isLoggedIn">
           <div class="dropdown">

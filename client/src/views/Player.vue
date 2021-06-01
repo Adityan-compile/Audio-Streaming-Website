@@ -14,7 +14,7 @@
     </div>
     <div class="tracks">
       <h1 class="ps-5">Tracks</h1>
-      <p class="text-warning p-3">{{ trackError }}</p>
+      <p class="text-warning">{{ trackError }}</p>
       <div class="p-5">
         <span v-for="track in tracks" v-bind:key="track._id" class="p-5">
           <MusicCard v-bind:data="track" />

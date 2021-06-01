@@ -3,17 +3,26 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
-          <object :data="staticUrl+'/'+data.image" type="image/jpeg" height="100px" width="100px" class="thumbnail">
+          <object
+            :data="staticUrl + '/' + data.image"
+            type="image/jpeg"
+            height="100px"
+            width="100px"
+            class="thumbnail"
+          >
             <img src="../assets/default.png" class="thumbnail" />
           </object>
         </div>
         <div class="col-md-3 p-4">
           <span class="align-middle card-text">{{ data.title }}</span>
         </div>
-        <div class="col-md-3 p-4">
+        <div class="col-md-2 p-4">
           <span class="align-middle card-text">{{ data.artistName }}</span>
         </div>
-        <div class="col-md-3 p-4">
+        <div class="col-md-2 p-4">
+          <span class="align-middle card-text">{{ data.yearCreated }}</span>
+        </div>
+        <div class="col-md-2 p-4">
           <i class="fa fa-play-circle play align-middle"></i>
         </div>
       </div>
@@ -23,7 +32,7 @@
 
 <script>
 export default {
-  name: 'MusicCard',
+  name: "MusicCard",
   data() {
     return {
       staticUrl: process.env.VUE_APP_IMAGES_URL,

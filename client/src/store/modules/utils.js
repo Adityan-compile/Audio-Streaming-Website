@@ -17,7 +17,7 @@ const utils = {
     search({commit}, query) {
       return new Promise((resolve, reject) => {
         instance
-          .get(`/search?query=${query}`)
+          .get(`/search?q=${query}`)
           .then(({data, status}) => {
             if (status === 200) {
               commit('setPrevQuery', query);

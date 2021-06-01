@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-var audio = require('../models/audio');
-var user = require('../models/user');
+var audio = require("../models/audio");
+var user = require("../models/user");
 /**
  * Search for Audio and Artists
  * @param {require('express').Request} req
@@ -9,20 +9,36 @@ var user = require('../models/user');
  * @returns {undefined}
  */
 exports.search = async (req, res) => {
-  let query = req.query;
-  if (query === null || query === undefined || query == '')
-    return res.status(400).json({status: 400, message: ''});
-  await audio.find({title: {$regex: new RegExp(query, 'i')}}, (err, tracks) => {
-    if (err) {
-      return res.status(500).json({status: 500, message: 'Search Failed'});
-    }
+  let query = new RegExp(req.query.q, "i");
 
-    res.status(200);
-    res.json({
-      status: 200,
-      results: tracks,
-    });
-  });
+
+  if (query === null || query === undefined || query == "")
+    return res.status(400).json({ status: 400, message: "" });
+
+  await audio.find(
+    { 
+      title: { 
+        $regex: query,
+      } 
+    },
+    (err, tracks) => {
+      if (err) {
+        return res.status(500).json({ status: 500, message: "Search Failed" });
+      }
+
+      // tracks = tracks.filter((track)=>{
+      //   console.log(query.test(track));
+      //   return query.test(track.title);
+      // });
+      tracks = tracks.sort((a,b)=> b.yearCreated - a.yearCreated);
+
+      res.status(200);
+      res.json({
+        status: 200,
+        results: tracks,
+      });
+    }
+  );
 };
 
 /**
@@ -33,9 +49,9 @@ exports.search = async (req, res) => {
  */
 exports.uploads = async (req, res) => {
   let user = req.user;
-  await audio.find({creatorId: user._id}, (err, uploads) => {
+  await audio.find({ creatorId: user._id }, (err, uploads) => {
     if (err) return res.status(500);
-    res.status(200).json({status: 200, results: uploads});
+    res.status(200).json({ status: 200, results: uploads });
   });
 };
 
@@ -63,9 +79,9 @@ exports.getArtists = async (req, res) => {
           email: artist.email,
         };
       });
-      res.status(200).json({status: 200, artists: artists});
+      res.status(200).json({ status: 200, artists: artists });
     })
     .catch((err) => {
-      res.status(500).json({status: 500, message: 'Error Fetching Artists'});
+      res.status(500).json({ status: 500, message: "Error Fetching Artists" });
     });
 };

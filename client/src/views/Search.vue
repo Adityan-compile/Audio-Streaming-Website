@@ -32,6 +32,7 @@ export default {
           if (res.length == 0) {
             this.errorMessage = 'No Results !!!';
           } else {
+            this.errorMessage = "";
             this.results = res;
           }
         })

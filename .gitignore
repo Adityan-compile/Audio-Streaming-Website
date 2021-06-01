@@ -2,9 +2,7 @@
 node_modules
 /dist
 
-/server/Uploads/Audio/*
-/server/Uploads/Images/*
-/server/Uploads/Profile/*
+/server/Uploads/
 
 # local env files
 .env

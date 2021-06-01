@@ -3,6 +3,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const upload = require('express-fileupload');
 const logger = require('morgan');
@@ -27,6 +28,14 @@ if (env.error) {
   throw env.error;
 } else {
   console.log('Environment Variables Loaded Successfully');
+}
+
+if(!fs.existsSync(path.resolve("./Uploads"))){
+  console.log('Uploads Directory does not Exist.Creating Uploads Directory');
+  fs.mkdirSync(path.resolve("./Uploads"));
+  fs.mkdirSync(path.resolve("./Uploads/Audio"));
+  fs.mkdirSync(path.resolve("./Uploads/Images"));
+  fs.mkdirSync(path.resolve("./Uploads/Profile"));
 }
 
 //Configure Database connection

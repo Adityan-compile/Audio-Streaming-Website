@@ -27,7 +27,6 @@
 <script>
 import ArtistCard from '@/components/artistCard.vue';
 import MusicCard from '@/components/musicCard.vue';
-import getTime from '@/shared/time.js';
 
 export default {
   name: 'Player',
@@ -40,8 +39,16 @@ export default {
       trackError: '',
     };
   },
-  created() {
-    this.time = getTime();
+  mounted() {
+  var hour = new Date().getHours();
+  if (hour < 12) {
+    this.time = 'Morning';
+  } else if (hour < 18) {
+    this.time = 'Afternoon';
+  } else {
+    this.time = 'Evening';
+  }
+
 
     this.$store
       .dispatch('utils/fetchArtists')

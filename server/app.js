@@ -11,6 +11,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const sanitizer = require('./middleware/sanitize');
+const authenticator = require('./middleware/authenticate');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -83,6 +84,10 @@ app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/uploads', uploadsRouter);
 app.use('*/assets/images', express.static('Uploads/Images'));
+
+// Authenticate and send audio files to client 
+app.use('*/streams/audio', authenticator.authenticate);
+app.use('*/streams/audio', express.static('Uploads/Audio'));
 
 //Serve FrontEnd App
 app.get('/', (req, res) => {

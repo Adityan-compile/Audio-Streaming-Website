@@ -31,7 +31,7 @@
             <router-link class="nav-link" to="/browse">BROWSE</router-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
-            <router-link class="nav-link" to="/user/playlists"
+            <router-link class="nav-link" to="/playlists"
               >PLAYLISTS</router-link
             >
           </li>

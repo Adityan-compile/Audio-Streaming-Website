@@ -56,6 +56,11 @@ const routes = [
     component: () => import("../views/Policy.vue"),
   },
   {
+    path: "/playlists",
+    name: "Playlists",
+    component: () => import("../views/ComingSoon.vue"),
+  },
+  {
     path: "/:catchAll(.*)",
     name: "Error",
     component: () => import("../views/Errors.vue"),

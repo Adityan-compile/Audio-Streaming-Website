@@ -17,7 +17,11 @@ let env = process.env;
 module.exports.authenticate = async (req, res, next) => {
   const accessToken = req.cookies.acces_token;
   const refreshToken = req.cookies.refresh_token;
+
+  if(!req.cookies.user) return res.sendStatus(401);
+
   const user = JSON.parse(req.cookies.user);
+  
   if (accessToken && refreshToken) {
     await jwt.verify(
       accessToken,

@@ -5,7 +5,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Search for music and artists"
+          placeholder="Search for Your Favourite Music"
           aria-label="Search"
           aria-describedby="basic-addon2"
           v-model="query"

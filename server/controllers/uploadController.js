@@ -13,6 +13,7 @@ const path = require("path");
  * @param {require('express').Response} res
  * @returns {undefined}
  */
+
 exports.upload = async (req, res) => {
   // console.log(req.files, req.body);
   if (!req.files || Object.keys(req.files).length === 0)
@@ -23,10 +24,13 @@ exports.upload = async (req, res) => {
   let data = req.body;
   let user = req.user;
 
+  var audioId = mongoose.Types.ObjectId();
+
   let audioObject = new audio({
+    _id: audioId,
     title: data.title,
-    image: `${user._id}-${imageFile.name}`,
-    audio: `${user._id}-${audioFile.name}`,
+    image: `${user._id}-${audioId}-${imageFile.name}`,
+    audio: `${user._id}-${audioId}-${audioFile.name}`,
     yearCreated: data.year,
     creatorId: user._id,
     artistName: data.artist,

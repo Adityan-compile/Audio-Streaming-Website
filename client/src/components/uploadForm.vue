@@ -133,6 +133,7 @@ export default {
         .then((res) => {
           this.uploading = false;
           this.$emit("success", "success");
+          setTimeout(this.$router.push("/player"), 2000);
         })
         .catch((err) => {
           this.uploading = false;

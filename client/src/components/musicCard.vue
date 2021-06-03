@@ -9,6 +9,7 @@
             height="100px"
             width="100px"
             class="thumbnail"
+            loading="lazy"
           >
             <img src="../assets/default.png" class="thumbnail" />
           </object>

@@ -1,3 +1,5 @@
+'use strict';
+
 const validator = require('email-validator');
 const jwt = require('jsonwebtoken');
 const token = require('../models/token');
@@ -88,6 +90,7 @@ exports.generateAccessToken = async (user, expiry) => {
  */
 exports.generateRefreshToken = async (user) => {
   return new Promise(async (resolve, reject) => {
+    user.date_initialized = Date.now();
     await jwt.sign(
       user,
       process.env.REFRESH_TOKEN_KEY,
@@ -121,16 +124,16 @@ exports.generateRefreshToken = async (user) => {
  */
 exports.verifyToken = async (refreshToken) => {
   return new Promise(async (resolve, reject) => {
-    let savedToken = await token.find({token: refreshToken});
+    let savedToken = await token.findOne({token: refreshToken});
     if (savedToken) {
       jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY, (err, user) => {
-        if (err) return resolve(null);
+        if (err) return reject('error');
         delete user.iat;
         delete user.exp;
         resolve(user);
       });
     } else {
-      resolve(null);
+      reject('error');
     }
   });
 };

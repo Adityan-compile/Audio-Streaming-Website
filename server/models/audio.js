@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose');
 
 /**
@@ -8,8 +10,8 @@ const mongoose = require('mongoose');
  * @param {String} title required
  * @param {String} image required
  * @param {String} audio required
- * @param {Date}   dateCreated
- * @param {String} creatorId
+ * @param {Number} year
+ * @param {String} creatorId required
  * @param {String} artistName required
  *
  * @returns {Object}
@@ -27,9 +29,9 @@ const audioSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  dateCreated: {
-    type: Date,
-    default: Date.now(),
+  yearCreated: {
+    type: Number,
+    required: true,
   },
   creatorId: {
     type: mongoose.Types.ObjectId,

@@ -5,43 +5,37 @@
     <p class="text-success">{{ successMessage }}</p>
 
     <div>
-      <UploadForm @upload="setUploadStatus" @success="uploadSuccess" @error="uploadError"/>
-    </div>
-    <div v-if="uploading">
-      <ProgressBar v-bind:progress="uploadProgress"/>
+      <UploadForm
+        @success="uploadSuccess"
+        @error="uploadError"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import UploadForm from '@/components/uploadForm.vue';
-import ProgressBar from '@/components/progressBar.vue';
+import UploadForm from "@/components/uploadForm.vue";
+
 export default {
-  name: 'Upload',
-  data(){
+  name: "Upload",
+  data() {
     return {
-      uploading: false,
-      uploadProgress: 0,
       successMessage: "",
-      errorMessage: ""
-    }
+      errorMessage: "",
+    };
   },
   methods: {
-    setUploadStatus(status){
-      console.log("Setting Upload Status")
-      this.uploading = status;
-    },
-    uploadSuccess(){
+    uploadSuccess() {
+      this.errorMessage = "";
       this.successMessage = "Track Uploaded Successfully";
     },
-    uploadError(){
+    uploadError() {
       this.successMessage = "";
       this.errorMessage = "Error Uploading Track Please Try Again";
-    }
+    },
   },
   components: {
     UploadForm,
-    ProgressBar
   },
 };
 </script>

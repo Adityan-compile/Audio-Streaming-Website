@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import UserCard from '@/components/userCard.vue';
 import Uploads from '@/components/uploads.vue';
+import UserCard from '@/components/userCard.vue';
 
 export default {
   name: 'Profile',

@@ -3,18 +3,28 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
-          <object :data="data.image" class="thumbnail">
-            <!-- <img src="../assets/default.png" class="thumbnail" /> -->
+          <object
+            :data="staticUrl + '/' + data.image"
+            type="image/jpeg"
+            height="100px"
+            width="100px"
+            class="thumbnail"
+            loading="lazy"
+          >
+            <img src="../assets/default.png" class="thumbnail" />
           </object>
         </div>
-        <div class="col-md-3 p-4">
-          <span class="align-middle">{{ data.title }}</span>
+        <div class="col-md-3 p-3">
+          <span class="align-middle card-text">{{ data.title }}</span>
         </div>
-        <div class="col-md-3 align-middle p-4">
-          <span>{{ data.artist }}</span>
+        <div class="col-md-2 p-3">
+          <span class="align-middle card-text">{{ data.artistName }}</span>
         </div>
-        <div class="col-md-3 p-4">
-          <i class="fa fa-play-circle play"></i>
+        <div class="col-md-2 p-3">
+          <span class="align-middle card-text">{{ data.yearCreated }}</span>
+        </div>
+        <div class="col-md-2 p-3">
+          <i class="fa fa-play-circle play align-middle"></i>
         </div>
       </div>
     </div>
@@ -23,9 +33,11 @@
 
 <script>
 export default {
-  name: 'MusicCard',
+  name: "MusicCard",
   data() {
-    return {};
+    return {
+      staticUrl: process.env.VUE_APP_IMAGES_URL,
+    };
   },
   props: {
     data: {
@@ -38,11 +50,11 @@ export default {
 
 <style scoped>
 .thubmnail {
-  height: 80px;
-  width: 80px;
+  height: 50px;
+  width: 50px;
   object-fit: cover;
 }
 .play {
-  font-size: 2.3rem;
+  font-size: 4rem;
 }
 </style>

@@ -1,33 +1,22 @@
-import axios from 'axios';
+'use strict';
+
 import instance from '@/axios.js';
 
 const auth = {
   namespaced: true,
   state: {
     loggedIn: localStorage.getItem('LOGGED_IN') || false,
-    accessToken: localStorage.getItem('ACCESS_TOKEN') || '',
-    refreshToken: localStorage.getItem('REFRESH_TOKEN') || '',
     user: localStorage.getItem('USER') || {},
   },
   getters: {
-    getAccessToken(state) {
-      return state.accessToken;
-    },
-    getRefreshToken(state) {
-      return state.refreshToken;
-    },
     isLoggedIn(state) {
       return state.loggedIn;
     },
   },
   mutations: {
-    setTokens(state, payload) {
-      localStorage.setItem('ACCESS_TOKEN', payload.accessToken);
-      localStorage.setItem('REFRESH_TOKEN', payload.refreshToken);
-      localStorage.setItem('USER', JSON.stringify(payload.user));
-      state.refreshToken = payload.refreshToken;
-      state.accessToken = payload.accessToken;
-      state.user = payload.user;
+    setUser(state, user) {
+      localStorage.setItem('USER', user);
+      state.user = user;
     },
     setLoginStatus(state, status) {
       state.loggedIn = status;
@@ -36,23 +25,17 @@ const auth = {
     clearState(state) {
       localStorage.clear();
       state.loggedIn = false;
-      state.accessToken = '';
-      state.refreshToken = '';
       state.user = {};
     },
   },
   actions: {
     login: ({commit}, payload) => {
       return new Promise((resolve, reject) => {
-        axios
-          .post(`${process.env.VUE_APP_API_URL}/auth/login`, payload)
+        instance
+          .post(`/auth/login`, payload)
           .then(({data, status}) => {
             if (status === 200) {
-              commit('setTokens', {
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken,
-                user: data.user,
-              });
+              commit('setUser', data.user);
               commit('setLoginStatus', true);
               resolve(true);
             } else {
@@ -66,10 +49,8 @@ const auth = {
     },
     logout: ({commit}, payload) => {
       return new Promise((resolve, reject) => {
-        axios
-          .post(`${process.env.VUE_APP_API_URL}/auth/logout`, payload, {
-            skipAuthRefresh: true,
-          })
+        instance
+          .post(`/auth/logout`, payload)
           .then(({data, status}) => {
             if (status === 200) {
               commit('clearState');
@@ -84,23 +65,14 @@ const auth = {
           });
       });
     },
-    setTokens: ({commit}, payload) => {
-      commit('setTokens', payload);
-    },
     register: ({commit}, payload) => {
       return new Promise((resolve, reject) => {
-        axios
-          .post(`${process.env.VUE_APP_API_URL}/auth/signup`, payload, {
-            skipAuthRefresh: true,
-          })
+        instance
+          .post(`/auth/signup`, payload)
           .then(({data, status}) => {
-            console.log(data);
+            console.log('Data: ' + data);
             if (status === 200) {
-              commit('setTokens', {
-                accessToken: data.accessToken,
-                refreshToken: data.refreshToken,
-                user: data.user,
-              });
+              commit('setUser', data.user);
               commit('setLoginStatus', true);
               resolve(true);
             } else {
@@ -114,16 +86,16 @@ const auth = {
     },
     getAuthData: () => {
       return {
-        accessToken: localStorage.getItem('ACCESS_TOKEN'),
-        refreshToken: localStorage.getItem('REFRESH_TOKEN'),
         user: JSON.parse(localStorage.getItem('USER')),
       };
     },
     regenerateToken({commit}, payload) {
+      console.log('inside regenerateToken');
       return new Promise((resolve, reject) => {
         instance
           .post(`/auth/tokens/refresh`, payload)
           .then(({data, status}) => {
+            console.log(data);
             if (status === 200) {
               commit('setTokens', data);
               commit('setLoginStatus', true);

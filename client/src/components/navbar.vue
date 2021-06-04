@@ -1,11 +1,11 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">
+      <router-link class="navbar-brand" to="/">
         <div class="logo-text">
           <h3>Track Wiz</h3>
         </div>
-      </a>
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -31,8 +31,18 @@
             <router-link class="nav-link" to="/browse">BROWSE</router-link>
           </li>
           <li class="nav-item" v-if="isLoggedIn">
-            <router-link class="nav-link" to="/user/playlists"
+            <router-link class="nav-link" to="/playlists"
               >PLAYLISTS</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link class="nav-link" to="/tracks/new"
+              >NEW TRACK</router-link
+            >
+          </li>
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link class="nav-link" to="/player"
+              >PLAYER</router-link
             >
           </li>
         </ul>
@@ -81,9 +91,7 @@
 </template>
 
 <script>
-import store from '@/store/index';
 import {mapGetters} from 'vuex';
-
 export default {
   name: 'Navbar',
   data() {
@@ -93,18 +101,13 @@ export default {
     ...mapGetters('auth', ['isLoggedIn']),
   },
   // logout() {
-  //   store
-  //     .dispatch("auth/logout")
+  //   store /     .dispatch("auth/l ut")
   //     .then((res) => {
-  //       alert("Logged Out Successfully");
-  //       window.location.reload;
-  //     })
-  //     .catch((err) => {
+  // rt("Logged Out Successfully");        wi w.location.reload;
+  //  })
+  //     .catch((err) {
   //       console.log(err);
-  //       alert("Error Logging Out");
-  //       this.$router.push("/");
-  //     });
-  // },
+  //    alert("Error Logging Out");        thi route
 };
 </script>
 

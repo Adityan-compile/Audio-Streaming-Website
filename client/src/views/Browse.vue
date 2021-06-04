@@ -5,7 +5,7 @@
       <p class="text-danger text-center">{{ errorMessage }}</p>
       <div class="Tracks p-3">
         <div>
-          <span v-for="track in tracks" v-bind:key="track._id">
+          <span v-for="track in tracks" v-bind:key="track._id" class="p-5">
             <MusicCard v-bind:data="track" />
           </span>
         </div>

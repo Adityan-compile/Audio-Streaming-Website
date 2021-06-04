@@ -1,22 +1,31 @@
+'use strict';
+
 import instance from '@/axios.js';
-import axios from 'axios';
 
 const utils = {
   namespaced: true,
   state: {
     prevQuery: '',
+    page: ''
   },
-  getters: {},
+  getters: {
+    getPage(state){
+      return state.page
+    }
+  },
   mutations: {
     setPrevQuery(state, query) {
       state.prevQuery = query;
     },
+    setPage(state, page){
+      state.page = page;
+    }
   },
   actions: {
     search({commit}, query) {
       return new Promise((resolve, reject) => {
         instance
-          .get(`/search?query=${query}`)
+          .get(`/search?q=${query}`)
           .then(({data, status}) => {
             if (status === 200) {
               commit('setPrevQuery', query);
@@ -34,7 +43,7 @@ const utils = {
     fetchArtists() {
       return new Promise((resolve, reject) => {
         instance
-          .get(`${process.env.VUE_APP_API_URL}/artists?count=6`)
+          .get(`/artists?count=6`)
           .then(({data, status}) => {
             if (status === 200) {
               resolve(data.artists);
@@ -51,7 +60,7 @@ const utils = {
       return new Promise((resolve, reject) => {
         if (options.sort === true) {
           instance
-            .get(`${process.env.VUE_APP_API_URL}/tracks?sort=1`)
+            .get(`/tracks?sort=1`)
             .then(({data, status}) => {
               if (status === 200) {
                 resolve(data.tracks);
@@ -64,7 +73,7 @@ const utils = {
             });
         } else {
           instance
-            .get(`${process.env.VUE_APP_API_URL}/tracks`)
+            .get(`/tracks`)
             .then(({data, status}) => {
               if (status === 200) {
                 resolve(data.tracks);

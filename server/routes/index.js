@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 
 /**
@@ -66,3 +68,4 @@ router.get('/tracks', (req, res) => {
 });
 
 module.exports = router;
+

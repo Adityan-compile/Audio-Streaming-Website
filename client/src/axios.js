@@ -1,42 +1,26 @@
+'use strict';
+
 import axios from 'axios';
+import router from './router/index';
 
 let instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
 });
 
-instance.defaults.headers.common[
-  'Authorization'
-] = `bearer ${localStorage.getItem('ACCESS_TOKEN')}`;
-
-// instance.interceptors.response.use(res =>{
-// 	return res;
-// }, err =>{
-// })
+instance.defaults.withCredentials = true;
+instance.defaults.credentials = 'include';
+instance.defaults.crossDomain = true;
 
 instance.interceptors.response.use(
   (res) => {
     return res;
   },
   async (err) => {
-    console.error(err);
+    console.log(err);
     let req = err.config;
-    if (
-      err.response.status === 401 &&
-      req.url.includes('auth/tokens/refresh')
-    ) {
-      this.$store.commit('auth/clearState');
-      this.$router.push('/login');
+    if (err.response.status === 401) {
+      router.push('/login');
       return Promise.reject(err);
-    } else if (err.response.status === 401 && !req._retry) {
-      req._retry = true;
-      let refresh = await this.$store.dispatch('auth/regenerateToken', {
-        refreshToken: localStorage.getItem('REFRESH_TOKEN'),
-      });
-      if (refresh === true) {
-        return axios(req);
-      } else {
-        return Promise.reject(err);
-      }
     }
   }
 );

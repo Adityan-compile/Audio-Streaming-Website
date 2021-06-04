@@ -1,7 +1,16 @@
+'use strict';
+
 var user = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
+const env = process.env;
+
+// const Blob = require("cross-blob");
+
+// console.log(process.env.SECURE);
+
+// const byteSize = str => new Blob([str]).size;
 
 /**
  * Login user
@@ -35,12 +44,35 @@ exports.login = async (req, res) => {
               .json({status: 401, message: 'Authentication Failed'});
           }
 
+          foundUser.password = undefined;
+
+          // console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
+
+          res.cookie('refresh_token', refreshToken, {
+            maxAge: 31556952000,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            httpOnly: env.HTTP_ONLY,
+            path: '/',
+          });
+          res.cookie('access_token', accessToken, {
+            maxAge: 3600000,
+            httpOnly: env.HTTP_ONLY,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            path: '/',
+          });
+          res.cookie('user', JSON.stringify(foundUser), {
+            maxAge: 31556952000,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            httpOnly: env.HTTP_ONLY,
+            path: '/',
+          });
           res.status(200);
           res.json({
             status: 200,
             message: 'Authentication Successful',
-            accessToken: accessToken,
-            refreshToken: await refreshToken,
             user: foundUser,
           });
         } else {
@@ -110,13 +142,30 @@ exports.signUp = async (req, res) => {
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
         }
-
+        res.cookie('refresh_token', refreshToken, {
+          maxAge: 31556952000,
+          httpOnly: env.HTTP_ONLY,
+          sameSite: env.SAME_SITE,
+          secure: true,
+          path: '/',
+        });
+        res.cookie('access_token', accessToken, {
+          maxAge: 3600000,
+          httpOnly: env.HTTP_ONLY,
+          sameSite: env.SAME_SITE,
+          secure: env.SECURE,
+          path: '/',
+        });
+        res.cookie('user', JSON.stringify(newUser), {
+          maxAge: 31556952000,
+          sameSite: env.SAME_SITE,
+          secure: env.SECURE,
+          path: '/',
+        });
         res.status(200);
         res.json({
           status: 200,
           message: 'User Created Successfully',
-          accessToken: accessToken,
-          refreshToken: refreshToken,
           user: newUser,
         });
       }
@@ -147,30 +196,30 @@ exports.signUp = async (req, res) => {
 
 // }
 
-exports.regenerateToken = async (req, res) => {
-  let token = req.body.refreshToken;
-  if (!token) res.sendStatus(401);
-  let verifiedUser = await functions.verifyToken(token);
-  if (verifiedUser === null) {
-    return res
-      .status(403)
-      .json({status: 401, message: 'Refresh Token Invalid'});
-  }
+// exports.regenerateToken = async (req, res) => {
+//   let token = req.body.refreshToken;
+//   if (!token) res.sendStatus(401);
+//   let verifiedUser = await functions.verifyToken(token);
+//   if (verifiedUser === null) {
+//     return res
+//       .status(401)
+//       .json({status: 401, message: 'Refresh Token Invalid'});
+//   }
 
-  let newToken = await functions.generateAccessToken(verifiedUser, '15m');
+//   let newToken = await functions.generateAccessToken(verifiedUser, '30m');
 
-  if (newToken === null)
-    return res
-      .status(401)
-      .json({status: 401, message: 'Access Token Generation Failed'});
+//   if (newToken === null)
+//     return res
+//       .status(401)
+//       .json({status: 401, message: 'Access Token Generation Failed'});
 
-  res.status(200).json({
-    status: 200,
-    message: 'Token Regenerated Successfully',
-    accessToken: newToken,
-    refreshToken: token,
-  });
-};
+//   res.status(200).json({
+//     status: 200,
+//     message: 'Token Regenerated Successfully',
+//     accessToken: newToken,
+//     refreshToken: token,
+//   });
+// };
 
 /**
  * Logout User
@@ -182,7 +231,12 @@ exports.regenerateToken = async (req, res) => {
 exports.logout = async (req, res) => {
   let refreshToken = req.body;
   await token.delete({token: refreshToken}, (err, deletedToken) => {
-    if (err) res.status(204).json({status: 204, message: 'Logout Failed'});
-    res.status(204).json({status: 204, message: 'Logout Successful'});
+    if (err) {
+      res.status(204).json({status: 204, message: 'Logout Failed'});
+    }
+    res.clearCookie('refresh_token');
+    res.clearCookie('access_token');
+    res.clearCookie('user');
+    res.status(200).json({status: 200, message: 'Logout Successful'});
   });
 };

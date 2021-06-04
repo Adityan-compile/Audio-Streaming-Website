@@ -1,4 +1,9 @@
-const jwt = require('jsonwebtoken');
+"use strict";
+
+const jwt = require("jsonwebtoken");
+const functions = require("../helpers/functions");
+
+let env = process.env;
 
 /**
  * @name Authenticate
@@ -10,18 +15,64 @@ const jwt = require('jsonwebtoken');
  * @return {undefined}
  */
 module.exports.authenticate = async (req, res, next) => {
-  const authHeaders = req.headers['authorization'];
-  const token = authHeaders && authHeaders.split(' ')[1];
+  const accessToken = req.cookies.acces_token;
+  const refreshToken = req.cookies.refresh_token;
 
-  if (token === null)
-    return res.status(401).json({status: 401, message: 'Unauthorized'});
+  if(!req.cookies.user) return res.sendStatus(401);
 
-  await jwt.verify(token, process.env.ACCESS_TOKEN_KEY, (err, user) => {
-    if (err) {
-      return res.status(403).json({status: 403, message: 'Forbidden'});
-    } else {
-      req.user = user;
-      next();
-    }
-  });
+  const user = JSON.parse(req.cookies.user);
+  
+  if (accessToken && refreshToken) {
+    await jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_KEY,
+      async (err, foundUser) => {
+        if (err) {
+          functions.verifyToken(refreshToken).then((token) => {
+            if (user) {
+              functions.generateAccessToken(user).then((newToken) => {
+                res.cookie("access_token", newToken, {
+                  maxAge: 3600000,
+                  httpOnly: env.HTTP_ONLY,
+                  sameSite: env.SAME_SITE,
+                  path: "/",
+                  secure: env.SECURE,
+                });
+                req.user = user;
+                next();
+              });
+            } else {
+              return res
+                .status(401)
+                .json({ status: 401, message: "Unauthorized" });
+            }
+          });
+        } else {
+          req.user = user;
+          next();
+        }
+      }
+    );
+  } else if (refreshToken) {
+    functions.verifyToken(refreshToken).then((token) => {
+      if (user) {
+        functions.generateAccessToken(user).then((newToken) => {
+          res.cookie("access_token", newToken, {
+            maxAge: 3600000,
+            httpOnly: env.HTTP_ONLY,
+            sameSite: env.SAME_SITE,
+            path: "/",
+            secure: env.SECURE,
+          });
+          req.user = user;
+          next();
+        });
+      } else {
+        return res.status(401).json({ status: 401, message: "Unauthorized" });
+      }
+    });
+  } else {
+    return res.status(401).json({ status: 401, message: "Unauthorized" });
+  }
 };
+

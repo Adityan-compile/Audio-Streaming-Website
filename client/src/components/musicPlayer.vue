@@ -32,9 +32,17 @@
                         role="button"
                         @click.prevent="playAudio"
                     ></i>
+                    <i
+                        v-bind:class="{
+                            'fa fa-volume-up p-2': !muted,
+                            'fas fa-volume-mute p-2': muted,
+                        }"
+                        role="button"
+                        @click.prevent="mute"
+                    ></i>
                 </div>
                 <div class="col-2 p-2 align-self-center text-center">
-                    <audio ref="player">
+                    <audio ref="player" @ended="playAudio">
                         <source
                             src="http://127.0.0.1:3000/streams/audio/60897472c5d212398d8386c5-y2matecom-DJSnakeMagentaRiddim.mp3"
                             type="audio/mp3"
@@ -57,6 +65,7 @@ export default {
         return {
             visible: true,
             playing: false,
+            muted: false,
         };
     },
     methods: {
@@ -66,12 +75,22 @@ export default {
         playAudio() {
             if (!this.playing) {
                 this.playing = true;
+                console.log(this.$refs.player);
                 this.$refs.player.play();
             } else {
                 this.playing = false;
                 this.$refs.player.pause();
             }
         },
+        mute(){
+            if(!this.muted){
+                this.muted = true;
+                this.$refs.player.muted = true;
+            }else{
+                this.muted = false;
+                this.$refs.player.muted = false;
+            }
+        }
     },
 };
 </script>

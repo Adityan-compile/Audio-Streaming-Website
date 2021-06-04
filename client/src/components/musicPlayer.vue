@@ -16,7 +16,7 @@
                         </object>
                     </div>
                 </div>
-                <div class="col-2 p-2">
+                <div class="col-1 p-2">
                     Magenta Riddim
                     <br />
                     Dj Snake
@@ -24,6 +24,11 @@
                 <div
                     class="col-2 p-2 align-middle align-self-center text-center"
                 >
+                    <i
+                        class="fa fa-stop p-2"
+                        role="button"
+                        @click.prevent="stop"
+                    ></i>
                     <i
                         v-bind:class="{
                             'fa fa-play p-2': !playing,
@@ -82,15 +87,20 @@ export default {
                 this.$refs.player.pause();
             }
         },
-        mute(){
-            if(!this.muted){
+        mute() {
+            if (!this.muted) {
                 this.muted = true;
                 this.$refs.player.muted = true;
-            }else{
+            } else {
                 this.muted = false;
                 this.$refs.player.muted = false;
             }
-        }
+        },
+        stop() {
+            this.playing = false;
+            this.$refs.player.pause();
+            this.$refs.player.currentTime = 0;
+        },
     },
 };
 </script>

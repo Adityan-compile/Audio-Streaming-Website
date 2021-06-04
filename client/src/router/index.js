@@ -2,6 +2,7 @@
 
 import { createRouter, createWebHistory } from "vue-router";
 import { authGuard, routeGuard } from "../shared/guard";
+import store from "../store/index";
 import Home from "../views/Home.vue";
 
 const routes = [
@@ -74,6 +75,8 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`;
+  store.state.utils.page = to.name;
+  console.log(store.state.utils.page);
   next();
 });
 

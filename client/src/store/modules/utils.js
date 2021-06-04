@@ -6,12 +6,20 @@ const utils = {
   namespaced: true,
   state: {
     prevQuery: '',
+    page: ''
   },
-  getters: {},
+  getters: {
+    getPage(state){
+      return state.page
+    }
+  },
   mutations: {
     setPrevQuery(state, query) {
       state.prevQuery = query;
     },
+    setPage(state, page){
+      state.page = page;
+    }
   },
   actions: {
     search({commit}, query) {

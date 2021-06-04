@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow bg-dark text-center d-flex">
+  <div class="card shadow rounded bg-dark text-center d-flex">
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
@@ -8,7 +8,7 @@
             type="image/jpeg"
             height="100px"
             width="100px"
-            class="thumbnail"
+            class="thumbnail shadow rounded"
             loading="lazy"
           >
             <img src="../assets/default.png" class="thumbnail" />

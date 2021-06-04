@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto text-center box-shadow">
-    <div class="card bg-dark mx-auto" style="width: 15rem">
+  <div class="container mx-auto text-center">
+    <div class="card bg-dark mx-auto shadow rounded" style="width: 15rem">
       <img src="../assets/default.png" class="card-img-top" alt="..." />
       <div class="card-body">
         <h5 class="card-title">{{ artist.name }}</h5>

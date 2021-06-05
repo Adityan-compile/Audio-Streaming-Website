@@ -7,4 +7,8 @@ import router from './router/index';
 import store from './store/index';
 // import axios from './axios'
 
-createApp(App).use(store).use(router).mount('#app');
+// let bus = new Vue();
+
+// export default bus;
+
+export default createApp(App).use(store).use(router).mount('#app');

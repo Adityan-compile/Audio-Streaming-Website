@@ -1,5 +1,7 @@
 'use strict';
 
+import emitter from '@/shared/bus';
+
 const audio = {
     namespaced: true,
     state: {
@@ -19,6 +21,7 @@ const audio = {
     actions: {
         play({ commit }, music){
             commit('setPlaying', music);
+            emitter.emit('stateChange');
         }
     }
 }

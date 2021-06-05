@@ -4,7 +4,7 @@
       <div class="d-flex flex-row justify-content-start align-items-center">
         <div class="p-1">
           <object
-            data="http://127.0.0.1:8080/assets/images/60a3c4c7a557bb0fdc2c0291-60ba343ddac02b2f0d93d5f4-selfishj.peg"
+            v-bind:data="`http://127.0.0.1:3000/assets/images/${getPlaying.image}`"
             type="image/jpeg"
             height="70px"
             width="70px"
@@ -13,18 +13,18 @@
             @error.prevent="setVisibility"
           ></object>
         </div>
-        <div class="d-flex flex-column flex-grow p-1 pt-2 w-100">
-          <div class="flex-shrink">
-        <div>Selfish Love</div>
-        <div>Dj Snake & Selena Gomez</div>
+        <div class="d-flex flex-column flex-grow p-1 mt-2 w-100">
+          <div class="flex-shrink mt-2">
+        <div>{{ getPlaying.title }}</div>
+        <div>{{ getPlaying.artistName }}</div>
           </div>
         <div class="p-2">
           <audio controls ref="player" class="align-self-center shadow rounded bg-dark flex-grow w-100">
             <source
-              src="http://127.0.0.1:3000/streams/audio/60a3c4c7a557bb0fdc2c0291-60ba343ddac02b2f0d93d5f4-y2matecom-DJSnakeSelenaGomezSelfishLoveOfficialVideo.mp3"
+              v-bind:src="`http://127.0.0.1:3000/streams/audio/${getPlaying.audio}`"
               type="audio/mp3"
             />
-            <p class="text-center">Your Browser Does not Support HTML5  Audio Playback</p>
+            <p class="text-center">Your Browser Does not Support HTML5  Audio Playback.</p>
           </audio>
         </div>
         </div>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: "MusicPlayer",
   data() {
@@ -41,7 +43,12 @@ export default {
       visible: true,
       playing: false,
       muted: false,
+      imageUrl: '/assets/images',
+      audioUrl: '/streams/audio'
     };
+  },
+  computed: {
+    ...mapGetters('audio', ['getPlaying'])
   },
   methods: {
     setVisibility() {

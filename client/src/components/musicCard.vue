@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow rounded bg-dark text-center d-flex">
+  <div class="card shadow rounded bg-dark text-center d-flex flex-wrap">
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
@@ -10,6 +10,8 @@
             width="100px"
             class="thumbnail shadow rounded"
             loading="lazy"
+            @click.prevent="play"
+            role="button"
           >
             <img src="../assets/default.png" class="thumbnail" />
           </object>
@@ -24,7 +26,7 @@
           <span class="align-middle card-text">{{ data.yearCreated }}</span>
         </div>
         <div class="col-md-2 p-3">
-          <i class="fa fa-play-circle play align-middle"></i>
+          <i class="fa fa-play-circle play align-middle" role="button" @click.prevent="play"></i>
         </div>
       </div>
     </div>
@@ -45,6 +47,11 @@ export default {
       required: true,
     },
   },
+  methods: {
+    play(){
+      this.$store.dispatch("audio/play", this.data);
+    }
+  },
 };
 </script>
 
@@ -56,5 +63,13 @@ export default {
 }
 .play {
   font-size: 4rem;
+}
+
+.play:hover {
+  transform: scale(1.2);
+}
+
+.thumbnail:hover{
+  transform: scale(1.2); 
 }
 </style>

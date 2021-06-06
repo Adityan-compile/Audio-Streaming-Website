@@ -32,6 +32,7 @@
               ref="player"
               class="align-self-center shadow rounded bg-dark flex-grow w-100"
               @pause="pause"
+              @ended="end"
             >
               <source
                 v-bind:src="`/streams/audio/${getPlaying.audio}`"
@@ -84,11 +85,14 @@ export default {
       this.key += 1;
     },
     pause() {
-      this.$store.commit("audio/setIsPlaying", false);
+      this.$store.dispatch("audio/pause");
     },
     play() {
-      this.$store.commit("audio/setIsPlaying", true);
+      this.$store.dispatch("audio/play");
     },
+    end(){
+      this.$store.dispatch("audio/pause");
+    }
     // playAudio() {
     //   if (!this.playing) {
     //     this.playing = true;

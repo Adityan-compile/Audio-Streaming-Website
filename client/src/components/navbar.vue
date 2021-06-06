@@ -122,7 +122,7 @@ export default {
 }
 
 .nav-item:hover {
-  font-size: 1.1rem;
+  transform:scale(1.2);
 }
 
 .dropdown {

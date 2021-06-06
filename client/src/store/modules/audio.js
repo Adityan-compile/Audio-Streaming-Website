@@ -5,22 +5,41 @@ import emitter from '@/shared/bus';
 const audio = {
     namespaced: true,
     state: {
-        playing: {}
+        playing: {},
+        playingId: '',
+        isPlaying: false,
     },
     getters: {
         getPlaying(state){
             return state.playing;
+        },
+        getPlayingId(state){
+            return state.playingId;
+        },
+        getIsPlaying(state){
+            return state.isPlaying;
         }
     },
     mutations: {
         setPlaying(state, music){
             state.playing = music;
-            console.log(music)
+        },
+        setPlayingId(state, id){
+            state.playingId = id;
+        },
+        setIsPlaying(state, status){
+            state.isPlaying = status;
         }
     },
     actions: {
         play({ commit }, music){
             commit('setPlaying', music);
+            commit('setPlayingId', music._id);
+            commit('setIsPlaying', true);
+            emitter.emit('stateChange');
+        },
+        pause({ commit}){
+            commit('setIsPlaying', false);
             emitter.emit('stateChange');
         }
     }

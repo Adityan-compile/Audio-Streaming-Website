@@ -47,17 +47,16 @@
           </li>
         </ul>
         <div v-if="isLoggedIn">
-          <div class="dropdown">
-            <button
-              class="btn btn-warning dropdown-toggle"
-              type="button"
+          <div class=" nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-muted"
               id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               Account
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
               <li>
                 <router-link class="dropdown-item" to="/user/profile"
                   >Profile</router-link

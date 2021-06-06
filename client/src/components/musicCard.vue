@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow rounded bg-dark text-center d-flex flex-wrap">
+  <div class="card shadow rounded bg-dark text-center d-flex">
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
@@ -26,20 +26,35 @@
           <span class="align-middle card-text">{{ data.yearCreated }}</span>
         </div>
         <div class="col-md-2 p-3">
-          <i class="fa fa-play-circle play align-middle" role="button" @click.prevent="play"></i>
+          <i
+            v-bind:class="{
+              'fa fa-play-circle play align-middle': getPlayingId != data._id,
+              'fa fa-pause-circle play align-middle': getPlayingId === data._id && getIsPlaying,
+            }"
+            role="button"
+            @click.prevent="play"
+          ></i>
         </div>
       </div>
     </div>
   </div>
+                <!--
+                   'fa fa-play-circle play align-middle': getPlayingId != data._id && !getIsPlaying, 
+                    Add to Computed Styles if required
+                -->
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "MusicCard",
   data() {
     return {
       staticUrl: process.env.VUE_APP_IMAGES_URL,
     };
+  },
+  computed: {
+    ...mapGetters("audio", ["getPlayingId", "getIsPlaying"]),
   },
   props: {
     data: {
@@ -48,9 +63,13 @@ export default {
     },
   },
   methods: {
-    play(){
-      this.$store.dispatch("audio/play", this.data);
-    }
+    play() {
+      if (!this.getIsPlaying) {
+        this.$store.dispatch("audio/play", this.data);
+      } else {
+        this.$store.dispatch("audio/pause");
+      }
+    },
   },
 };
 </script>
@@ -69,7 +88,7 @@ export default {
   transform: scale(1.2);
 }
 
-.thumbnail:hover{
-  transform: scale(1.2); 
+.thumbnail:hover {
+  transform: scale(1.2);
 }
 </style>

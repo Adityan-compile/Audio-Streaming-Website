@@ -10,17 +10,15 @@
             width="70px"
             ref="thumbnail"
             class="thumbnail align-self-center shadow rounded"
-            :key="key"
-            v-if="visible"
-            @error.prevent="setVisibility"
+            v-bind:key="key"
           >
-          <img
-            height="70px"
-            width="70px"
-            ref="thumbnail"
-            class="thumbnail align-self-center shadow rounded"
-            src="/assets/images/60a3c4c7a557bb0fdc2c0291-60ba33addac02b2f0d93d5f0-takij.peg"
-          />
+            <img
+              height="70px"
+              width="70px"
+              ref="thumbnail"
+              class="thumbnail align-self-center shadow rounded"
+              src="/assets/images/60a3c4c7a557bb0fdc2c0291-60ba33addac02b2f0d93d5f0-takij.peg"
+            />
           </object>
         </div>
         <div class="d-flex flex-column flex-grow p-1 mt-2 w-100">
@@ -33,6 +31,7 @@
               controls
               ref="player"
               class="align-self-center shadow rounded bg-dark flex-grow w-100"
+              @pause="pause"
             >
               <source
                 v-bind:src="`/streams/audio/${getPlaying.audio}`"
@@ -57,7 +56,6 @@ export default {
   name: "MusicPlayer",
   data() {
     return {
-      visible: true,
       playing: false,
       muted: false,
       key: 1,
@@ -69,23 +67,28 @@ export default {
     ...mapGetters("audio", ["getPlaying"]),
   },
   mounted() {
-    let thumbnail = this.$refs.thumbnail;
+    // let thumbnail = this.$refs.thumbnail;
     let forceRender = this.forceRender;
-    let player  = this.$refs.player;
+    let player = this.$refs.player;
     emitter.on("stateChange", function () {
-      forceRender(thumbnail);
+      player.pause();
+      player.currentTime = 0;
+      forceRender();
       player.load();
       player.play();
     });
   },
   methods: {
-    setVisibility() {
-      this.visible = false;
+    forceRender() {
+      console.log(this.key);
+      this.key += 1;
     },
-    forceRender(thumbnail){
-        alert("Render")
-        thumbnail.key += 1;
-    }
+    pause() {
+      this.$store.commit("audio/setIsPlaying", false);
+    },
+    play() {
+      this.$store.commit("audio/setIsPlaying", true);
+    },
     // playAudio() {
     //   if (!this.playing) {
     //     this.playing = true;

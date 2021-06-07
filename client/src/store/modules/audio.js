@@ -32,15 +32,22 @@ const audio = {
         }
     },
     actions: {
-        play({ commit }, music){
-            commit('setPlaying', music);
-            commit('setPlayingId', music._id);
-            commit('setIsPlaying', true);
-            emitter.emit('stateChange');
+        play({ commit, getters }, music){
+            if(music._id === getters.getPlaying._id){
+                commit('setPlaying', music);
+                commit('setPlayingId', music._id);
+                commit('setIsPlaying', true);
+                emitter.emit('stateChange', 'playCurrent');
+            }else{
+                commit('setPlaying', music);
+                commit('setPlayingId', music._id);
+                commit('setIsPlaying', true);
+                emitter.emit('stateChange', 'play');
+            }
         },
-        pause({ commit}){
+        pause({ commit }){
             commit('setIsPlaying', false);
-            emitter.emit('stateChange');
+            emitter.emit('stateChange', 'pause');
         }
     }
 }

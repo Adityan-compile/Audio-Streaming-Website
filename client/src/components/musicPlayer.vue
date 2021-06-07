@@ -30,8 +30,12 @@
             <audio
               controls
               ref="player"
-              class="align-self-center shadow rounded bg-dark flex-grow w-100"
+              v-bind:class="{
+                'align-self-center shadow rounded-pill flex-grow w-100': !getIsPlaying,
+                'align-self-center shadow rounded-pill flex-grow w-100 audio': getIsPlaying,
+              }"
               @pause="pause"
+              @play="play"
               @ended="end"
             >
               <source
@@ -57,7 +61,7 @@ export default {
   name: "MusicPlayer",
   data() {
     return {
-      playing: false,
+      playing: this.$store.state.audio.isPlaying || false,
       muted: false,
       key: 1,
       imageUrl: "/assets/images",
@@ -65,66 +69,79 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("audio", ["getPlaying"]),
+    ...mapGetters("audio", ["getPlaying", "getIsPlaying"]),
   },
   mounted() {
-    // let thumbnail = this.$refs.thumbnail;
     let forceRender = this.forceRender;
     let player = this.$refs.player;
-    emitter.on("stateChange", function () {
-      player.pause();
-      player.currentTime = 0;
-      forceRender();
-      player.load();
-      player.play();
+    let playing = this.playing;
+    emitter.on("stateChange", (change) => {
+      if (change === "play") {
+        playing = true;
+        forceRender();
+        player.load();
+        player.play();
+      }else if(change === "playCurrent"){
+        playing = true;
+        forceRender();
+        player.play();
+      } else {
+        playing = false;
+        player.pause();
+        forceRender();
+      }
     });
   },
   methods: {
     forceRender() {
-      console.log(this.key);
       this.key += 1;
     },
     pause() {
+      this.playing = false;
       this.$store.dispatch("audio/pause");
     },
     play() {
+      this.playing = true;
       this.$store.dispatch("audio/play");
     },
-    end(){
+    end() {
+      this.playing = false;
       this.$store.dispatch("audio/pause");
-    }
-    // playAudio() {
-    //   if (!this.playing) {
-    //     this.playing = true;
-    //     console.log(this.$refs.player);
-    //     this.$refs.player.play();
-    //   } else {
-    //     this.playing = false;
-    //     this.$refs.player.pause();
-    //   }
-    // },
-    // mute() {
-    //   if (!this.muted) {
-    //     this.muted = true;
-    //     this.$refs.player.muted = true;
-    //   } else {
-    //     this.muted = false;
-    //     this.$refs.player.muted = false;
-    //   }
-    // },
-    // stop() {
-    //   this.playing = false;
-    //   this.$refs.player.pause();
-    //   this.$refs.player.currentTime = 0;
-    // },
+    },
   },
 };
 </script>
 
 <style scoped>
-audio::-webkit-media-controls-play-button,
-audio::-webkit-media-controls-panel {
-  background-color: #2f2f2f;
-  color: #fff;
+.audio {
+  -webkit-animation-name: color-transition;
+  animation-name: color-transition;
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+}
+
+@keyframes color-transition {
+  0% {
+    background-color: #2274A5;
+  }
+  20% {
+    background-color: #F75C03;
+  }
+  40% {
+    background-color: #F1C40F;
+  }
+  60% {
+    background-color: #D90368;
+  }
+  80% {
+    background-color: #00CC66;
+  }
+  100% {
+    background-color: #ffffff;
+  }
 }
 </style>

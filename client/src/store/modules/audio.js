@@ -1,6 +1,7 @@
 'use strict';
 
 import emitter from '@/shared/bus';
+import instance from "@/axios.js";
 
 const audio = {
     namespaced: true,
@@ -48,6 +49,19 @@ const audio = {
         pause({ commit }){
             commit('setIsPlaying', false);
             emitter.emit('stateChange', 'pause');
+        },
+        fetchTrackDetails({ commit }, id){
+            return new Promise((resolve, reject)=>{
+                instance.get(`/tracks/get?id=${id}`).then(({ data, status })=>{
+                    if(status === 200){
+                        resolve(data.track);
+                    }else{
+                        reject(`Error: ${status}`);
+                    }
+                }).catch(err =>{
+                    reject(err);
+                });
+            });
         }
     }
 }

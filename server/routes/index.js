@@ -67,5 +67,9 @@ router.get('/tracks', (req, res) => {
   audioController.getTracks(req, res);
 });
 
+router.get('/tracks/get/', authenticator.authenticate, (req, res)=>{
+  audioController.getTrackById(req, res);
+});
+
 module.exports = router;
 

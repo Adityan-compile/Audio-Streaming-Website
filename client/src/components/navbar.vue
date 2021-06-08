@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">
         <div class="logo-text">
@@ -53,6 +53,7 @@
               id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              role="button"
             >
               Account
             </a>
@@ -99,14 +100,6 @@ export default {
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
   },
-  // logout() {
-  //   store /     .dispatch("auth/l ut")
-  //     .then((res) => {
-  // rt("Logged Out Successfully");        wi w.location.reload;
-  //  })
-  //     .catch((err) {
-  //       console.log(err);
-  //    alert("Error Logging Out");        thi route
 };
 </script>
 
@@ -122,7 +115,7 @@ export default {
 }
 
 .nav-item:hover {
-  transform:scale(1.2);
+  transform: scale(1.03);
 }
 
 .dropdown {

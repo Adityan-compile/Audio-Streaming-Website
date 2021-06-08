@@ -3,13 +3,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { authGuard, routeGuard } from "../shared/guard";
 import store from "../store/index";
-import Home from "../views/Home.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: () => import("../views/Home.vue"),
   },
   {
     path: "/login",
@@ -43,6 +42,7 @@ const routes = [
   {
     path: "/browse",
     name: "Browse",
+    beforeEnter: routeGuard,
     component: () => import("../views/Browse.vue"),
   },
   {
@@ -59,7 +59,15 @@ const routes = [
   {
     path: "/playlists",
     name: "Playlists",
+    beforeEnter: routeGuard,
     component: () => import("../views/ComingSoon.vue"),
+  },
+  {
+    path: "/about/:id",
+    name: "About",
+    beforeEnter: routeGuard,
+    component: () => import("../views/About.vue"),
+    props: true,
   },
   {
     path: "/:catchAll(.*)",
@@ -76,7 +84,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = `${process.env.VUE_APP_TITLE} - ${to.name}`;
   store.state.utils.page = to.name;
-  console.log(store.state.utils.page);
   next();
 });
 

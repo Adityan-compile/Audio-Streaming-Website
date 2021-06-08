@@ -35,11 +35,13 @@
           ></i>
         </div>
         <div class="col-md-1 p-3">
+          <router-link v-bind:to="`/about/${data._id}`" class="text-white">
           <i
             role="button"
             class="fa fa-info-circle info align-middle"
             title="Info"
           ></i>
+          </router-link>
         </div>
       </div>
     </div>
@@ -89,14 +91,6 @@ export default {
 }
 .info {
   font-size: 3.5rem;
-}
-
-.play {
-  font-size: 3.5rem;
-}
-
-.play:hover {
-  transform: scale(1.2);
 }
 .info:hover {
   transform: scale(1.2);

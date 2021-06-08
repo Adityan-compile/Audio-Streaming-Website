@@ -1,6 +1,6 @@
 <template>
   <div class="music-player component box-shadow sticky-bottom">
-    <div class="card-footer fixed-bottom bg-dark">
+    <div class="card-footer fixed-bottom bg-dark border-top">
       <div class="d-flex flex-row justify-content-start align-items-center">
         <div class="p-1">
           <object
@@ -30,10 +30,7 @@
             <audio
               controls
               ref="player"
-              v-bind:class="{
-                'align-self-center shadow rounded-pill flex-grow w-100': !getIsPlaying,
-                'align-self-center shadow rounded-pill flex-grow w-100 audio': getIsPlaying,
-              }"
+              class="align-self-center shadow rounded-pill flex-grow w-100 audio"
               @pause="pause"
               @play="play"
               @ended="end"
@@ -113,35 +110,4 @@ export default {
 </script>
 
 <style scoped>
-.audio {
-  -webkit-animation-name: color-transition;
-  animation-name: color-transition;
-  -webkit-animation-duration: 10s;
-  animation-duration: 10s;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-}
-
-@keyframes color-transition {
-  0% {
-    background-color: #2274A5;
-  }
-  20% {
-    background-color: #F75C03;
-  }
-  40% {
-    background-color: #F1C40F;
-  }
-  60% {
-    background-color: #D90368;
-  }
-  80% {
-    background-color: #00CC66;
-  }
-  100% {
-    background-color: #ffffff;
-  }
-}
 </style>

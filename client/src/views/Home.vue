@@ -1,6 +1,6 @@
 <template>
   <div class="home component">
-    <div style="position: relative">
+    <div>
       <div class="row">
         <div class="col-md-6 text-center align-self-center">
           <img class="img-fluid pt-5" src="../assets/musician.png" />

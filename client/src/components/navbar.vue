@@ -30,23 +30,23 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/browse">BROWSE</router-link>
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="isLoggedIn === true">
             <router-link class="nav-link" to="/playlists"
               >PLAYLISTS</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="isLoggedIn === true">
             <router-link class="nav-link" to="/tracks/new"
               >NEW TRACK</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="isLoggedIn === true">
             <router-link class="nav-link" to="/player"
               >PLAYER</router-link
             >
           </li>
         </ul>
-        <div v-if="isLoggedIn">
+        <div v-if="isLoggedIn === true">
           <div class=" nav-item dropdown">
             <a
               class="nav-link dropdown-toggle text-muted"
@@ -96,6 +96,19 @@ export default {
   name: 'Navbar',
   data() {
     return {};
+  },
+  methods: {
+    logout(){
+      this.$store.dispatch('auth/logout').then(res=>{
+        if(res){
+          location.replace("/");
+        }else{
+         alert("Logout Failed");
+        }
+      }).catch(err=>{
+        alert("Logout Failed");
+      });
+    }
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),

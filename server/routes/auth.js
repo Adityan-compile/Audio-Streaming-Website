@@ -41,17 +41,18 @@ router.post('/signup', (req, res) => {
 });
 
 /**
- * @name RefreshTokens
- * @route {POST} /auth/tokens/refresh
- * @method POST
+ * @name= Logout
+ * @route {POST,GET} /auth/logout
+ * @method POST,GET
  * @function
  * @module routes/auth
  * @param {String} path
- * @param {Callback} regenerateToken
- * @bodyparam {String} refreshToken
+ * @param {Callback} logout
  */
-router.post('/tokens/refresh', (req, res) => {
-  authController.regenerateToken(req, res);
+router.route('/logout').get((req, res) => {
+  authController.logout(req, res);
+}).post((req, res) => {
+  authController.logout(req, res);
 });
 
 module.exports = router;

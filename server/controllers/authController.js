@@ -1,16 +1,11 @@
 'use strict';
 
 var user = require('../models/user');
+var token = require('../models/token');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const functions = require('../helpers/functions');
 const env = process.env;
-
-// const Blob = require("cross-blob");
-
-// console.log(process.env.SECURE);
-
-// const byteSize = str => new Blob([str]).size;
 
 /**
  * Login user
@@ -45,8 +40,6 @@ exports.login = async (req, res) => {
           }
 
           foundUser.password = undefined;
-
-          // console.log("Refresh Token: "+byteSize(refreshToken), "Access Token: "+byteSize(accessToken), "User: "+byteSize(JSON.stringify(foundUser)));
 
           res.cookie('refresh_token', refreshToken, {
             maxAge: 31556952000,
@@ -180,48 +173,6 @@ exports.signUp = async (req, res) => {
 };
 
 /**
- * Regenerate Access Token
- * @module controllers/authController
- * @param {require('express').Request} req
- * @param {require('express').Response} res
- * @returns {undefined}
- */
-// exports.regenerateToken = async (req, res) => {
-//    let token = req.body;
-//    if(!token) return res.sendStatus(401);
-//    let verifiedUser = await functions.verifyToken(token);
-//    if(verifiedUser == null){
-//          return res.status(403).json({ status: 403, message: "Refresh Token Invalid" });
-//    }
-
-// }
-
-// exports.regenerateToken = async (req, res) => {
-//   let token = req.body.refreshToken;
-//   if (!token) res.sendStatus(401);
-//   let verifiedUser = await functions.verifyToken(token);
-//   if (verifiedUser === null) {
-//     return res
-//       .status(401)
-//       .json({status: 401, message: 'Refresh Token Invalid'});
-//   }
-
-//   let newToken = await functions.generateAccessToken(verifiedUser, '30m');
-
-//   if (newToken === null)
-//     return res
-//       .status(401)
-//       .json({status: 401, message: 'Access Token Generation Failed'});
-
-//   res.status(200).json({
-//     status: 200,
-//     message: 'Token Regenerated Successfully',
-//     accessToken: newToken,
-//     refreshToken: token,
-//   });
-// };
-
-/**
  * Logout User
  * @module controllers/authController
  * @param {require('express').Request} req
@@ -229,14 +180,16 @@ exports.signUp = async (req, res) => {
  * @returns {undefined}
  */
 exports.logout = async (req, res) => {
-  let refreshToken = req.body;
-  await token.delete({token: refreshToken}, (err, deletedToken) => {
+  let refreshToken = req.cookies.refresh_token;
+  await token.remove({token: refreshToken}, (err, deletedToken) => {
     if (err) {
+      console.log(err);
       res.status(204).json({status: 204, message: 'Logout Failed'});
+    }else{
+       res.clearCookie('refresh_token');
+       res.clearCookie('access_token');
+       res.clearCookie('user');
+       res.status(200).json({status: 200, message: 'Logout Successful'});
     }
-    res.clearCookie('refresh_token');
-    res.clearCookie('access_token');
-    res.clearCookie('user');
-    res.status(200).json({status: 200, message: 'Logout Successful'});
   });
 };

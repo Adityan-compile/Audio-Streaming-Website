@@ -35,9 +35,7 @@ exports.upload = async (req, res) => {
     creatorId: user._id,
     artistName: data.artist,
   });
-  console.log(audioObject);
-  //   res.sendStatus(201);
-
+  
   audioObject.save(async (err, newAudio) => {
     if (err)
       return res

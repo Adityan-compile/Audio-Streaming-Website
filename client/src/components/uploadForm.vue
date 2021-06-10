@@ -53,7 +53,7 @@
           id="thumbnail"
           ref="thumbnail"
           name="thumbnail"
-          accept="image/jpg,image/png,image/jpeg"
+          accept="image/*"
           required
         />
         <p class="text-muted">jpeg,jpg,png</p>
@@ -66,7 +66,7 @@
           id="audio"
           ref="audio"
           name="audio"
-          accept="audio/mp3,audio/m4a"
+          accept="audio/*"
           required
         />
         <p class="text-muted">mp3, m4a</p>

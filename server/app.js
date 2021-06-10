@@ -86,6 +86,10 @@ app.use('/api/auth', authRouter);
 app.use('/api/uploads', uploadsRouter);
 app.use('*/assets/images', express.static('Uploads/Images'));
 
+//Authenticate and send profile images to client
+app.use('*/assets/images/profile', authenticator.authenticate);
+app.use('*/assets/images/profile', express.static('Uploads/Profile'));
+
 // Authenticate and send audio files to client 
 app.use('*/streams/audio', authenticator.authenticate);
 app.use('*/streams/audio', express.static('Uploads/Audio'));

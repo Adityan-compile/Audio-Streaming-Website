@@ -4,7 +4,9 @@ var user = require('../models/user');
 var token = require('../models/token');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require("mongoose");
 const functions = require('../helpers/functions');
+const path = require('path');
 const env = process.env;
 
 /**
@@ -95,7 +97,7 @@ exports.login = async (req, res) => {
  */
 exports.signUp = async (req, res) => {
   let userData = req.body;
-  console.log(userData);
+  let picture = req.files.picture;
   let count = await user.countDocuments({email: userData.email});
   if (count > 0) {
     return res.status(409).json({
@@ -110,11 +112,14 @@ exports.signUp = async (req, res) => {
     userData.password &&
     functions.validate(userData.email)
   ) {
+    let userId = mongoose.Types.ObjectId();
     userData.password = await bcrypt.hash(userData.password, 10);
     let newUser = new user({
+      _id: userId,
       name: userData.name,
       email: userData.email,
       password: userData.password,
+      profile: `${userId}-${picture.name}`
     });
     newUser.save(async (err, newUser) => {
       if (err) {
@@ -125,41 +130,45 @@ exports.signUp = async (req, res) => {
           message: 'Error Creating User',
         });
       } else {
-        newUser.password = undefined;
-        newUser = newUser.toJSON();
-        let accessToken = await functions.generateAccessToken(newUser, '15m');
+        picture.mv(path.resolve(`./Uploads/Profile/${newUser.profile}`), async(err)=>{
+          if(err) return res.status(422).json({ status: 422, message: "File Upload failed" });
 
-        let refreshToken = await functions.generateRefreshToken(newUser);
-        if (refreshToken === null || accessToken === null) {
-          return res
+          newUser.password = undefined;
+          newUser = newUser.toJSON();
+          let accessToken = await functions.generateAccessToken(newUser, '15m');
+          
+          let refreshToken = await functions.generateRefreshToken(newUser);
+          if (refreshToken === null || accessToken === null) {
+            return res
             .status(401)
             .json({status: 401, message: 'Error Creating User'});
-        }
-        res.cookie('refresh_token', refreshToken, {
-          maxAge: 31556952000,
-          httpOnly: env.HTTP_ONLY,
-          sameSite: env.SAME_SITE,
-          secure: true,
-          path: '/',
-        });
-        res.cookie('access_token', accessToken, {
-          maxAge: 3600000,
-          httpOnly: env.HTTP_ONLY,
-          sameSite: env.SAME_SITE,
-          secure: env.SECURE,
-          path: '/',
-        });
-        res.cookie('user', JSON.stringify(newUser), {
-          maxAge: 31556952000,
-          sameSite: env.SAME_SITE,
-          secure: env.SECURE,
-          path: '/',
-        });
-        res.status(200);
-        res.json({
-          status: 200,
-          message: 'User Created Successfully',
-          user: newUser,
+          }
+          res.cookie('refresh_token', refreshToken, {
+            maxAge: 31556952000,
+            httpOnly: env.HTTP_ONLY,
+            sameSite: env.SAME_SITE,
+            secure: true,
+            path: '/',
+          });
+          res.cookie('access_token', accessToken, {
+            maxAge: 3600000,
+            httpOnly: env.HTTP_ONLY,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            path: '/',
+          });
+          res.cookie('user', JSON.stringify(newUser), {
+            maxAge: 31556952000,
+            sameSite: env.SAME_SITE,
+            secure: env.SECURE,
+            path: '/',
+          });
+          res.status(200);
+          res.json({
+            status: 200,
+            message: 'User Created Successfully',
+            user: newUser,
+          });
         });
       }
     });

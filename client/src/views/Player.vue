@@ -7,7 +7,7 @@
       <h1 class="ps-5">Artists</h1>
       <p class="text-danger p-3">{{ artistError }}</p>
       <div class="row">
-        <div class="col-md-6" v-for="artist in artists" v-bind:key="artist._id">
+        <div class="col-md-3" v-for="artist in artists" v-bind:key="artist._id">
           <ArtistCard v-bind:artist="artist" />
         </div>
       </div>

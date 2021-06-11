@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto text-center component p-5">
-    <div class="card bg-dark mx-auto shadow rounded" style="width: 15rem">
+    <div class="card bg-dark mx-auto shadow rounded" style="width: 15rem;">
       <object
         class="card-img-top"
         v-bind:data="`/assets/images/profile/${artist.profile}`"
@@ -28,3 +28,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.card-img-top{
+  object-fit: cover;
+}
+</style>

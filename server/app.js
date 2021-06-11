@@ -88,7 +88,7 @@ app.use('*/assets/images', express.static('Uploads/Images'));
 
 //Authenticate and send profile images to client
 app.use('*/assets/images/profile', authenticator.authenticate);
-app.use('*/assets/images/profile', express.static('Uploads/Profile'));
+app.use('*/assets/images/profile', express.static(path.join(__dirname, 'Uploads', 'Profile')));
 
 // Authenticate and send audio files to client 
 app.use('*/streams/audio', authenticator.authenticate);

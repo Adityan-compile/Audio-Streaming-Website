@@ -21,8 +21,6 @@ module.exports.authenticate = async (req, res, next) => {
   if(!req.cookies.user) return res.sendStatus(401);
 
   const user = JSON.parse(req.cookies.user);
-
-  console.log(req.cookies);
   
   if (accessToken && refreshToken) {
     await jwt.verify(
@@ -32,7 +30,7 @@ module.exports.authenticate = async (req, res, next) => {
         if (err) {
           functions.verifyToken(refreshToken).then((token) => {
             if (user) {
-              functions.generateAccessToken(user).then((newToken) => {
+              functions.generateAccessToken(user, "60m").then((newToken) => {
                 console.log("New Token:", newToken)
                 res.cookie("access_token", newToken, {
                   maxAge: 3600000,
@@ -59,7 +57,7 @@ module.exports.authenticate = async (req, res, next) => {
   } else if (refreshToken) {
     functions.verifyToken(refreshToken).then((token) => {
       if (user) {
-        functions.generateAccessToken(user).then((newToken) => {
+        functions.generateAccessToken(user, "60m").then((newToken) => {
           res.cookie("access_token", newToken, {
             maxAge: 3600000,
             httpOnly: env.HTTP_ONLY,

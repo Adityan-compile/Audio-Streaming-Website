@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
           foundUser.password = undefined;
           var accessToken = await functions.generateAccessToken(
             foundUser.toJSON(),
-            '15m'
+            '60m'
           );
           var refreshToken = await functions.generateRefreshToken(
             foundUser.toJSON()
@@ -135,7 +135,7 @@ exports.signUp = async (req, res) => {
 
           newUser.password = undefined;
           newUser = newUser.toJSON();
-          let accessToken = await functions.generateAccessToken(newUser, '15m');
+          let accessToken = await functions.generateAccessToken(newUser, '60m');
           
           let refreshToken = await functions.generateRefreshToken(newUser);
           if (refreshToken === null || accessToken === null) {

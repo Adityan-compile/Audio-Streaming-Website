@@ -77,6 +77,7 @@ exports.getArtists = async (req, res) => {
           _id: artist._id,
           name: artist.name,
           email: artist.email,
+          profile: artist.profile
         };
       });
       res.status(200).json({ status: 200, artists: artists });

@@ -1,4 +1,5 @@
 <template>
+<div class="component p-5">
   <form>
     <p class="text-danger">{{ errorMessage }}</p>
 
@@ -28,6 +29,7 @@
       </button>
     </div>
   </form>
+  </div>
 </template>
 
 <script>

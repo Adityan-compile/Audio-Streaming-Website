@@ -1,4 +1,5 @@
 <template>
+<div class="nav">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">
@@ -25,28 +26,28 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/search">SEARCH</router-link>
+            <router-link class="nav-link" to="/search" v-if="loggedIn">SEARCH</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/browse">BROWSE</router-link>
+            <router-link class="nav-link" to="/browse" v-if="loggedIn">BROWSE</router-link>
           </li>
-          <li class="nav-item" v-if="isLoggedIn === true">
+          <li class="nav-item" v-if="loggedIn">
             <router-link class="nav-link" to="/playlists"
               >PLAYLISTS</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn === true">
+          <li class="nav-item" v-if="loggedIn">
             <router-link class="nav-link" to="/tracks/new"
               >NEW TRACK</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn === true">
+          <li class="nav-item" v-if="loggedIn">
             <router-link class="nav-link" to="/player"
               >PLAYER</router-link
             >
           </li>
         </ul>
-        <div v-if="isLoggedIn === true">
+        <div v-if="loggedIn">
           <div class=" nav-item dropdown">
             <a
               class="nav-link dropdown-toggle text-muted"
@@ -88,10 +89,12 @@
       </div>
     </div>
   </nav>
+  {{ loggedIn }}
+  </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 export default {
   name: 'Navbar',
   data() {
@@ -112,6 +115,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
+    ...mapState('auth', ['loggedIn'])
   },
 };
 </script>

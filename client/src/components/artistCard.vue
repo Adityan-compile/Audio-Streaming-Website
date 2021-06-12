@@ -10,8 +10,8 @@
         <img src="../assets/default.png" class="card-img-top" alt="..." />
       </object>
       <div class="card-body">
-        <h5 class="card-title link">{{ artist.name }}</h5>
-        <h5 class="card-title link">{{ artist.email }}</h5>
+            <h5 class="card-title">{{ artist.name }}</h5>
+            <h5 class="card-title">{{ artist.email }}</h5>
       </div>
     </div>
   </div>
@@ -32,8 +32,5 @@ export default {
 <style scoped>
 .card-img-top{
   object-fit: cover;
-}
-.link{
-  text-decoration: none;
 }
 </style>

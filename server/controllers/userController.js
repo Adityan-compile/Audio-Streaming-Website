@@ -47,11 +47,22 @@ exports.search = async (req, res) => {
  * @param {require('express').Response} res
  * @returns {undefined}
  */
-exports.uploads = async (req, res) => {
-  let user = req.user;
-  await audio.find({ creatorId: user._id }, (err, uploads) => {
-    if (err) return res.status(500);
-    res.status(200).json({ status: 200, results: uploads });
+exports.uploads = (req, res) => {
+  let id = req.query.id;
+  if(!id) return res.sendStatus(400); 
+  audio.find({ creatorId: id }, (err, uploads) => {
+    if (err) return res.sendStatus(500);
+    res.status(200).json({ status: 200, uploads: uploads });
+  });
+};
+
+exports.getUserDetails = (req, res)=>{
+  let id = req.query.id;
+  if(!id) return res.sendStatus(400);
+  user.findOne({_id: id}, (err, user)=>{
+    user.password = undefined;
+    if(err) return res.sendStatus(500);
+    res.status(200).json({ status: 200, user: user });
   });
 };
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import instance from "@/axios.js";
+
 const user = {
   namespaced: true,
   state: {
@@ -16,7 +18,21 @@ const user = {
       state.hidden = consent;
     },
   },
-  actions: {},
+  actions: {
+    fetchUserDetails({ commit }, id){
+      return new Promise((resolve, reject)=>{
+        instance.get(`/users/details?id=${id}`).then(({data, status})=>{
+          if(status === 200){
+            resolve(data.user);
+          }else{
+            reject(`Error: ${status}`);
+          }
+        }).catch(err=>{
+          reject(err);
+        });
+      });
+    }
+  },
 };
 
 export default user;

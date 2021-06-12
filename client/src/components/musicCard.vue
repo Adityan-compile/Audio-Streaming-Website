@@ -18,7 +18,7 @@
           </object>
         </div>
         <div class="col-md-3 p-3">
-          <span class="align-middle card-text">{{ data.title }}</span>
+          <router-link class="align-middle card-text text-white link" v-bind:to="`/about/${data._id}`">{{ data.title }}</router-link>
         </div>
         <div class="col-md-2 p-3">
           <span class="align-middle card-text">{{ data.artistName }}</span>
@@ -98,5 +98,8 @@ export default {
 
 .thumbnail:hover {
   transform: scale(1.2);
+}
+.link{
+  text-decoration: none;  
 }
 </style>

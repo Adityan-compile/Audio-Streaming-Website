@@ -70,6 +70,13 @@ const routes = [
     props: true,
   },
   {
+    path: "/artist/:id",
+    name: "Artist",
+    beforeEnter: routeGuard,
+    component: () => import("../views/Artist.vue"),
+    props: true,
+  },
+  {
     path: "/:catchAll(.*)",
     name: "Error",
     component: () => import("../views/Errors.vue"),

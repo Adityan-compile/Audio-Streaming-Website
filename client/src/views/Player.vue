@@ -13,7 +13,9 @@
             v-for="artist in artists"
             v-bind:key="artist._id"
           >
-            <ArtistCard v-bind:artist="artist" title="Swipe To See More Artists"/>
+          <router-link v-bind:to="`/artist/${artist._id}`">
+            <ArtistCard v-bind:artist="artist"  class="link" title="Swipe To See More Artists"/>
+          </router-link>
           </div>
         </div>
       </div>

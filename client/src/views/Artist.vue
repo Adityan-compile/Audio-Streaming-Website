@@ -13,7 +13,7 @@
             />
           </div>
           <div class="col-md-6 align-middle p-2">
-            <h1 class="p-5">{{ user.name }}</h1>
+            <h1 class="p-5">{{ user.name }} <i v-if="user.verified" class="fas fa-check-circle text-info h3"></i></h1>
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@
             >
           </li>
         </ul>
-        <div v-if="loggedIn">
+        <div v-if="isLoggedIn">
           <div class=" nav-item dropdown">
             <a
               class="nav-link dropdown-toggle text-muted"
@@ -76,20 +76,17 @@
             </ul>
           </div>
         </div>
-        <div v-else>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link" to="/login">LOGIN</router-link>
+              <router-link class="nav-link" v-if="!isLoggedIn" to="/login">LOGIN</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/signup">SIGNUP</router-link>
+              <router-link class="nav-link" v-if="!isLoggedIn" to="/signup">SIGNUP</router-link>
             </li>
           </ul>
-        </div>
       </div>
     </div>
   </nav>
-  {{ loggedIn }}
   </div>
 </template>
 

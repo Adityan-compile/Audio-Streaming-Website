@@ -51,12 +51,12 @@ export default {
         })
         .then((res) => {
           this.errorMessage = '';
-          this.$router.push('/');
+          this.$router.go('/');
         })
         .catch((err) => {
           console.error(err);
           this.errorMessage = 'Login Error: Check Credentials';
-          this.$router.push('/login');
+          this.$router.go('/login');
         });
     },
   },

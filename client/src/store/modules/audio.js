@@ -34,6 +34,7 @@ const audio = {
     },
     actions: {
         play({ commit, getters }, music){
+            if(!music) music = getters.getPlaying;
             if(music._id === getters.getPlaying._id){
                 commit('setPlaying', music);
                 commit('setPlayingId', music._id);

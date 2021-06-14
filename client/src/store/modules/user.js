@@ -31,6 +31,19 @@ const user = {
           reject(err);
         });
       });
+    },
+    deleteAccount({ commit }, id){
+      return new Promise((resolve, reject)=>{
+        instance.delete(`/users/account/delete?id=${id}`).then(({status})=>{
+          if(status === 204) {
+            resolve(true);
+          }else{
+            reject("Error");
+          }
+        }).catch(err=>{
+          reject(err);
+        });
+      });
     }
   },
 };

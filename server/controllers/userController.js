@@ -56,6 +56,12 @@ exports.uploads = (req, res) => {
   });
 };
 
+/**
+ * Get all details of a User
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
 exports.getUserDetails = (req, res)=>{
   let id = req.query.id;
   if(!id) return res.sendStatus(400);
@@ -97,4 +103,25 @@ exports.getArtists = async (req, res) => {
     .catch((err) => {
       res.status(500).json({ status: 500, message: "Error Fetching Artists" });
     });
+};
+
+/**
+ * Delete a Users Account
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
+exports.deleteAccount = (req, res) => {
+  let id = req.query.id;
+
+  if(!id) return res.sendStatus(400);
+
+  user.deleteOne({_id: id}).then(()=>{
+    res.clearCookie('refresh_token');
+    res.clearCookie('access_token');
+    res.clearCookie('user');
+    res.status(204).json({ status: 204, message: "Account Deleted Successfully" })
+  }).catch(err=>{
+    res.status(500).json({ status: 204, message: "Account Deletion Failed" })
+  });
 };

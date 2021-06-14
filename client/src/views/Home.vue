@@ -20,7 +20,7 @@
 
     <div class="text-center">
       <router-link
-        v-if="isLoggedIn === true"
+        v-if="isLoggedIn"
         class="btn btn-outline-danger rounded-pill fw-bold border mb-5 border-danger border-2"
         to="/player"
       >

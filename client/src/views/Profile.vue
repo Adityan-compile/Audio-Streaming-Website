@@ -2,6 +2,7 @@
   <div class="profile component">
     <div class="container p-5">
       <h1 class="text-center pt-5 p-3">PROFILE</h1>
+      <p class="text-danger p-3">{{ errorMessage }}</p>
       <div class="row">
         <div class="col-md-6 align-middle p-2  d-flex align-items-center justify-content-center">
           <img
@@ -19,7 +20,7 @@
             ></i>
           </h1>
           <h2 class="pb-2">Email: {{ user.email }}</h2>
-          <button class="btn btn-danger rounded-pill">Delete Account</button>
+          <button class="btn btn-danger rounded-pill" @click.prevent="deleteAccount">Delete Account</button>
         </div>
       </div>
       <div class="uploads p-3">
@@ -53,6 +54,7 @@ export default {
   data() {
     return {
       tracks: [],
+      error: ""
     };
   },
   computed: {
@@ -71,6 +73,17 @@ export default {
       .catch((err) => {
         //Pass
       });
+  },
+  methods: {
+    deleteAccount(){
+      let id = this.user._id;
+      this.$store.dispatch("user/deleteAccount", id).then(status=>{
+        this.$store.commit("auth/clearState");
+        this.$router.go("/");
+      }).catch(err=>{
+        this.error = "Failed to Delete Account";
+      });
+    }
   },
 };
 </script>

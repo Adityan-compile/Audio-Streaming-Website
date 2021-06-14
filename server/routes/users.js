@@ -14,4 +14,8 @@ router.get('/details', authenticator.authenticate, (req, res)=>{
   userController.getUserDetails(req, res);
 });
 
+router.delete('/account/delete', authenticator.authenticate, (req, res)=>{
+  userController.deleteAccount(req, res);
+});
+
 module.exports = router;

@@ -3,10 +3,10 @@
     <div class="container p-5">
       <h1 class="text-center pt-5 p-3">PROFILE</h1>
       <div class="row">
-        <div class="col-md-6 align-middle p-2 d-flex align-items-center">
+        <div class="col-md-6 align-middle p-2  d-flex align-items-center justify-content-center">
           <img
             alt="Profile"
-            class="rounded shadow align-middle"
+            class="rounded shadow"
             v-bind:src="`/assets/images/profile/${user.profile}`"
           />
         </div>

@@ -10,12 +10,9 @@ const playlist = require("../models/playlist");
  * @returns {undefined}
  */
 exports.getPlaylists = (req, res) => {
-  let id = req.query.id;
-
-  if (!id) return res.sendStatus(400);
 
   playlist
-    .find({ creator: id })
+    .find()
     .then((playlists) => {
       playlists = _.shuffle(playlists);
 

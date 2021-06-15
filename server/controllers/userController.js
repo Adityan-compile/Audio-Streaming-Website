@@ -78,9 +78,9 @@ exports.getUserDetails = (req, res)=>{
  * @param {require('express').Response} res
  * @returns {undefined}
  */
-exports.getArtists = async (req, res) => {
+exports.getArtists = (req, res) => {
   let count = Number(req.query.count);
-  await user
+   user
     .aggregate([
       {
         $sample: {

@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
  *
  * @param {String} title required
  * @param {String} creatorId required
- * @param {String} tracks required
+ * @param {String} tracks 
  * @param {Date} dateCreated 
  *
  * @returns {Object}
@@ -25,7 +25,7 @@ const playlistSchema = new mongoose.Schema({
   },
   tracks: {
     type: Array,
-    required: true,
+    default: [],
   },
   dateCreated: {
     type: Date,

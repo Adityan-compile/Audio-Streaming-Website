@@ -13,6 +13,7 @@
         <h1 class="p-2">{{ data.title }}</h1>
         <h5 class="lead">- {{ data.artistName }}</h5>
         <h5 class="lead">Released: {{ data.yearCreated }}</h5>
+        <button class="btn btn-warning text-danger">Add To Playlist <i class="fas fa-music"></i> </button>
       </div>
     </div>
   </div>

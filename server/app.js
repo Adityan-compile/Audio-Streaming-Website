@@ -17,6 +17,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const uploadsRouter = require('./routes/uploads');
+const playlistRouter = require('./routes/playlists');
 
 const errorHandler = require('./middleware/errorHandler');
 
@@ -84,6 +85,7 @@ app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/uploads', uploadsRouter);
+app.use("/api/playlists", playlistRouter);
 app.use('*/assets/images', express.static('Uploads/Images'));
 
 //Authenticate and send profile images to client

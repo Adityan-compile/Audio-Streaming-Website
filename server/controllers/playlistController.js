@@ -2,7 +2,7 @@
 
 const audio = require("../models/audio");
 const playlist = require("../models/playlist");
-
+const _ = require('lodash');
 /**
  * Get all Playlists of a User
  * @param {require('express').Request} req
@@ -22,6 +22,7 @@ exports.getPlaylists = (req, res) => {
       });
     })
     .catch((err) => {
+      console.log(err);
       res.sendStatus(500);
     });
 };

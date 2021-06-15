@@ -6,6 +6,8 @@ import uploads from './modules/uploads';
 import user from './modules/user';
 import utils from './modules/utils';
 import audio from './modules/audio';
+import playlists from './modules/playlists';
+
 
 export default createStore({
   modules: {
@@ -13,6 +15,7 @@ export default createStore({
     utils,
     uploads,
     user,
-    audio
+    audio,
+    playlists
   },
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-const playlistController = require('../controllers/playlistController');
+const { getPlaylists } = require('../controllers/playlistController');
 
 /**
  * @alias express.Router()
@@ -9,7 +9,9 @@ const playlistController = require('../controllers/playlistController');
 var router = express.Router();
 
 
-var authenticator = require('../middleware/authenticate');
+var { authenticate } = require('../middleware/authenticate');
+
+const { sanitize } = require("../middleware/sanitize");
 
 
 /**
@@ -21,8 +23,8 @@ var authenticator = require('../middleware/authenticate');
  * @param {String} path
  * @param {Callback}
  */
-router.get("/all", authenticator.authenticate, (req, res)=>{
-    playlistController.getPlaylists(req, res);
+router.get("/all", authenticate, (req, res)=>{
+    getPlaylists(req, res);
 });
 
 module.exports = router;

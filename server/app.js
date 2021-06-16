@@ -12,7 +12,6 @@ const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const sanitizer = require('./middleware/sanitize');
 const authenticator = require('./middleware/authenticate');
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');

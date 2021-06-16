@@ -7,8 +7,12 @@ const express = require('express');
  */
 const router = express.Router();
 
-const uploadController = require('../controllers/uploadController');
-const authenticator = require('../middleware/authenticate');
+const { upload, deleteFile } = require('../controllers/uploadController');
+
+const { authenticate } = require('../middleware/authenticate');
+
+const { sanitize } = require("../middleware/sanitize");
+
 
 /**
  * @name Upload
@@ -21,8 +25,8 @@ const authenticator = require('../middleware/authenticate');
  * @bodyparam {File} audio
  * @bodyparam {File} image
  */
-router.post('/tracks/new', authenticator.authenticate, (req, res) => {
-  uploadController.upload(req, res);
+router.post('/tracks/new', authenticate, (req, res) => {
+  upload(req, res);
 });
 
 /**
@@ -36,8 +40,8 @@ router.post('/tracks/new', authenticator.authenticate, (req, res) => {
  * @bodyparam {File} audio
  * @bodyparam {File} image
  */
-router.get('/tracks/delete', authenticator.authenticate, (req, res) => {
-  uploadController.deleteFile(req, res);
+router.get('/tracks/delete', authenticate, (req, res) => {
+  deleteFile(req, res);
 });
 
 module.exports = router;

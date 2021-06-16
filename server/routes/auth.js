@@ -7,7 +7,9 @@ const express = require('express');
  */
 const router = express.Router();
 
-const authController = require('../controllers/authController');
+const { login, signUp, logout } = require('../controllers/authController');
+
+const { sanitize } = require("../middleware/sanitize");
 
 /**
  * @name Login
@@ -21,7 +23,7 @@ const authController = require('../controllers/authController');
  * @bodyparam {String} password
  */
 router.post('/login', (req, res) => {
-  authController.login(req, res);
+  login(req, res);
 });
 
 /**
@@ -37,7 +39,7 @@ router.post('/login', (req, res) => {
  * @bodyparam {String} password
  */
 router.post('/signup', (req, res) => {
-  authController.signUp(req, res);
+  signUp(req, res);
 });
 
 /**
@@ -50,9 +52,9 @@ router.post('/signup', (req, res) => {
  * @param {Callback} logout
  */
 router.route('/logout').get((req, res) => {
-  authController.logout(req, res);
+  logout(req, res);
 }).post((req, res) => {
-  authController.logout(req, res);
+  logout(req, res);
 });
 
 module.exports = router;

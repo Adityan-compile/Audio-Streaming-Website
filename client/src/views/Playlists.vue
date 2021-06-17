@@ -4,30 +4,9 @@
 
     <p class="text-danger text-center">{{ error }}</p>
 
-    <div class="search p-3">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search Playlists !!"
-          aria-label="Search Playlists"
-          v-model="query"
-          @keyup="search"
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-primary"
-            type="button"
-            @click.prevent="search"
-          >
-            Search
-          </button>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div class="col-6 col-sm-3 col-md-3 text-center p-3">
-        <figure class="figure">
+        <!-- <figure class="figure">
           <img
             src="../assets/new-playlist.png"
             class="figure-img img-fluid"
@@ -37,14 +16,17 @@
             role="button"
           />
           <p class="figure-caption text-white">New Playlist</p>
-        </figure>
+        </figure> -->
+
+       <new-playlist />
+
       </div>
       <div
         class="col-sm-3 col-6 text-center p-3"
         v-for="(playlist, idx) in playlists"
         :key="idx"
       >
-        <PlaylistCard v-bind:title="playlist" ref="playlist" />
+        <playlist-card v-bind:title="playlist" />
       </div>
     </div>
   </div>
@@ -53,31 +35,24 @@
 <script>
 import { onMounted, ref } from "vue";
 import store from "@/store/index";
-import PlaylistCard from "../components/playlistCard.vue";
+import PlaylistCard from "@/components/playlistCard.vue";
+import NewPlaylist from "@/components/newPlaylist.vue";
 
 export default {
   name: "Playlists",
   components: {
     PlaylistCard,
+    NewPlaylist
   },
 
   setup() {
-    let playlists = ref(["This is Dj Snake", "This is Selena Gomez"]);
+    let playlists = ref([
+      "This is Dj Snake"
+    ]);
 
     let error = ref("");
 
-    let query = ref("");
 
-    let searchCandidates = playlists.value;
-
-    function search() {
-      let queryRegex = new RegExp(query, "i");
-      let searchResults = searchCandidates.filter((playlist) => {
-        return queryRegex.test(playlist);
-      });
-
-      console.log(searchResults);
-    }
 
     function fetchPlaylists() {
       store
@@ -101,10 +76,8 @@ export default {
 
     return {
       playlists,
-      fetchPlaylists,
+      fetchPlaylists, 
       error,
-      query,
-      search,
     };
   },
 };

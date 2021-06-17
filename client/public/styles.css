@@ -73,6 +73,10 @@ body {
   }
 }
 
+.text-input{
+  background: none;
+}
+
 router-link:link {
   text-decoration: none;
 }

@@ -1,16 +1,15 @@
 'use strict';
 
-var express = require('express');
+const express = require('express');
 
 /**
  * @alias express.Router()
  */
-var router = express.Router();
+const router = express.Router()
+const { search, getArtists, getUserDetails } = require('../controllers/userController');
+const { getTrackById, getTracks } = require('../controllers/audioController');
 
-var { search, getArtists, getUserDetails } = require('../controllers/userController');
-var { getTrackById, getTracks } = require('../controllers/audioController');
-
-var { authenticate } = require('../middleware/authenticate');
+const { authenticate } = require('../middleware/authenticate');
 
 const { sanitize } = require("../middleware/sanitize");
 

@@ -1,10 +1,32 @@
 'use strict';
 
-var sanitize = require('mongo-sanitize');
+var sanitizer = require('mongo-sanitize');
 
-exports.clean = (req, res, next) => {
-  if(req.body) req.body = sanitize(req.body);
-  if(req.query) req.query = sanitize(req.query);
-  if(req.params) req.params = sanitize(req.params);
+exports.sanitize = (req, res, next) => {
+  
+  try{
+    req.query = sanitizer(req.query);
+  }catch{
+    //Pass
+  }finally{
+    //Pass
+  }
+
+  try{
+    req.body = sanitizer(req.body);
+  }catch{
+    //Pass
+  }finally{
+    //Pass
+  }
+  
+  try{
+    req.params = sanitizer(req.params);
+  }catch{
+    //Pass
+  }finally{
+    //Pass
+  }
+
   next();
 };

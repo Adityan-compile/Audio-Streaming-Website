@@ -10,7 +10,7 @@ const upload = require('express-fileupload');
 const logger = require('morgan');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
-const sanitizer = require('./middleware/sanitize');
+const { sanitize } = require('./middleware/sanitize');
 const authenticator = require('./middleware/authenticate');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -72,7 +72,7 @@ app.use(
   })
 );
 
-// app.use(sanitizer.clean());
+app.use(sanitize);
 
 app.use(
   history({

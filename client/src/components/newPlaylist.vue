@@ -19,7 +19,7 @@
     </figure>
 <div>
     <div
-      v-if="hidden"
+      v-show="hidden"
       class="modal fade text-white"
       id="newPlaylistModal"
       ref="modal"   
@@ -57,6 +57,7 @@
             <button
               type="button"
               class="btn btn-secondary"
+              ref="close"
               data-bs-dismiss="modal"
             >
               Close
@@ -73,6 +74,9 @@
 </template>
 
 <script>
+
+import emitter from "@/shared/bus";
+
 export default {
   name: "NewPlaylist",
   data() {
@@ -88,13 +92,13 @@ export default {
       },
       
       createPlaylist(){
-          console.table(this.$refs.modal)
-          this.$refs.modal.hidden = true;
-        //   this.$router.go("/playlists");
-        //   this.$store.dispatch("playlists/newPlylist", this.title).then((res)=>{
-        //   }).catch(err=>{
-
-        //   });
+          this.$store.dispatch("playlists/newPlaylist", this.title).then((res)=>{
+            this.$refs.close.click();
+            emitter.emit("PlaylistCreationSuccess", true);
+          }).catch(err=>{
+             this.$refs.close.click();
+             emitter.emit("PlaylistCreationError", false);
+          });
       }
   },
 };

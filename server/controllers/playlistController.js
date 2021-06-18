@@ -47,9 +47,8 @@ exports.newPlaylist = (req, res) =>{
 
   playlistObject.save((err, newPlaylist)=>{
     if(err) return res.status(500).json({ status: 500, message: "Error Creating Playlist" });
-
-    res.status(200).json({
-      status: 200,
+    res.status(201).json({
+      status: 201,
       playlist: newPlaylist
     })
 

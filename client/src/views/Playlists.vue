@@ -3,20 +3,10 @@
     <h1 class="text-center p-3 pt-5">PLAYLISTS</h1>
 
     <p class="text-danger text-center">{{ error }}</p>
+    <p class="text-success text-center">{{ success }}</p>
 
     <div class="row">
       <div class="col-6 col-sm-3 col-md-3 text-center p-3">
-        <!-- <figure class="figure">
-          <img
-            src="../assets/new-playlist.png"
-            class="figure-img img-fluid"
-            width="100"
-            height="100"
-            alt="New Playlist"
-            role="button"
-          />
-          <p class="figure-caption text-white">New Playlist</p>
-        </figure> -->
 
        <new-playlist />
 
@@ -26,7 +16,7 @@
         v-for="(playlist, idx) in playlists"
         :key="idx"
       >
-        <playlist-card v-bind:title="playlist" />
+        <playlist-card v-bind:title="playlist.title" />
       </div>
     </div>
   </div>
@@ -35,6 +25,7 @@
 <script>
 import { onMounted, ref } from "vue";
 import store from "@/store/index";
+import emitter from "@/shared/bus";
 import PlaylistCard from "@/components/playlistCard.vue";
 import NewPlaylist from "@/components/newPlaylist.vue";
 
@@ -46,15 +37,16 @@ export default {
   },
 
   setup() {
-    let playlists = ref([
-      "This is Dj Snake"
-    ]);
+    let playlists = ref([]);
 
     let error = ref("");
-
+    let success = ref("");
 
 
     function fetchPlaylists() {
+
+     console.log("Fetching Playlists");
+
       store
         .dispatch("playlists/fetchPlaylists")
         .then((res) => {
@@ -72,12 +64,24 @@ export default {
 
     onMounted(() => {
       fetchPlaylists();
+
+      emitter.on("PlaylistCreationSuccess", (status)=>{
+        fetchPlaylists();
+        error.value = ""
+        success.value = "Playlist Created Successfully !!"
+      });
+      emitter.on("PlaylistCreationSuccess", (status)=>{
+        success.value = "";
+        error.value = "Playlist Creation Error";
+      })
+
     });
 
     return {
       playlists,
       fetchPlaylists, 
       error,
+      success
     };
   },
 };

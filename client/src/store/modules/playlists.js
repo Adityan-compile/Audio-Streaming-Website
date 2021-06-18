@@ -20,6 +20,21 @@ const playlists = {
                     reject(err)
                 });
             });
+        },
+        newPlaylist({ commit }, title){
+            return new Promise((resolve, reject)=>{
+                instance.post('/playlists/new', {
+                    title: title
+                }).then(res=>{
+                    if(status === 201){
+                        resolve(res);
+                    }else{
+                        reject("Error");
+                    }
+                }).catch(err=>{
+                    reject(err);
+                });
+            });
         }
     }
 };

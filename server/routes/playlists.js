@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-const { getPlaylists } = require('../controllers/playlistController');
+const { getPlaylists, newPlaylist } = require('../controllers/playlistController');
 
 /**
  * @alias express.Router()
@@ -15,7 +15,7 @@ const { sanitize } = require("../middleware/sanitize");
 
 
 /**
- * @name Index
+ * @name All Playlists
  * @route {GET} /
  * @method GET
  * @function
@@ -25,6 +25,19 @@ const { sanitize } = require("../middleware/sanitize");
  */
 router.get("/all", authenticate, (req, res)=>{
     getPlaylists(req, res);
+});
+
+/**
+ * @name New Playlist
+ * @route {GET} /
+ * @method GET
+ * @function
+ * @module routes/index
+ * @param {String} path
+ * @param {Callback}
+ */
+ router.post("/new", authenticate, (req, res)=>{
+    newPlaylist(req, res);
 });
 
 module.exports = router;

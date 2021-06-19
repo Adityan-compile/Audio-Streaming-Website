@@ -46,10 +46,9 @@ exports.getPlaylists = (req, res) => {
   if(!id) return res.sendStatus(400);
 
   let foundPlaylist = await playlist.findOne({ _id: id })
-    await foundPlaylist.populate('tracks')
+    await foundPlaylist
+    .populate('tracks')
     .execPopulate();
-
-    console.log(foundPlaylist)
 
       res.status(200).json({
         status: 200,

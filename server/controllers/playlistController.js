@@ -32,6 +32,32 @@ exports.getPlaylists = (req, res) => {
     });
 };
 
+/**
+ * Get Playlist By Id
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
+ exports.getPlaylist = (req, res) => {
+
+  let id = req.query.id; 
+
+
+  if(!id) return res.sendStatus(400);
+
+  playlist
+    .findOne({ _id: id })
+    .then((playlist) => {
+      res.status(200).json({
+        status: 200,
+        playlist: playlist,
+      });
+    })
+    .catch((err) => {
+      console.log("Err", err);
+      res.sendStatus(500);
+    });
+};
 
 exports.newPlaylist = (req, res) =>{
   let data = req.body;

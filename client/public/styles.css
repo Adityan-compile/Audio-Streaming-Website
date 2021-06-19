@@ -89,3 +89,7 @@ router-link:hover {
 router-link:active {
   text-decoration: none;
 }
+
+.icon:hover{
+  transform: scale(1.2);
+}

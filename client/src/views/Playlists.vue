@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-6 col-sm-3 col-md-3 text-center p-3">
 
-       <new-playlist />
+       <new-playlist title="Create Playlist" />
 
       </div>
       <div
@@ -16,7 +16,9 @@
         v-for="(playlist, idx) in playlists"
         :key="idx"
       >
-        <playlist-card v-bind:title="playlist.title" />
+        <router-link class="text-white link" v-bind:to="`/playlists/view/${playlist._id}`">
+          <playlist-card v-bind:data="playlist" title="View Playlist" />
+        </router-link>
       </div>
     </div>
   </div>

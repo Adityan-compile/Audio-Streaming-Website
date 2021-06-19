@@ -9,7 +9,7 @@
     >
       <img
         src="../assets/new-playlist.png"
-        class="figure-img img-fluid"
+        class="figure-img img-fluid shadow icon"
         width="100"
         height="100"
         alt="New Playlist"

@@ -21,6 +21,19 @@ const playlists = {
                 });
             });
         },
+        fetchPlaylist({ commit }, id){
+            return new Promise((resolve, reject)=>{
+                instance.get(`/playlists/get?id=${id}`).then(({ status, data })=>{
+                    if(status === 200){
+                        resolve(data.playlist);
+                    }else{
+                        reject('Error');
+                    }
+                }).catch(err=>{
+                    reject(err)
+                });
+            });
+        },
         newPlaylist({ commit }, title){
             return new Promise((resolve, reject)=>{
                 instance.post('/playlists/new', {

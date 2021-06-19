@@ -3,13 +3,13 @@
     <img
       src="../assets/playlist.png"
       alt="Playlist"
-      class="figure-img img-fluid"
+      class="figure-img img-fluid shadow icon"
       width="100"
       height="100"
       role="button"
     />
     <p class="figure-caption text-white">
-      {{ title }}
+      {{ data.title }}
     </p>
   </div>
 </template>
@@ -18,7 +18,7 @@
 export default {
     name: "PlaylistCard",
     props: {
-        title: String,
+        data: Object,
     }
 };
 </script>

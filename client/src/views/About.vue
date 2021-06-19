@@ -1,22 +1,26 @@
 <template>
 <div class="component p-5 text-center">
     <p class="text-danger p-5">{{ errorMessage }}</p>
-    <AboutSong v-bind:data="track" />
+    <About-Song v-bind:data="track" />
+    <Add-To-Playlist :data="playlists" :song="id"/>
 </div>
 </template>
 
 <script>
 import AboutSong from '@/components/about.vue';
+import AddToPlaylist from "@/components/addToPlaylist.vue";
 export default {
   name: "About",
   data() {
       return {
-          track: "",
-          errorMessage: ""
+          track: {},
+          errorMessage: "",
+          playlists: []
       }
   },
   components: {
-      AboutSong
+      AboutSong,
+      AddToPlaylist
   },
   props: {
       id: {
@@ -31,6 +35,11 @@ export default {
           }else{
               this.track = res;
           }
+      }).catch((err)=>{
+          this.errorMessage = "OOPS!! Something Went Wrong";
+      });
+      this.$store.dispatch('playlists/fetchPlaylists').then((res)=>{
+              this.playlists = res;
       }).catch((err)=>{
           this.errorMessage = "OOPS!! Something Went Wrong";
       });

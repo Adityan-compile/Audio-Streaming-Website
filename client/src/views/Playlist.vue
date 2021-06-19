@@ -24,14 +24,17 @@
                 {{ idx + 1 }}
               </th>
               <td class="text-center align-middle">
+                <router-link class="text-white link" :to="`/about/${track._id}`">
                 <img
                   :src="`/assets/images/${track.image}`"
                   alt="Image"
                   width="70"
                   height="70"
+                  class="rounded shadow"
                 />
+                </router-link>
               </td>
-              <td class="text-center align-middle">{{ track.title }}</td>
+              <td class="text-center align-middle"><router-link class="text-white link" :to="`/about/${track._id}`">{{ track.title }}</router-link></td>
               <td class="text-center align-middle">
                 {{ track.artistName.slice(0, 15) }}...
               </td>

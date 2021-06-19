@@ -2,6 +2,8 @@
 
 const mongoose = require('mongoose');
 
+// const trackSchema = new mongoose.Schema({})
+
 /**
  * User Model
  *
@@ -20,13 +22,15 @@ const playlistSchema = new mongoose.Schema({
     required: true,
   },
   creatorId: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
-  tracks: {
-    type: Array,
-    default: [],
-  },
+  tracks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "audio"
+    }
+  ],
   dateCreated: {
     type: Date,
     default: Date.now()

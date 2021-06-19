@@ -38,25 +38,35 @@ exports.getPlaylists = (req, res) => {
  * @param {require('express').Response} res
  * @returns {undefined}
  */
- exports.getPlaylist = (req, res) => {
+ exports.getPlaylist = async(req, res) => {
 
   let id = req.query.id; 
 
 
   if(!id) return res.sendStatus(400);
 
-  playlist
-    .findOne({ _id: id })
-    .then((playlist) => {
+  let foundPlaylist = await playlist.findOne({ _id: id })
+    await foundPlaylist.populate('tracks')
+    .execPopulate();
+
+    console.log(foundPlaylist)
+
       res.status(200).json({
         status: 200,
-        playlist: playlist,
+        playlist: foundPlaylist,
       });
-    })
-    .catch((err) => {
-      console.log("Err", err);
-      res.sendStatus(500);
-    });
+
+    // .then((playlist) => {
+    //   console.log(playlist)
+    //   res.status(200).json({
+    //     status: 200,
+    //     playlist: playlist,
+    //   });
+    // })
+    // .catch((err) => {
+    //   console.log("Err", err);
+    //   res.sendStatus(500);
+    // });
 };
 
 exports.newPlaylist = (req, res) =>{

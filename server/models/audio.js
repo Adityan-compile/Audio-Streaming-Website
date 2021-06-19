@@ -34,7 +34,7 @@ const audioSchema = new mongoose.Schema({
     required: true,
   },
   creatorId: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
   },
   artistName: {

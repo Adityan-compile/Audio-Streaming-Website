@@ -70,7 +70,7 @@ export default {
         error.value = ""
         success.value = "Playlist Created Successfully !!"
       });
-      emitter.on("PlaylistCreationSuccess", (status)=>{
+      emitter.on("PlaylistCreationError", (status)=>{
         success.value = "";
         error.value = "Playlist Creation Error";
       })

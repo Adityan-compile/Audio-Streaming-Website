@@ -25,9 +25,9 @@ const playlists = {
             return new Promise((resolve, reject)=>{
                 instance.post('/playlists/new', {
                     title: title
-                }).then(res=>{
+                }).then(({ status, data })=>{
                     if(status === 201){
-                        resolve(res);
+                        resolve(data);
                     }else{
                         reject("Error");
                     }

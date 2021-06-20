@@ -61,6 +61,19 @@ const playlists = {
                     reject(err);
                 });
             });
+        },
+        remove({ commit }, payload){
+            return new Promise((resolve, reject)=>{
+                instance.post('/playlists/music/remove', payload).then(({status, data})=>{
+                    if(status === 200){
+                        resolve(data.playlist);
+                    }else{
+                        reject("Error");
+                    }
+                }).catch(err=>{
+                    reject(err);
+                });
+            });      
         }
     }
 };

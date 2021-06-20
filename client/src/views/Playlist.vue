@@ -4,6 +4,7 @@
       <h1 class="text-center p-3 pt-5">{{ playlist.title || "PLAYLIST" }}</h1>
       <p class="text-danger text-center">{{ error }}</p>
 
+
       <div class="tracks table-responsive-sm">
         <table
           class="table table-dark table-striped table-hover table-bordered"
@@ -24,17 +25,26 @@
                 {{ idx + 1 }}
               </th>
               <td class="text-center align-middle">
-                <router-link class="text-white link" :to="`/about/${track._id}`">
-                <img
-                  :src="`/assets/images/${track.image}`"
-                  alt="Image"
-                  width="70"
-                  height="70"
-                  class="rounded shadow"
-                />
+                <router-link
+                  class="text-white link"
+                  :to="`/about/${track._id}`"
+                >
+                  <img
+                    :src="`/assets/images/${track.image}`"
+                    alt="Image"
+                    width="70"
+                    height="70"
+                    class="rounded shadow"
+                  />
                 </router-link>
               </td>
-              <td class="text-center align-middle"><router-link class="text-white link" :to="`/about/${track._id}`">{{ track.title }}</router-link></td>
+              <td class="text-center align-middle">
+                <router-link
+                  class="text-white link"
+                  :to="`/about/${track._id}`"
+                  >{{ track.title }}</router-link
+                >
+              </td>
               <td class="text-center align-middle">
                 {{ track.artistName.slice(0, 15) }}...
               </td>
@@ -47,7 +57,12 @@
                 ></i>
               </td>
               <td class="text-center align-middle">
-                <a class="btn btn-danger">Remove</a>
+                <button
+                  class="btn btn-danger"
+                  @click.prevent="remove(track._id)"
+                >
+                  Remove
+                </button>
               </td>
             </tr>
           </tbody>
@@ -82,6 +97,19 @@ export default {
       } else {
         this.$store.dispatch("audio/play", track);
       }
+    },
+    remove(songId) {
+      this.$store
+        .dispatch("playlists/remove", {
+          song: songId,
+          playlist: this.playlist._id,
+        })
+        .then((res) => {
+           this.playlist = res
+        })
+        .catch((err) => {
+          this.error = "Error Removing Song From Playlist !!"
+        });
     },
   },
   mounted() {

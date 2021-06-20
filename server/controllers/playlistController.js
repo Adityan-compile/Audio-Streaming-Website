@@ -56,6 +56,12 @@ exports.getPlaylists = (req, res) => {
       });
 };
 
+/**
+ * Create New Playlist
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
 exports.newPlaylist = (req, res) =>{
   let data = req.body;
   let id = req.user._id;
@@ -80,6 +86,12 @@ exports.newPlaylist = (req, res) =>{
 
 };
 
+/**
+ * Add Song to Playlist
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
 exports.addToPlaylist = (req, res)=>{
   let data = req.body;
 
@@ -95,4 +107,29 @@ exports.addToPlaylist = (req, res)=>{
     res.status(200).json({ status: 200, playlist: doc });
 
   });
+};
+
+/**
+ * Remove Song From Playlist
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
+exports.removeFromPlaylist = (req, res)=>{
+  let data = req.body;
+
+  if(Object.keys(data).length < 2) return res.sendStatus(400);
+
+
+  playlist.findOne({ _id: data.playlist }, (err, doc)=>{
+
+    if(err) return sendStatus(500);
+
+    doc.tracks.pull(data.song);
+    doc.save();
+
+    res.status(200).json({ status: 200, playlist: doc });
+
+  });
+
 };

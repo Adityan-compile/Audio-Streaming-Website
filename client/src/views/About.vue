@@ -9,6 +9,7 @@
 <script>
 import AboutSong from '@/components/about.vue';
 import AddToPlaylist from "@/components/addToPlaylist.vue";
+import emitter from "@/shared/bus.js";
 export default {
   name: "About",
   data() {
@@ -43,6 +44,16 @@ export default {
       }).catch((err)=>{
           this.errorMessage = "OOPS!! Something Went Wrong";
       });
+
+      emitter.on("AddSuccess", (playlistId)=>{
+          this.errorMessage = "";
+          this.$router.push(`/playlists/view/${playlistId}`);
+      });
+
+      emitter.on("AddError", ()=>{
+          this.errorMessage = "Error Adding Song To Playlist"
+      });
+
   }  
 };
 </script>

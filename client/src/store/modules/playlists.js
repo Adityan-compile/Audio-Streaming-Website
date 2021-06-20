@@ -48,6 +48,19 @@ const playlists = {
                     reject(err);
                 });
             });
+        },
+        add({ commit }, payload){
+            return new Promise((resolve, reject)=>{
+                instance.post('/playlists/music/add', payload).then(({status, data})=>{
+                    if(status === 200){
+                        resolve(data);
+                    }else{
+                        reject("Error");
+                    }
+                }).catch(err=>{
+                    reject(err);
+                });
+            });
         }
     }
 };

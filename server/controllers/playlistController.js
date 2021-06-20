@@ -54,18 +54,6 @@ exports.getPlaylists = (req, res) => {
         status: 200,
         playlist: foundPlaylist,
       });
-
-    // .then((playlist) => {
-    //   console.log(playlist)
-    //   res.status(200).json({
-    //     status: 200,
-    //     playlist: playlist,
-    //   });
-    // })
-    // .catch((err) => {
-    //   console.log("Err", err);
-    //   res.sendStatus(500);
-    // });
 };
 
 exports.newPlaylist = (req, res) =>{
@@ -90,4 +78,21 @@ exports.newPlaylist = (req, res) =>{
   });
 
 
+};
+
+exports.addToPlaylist = (req, res)=>{
+  let data = req.body;
+
+  if(Object.keys(data).length < 2) return res.sendStatus(400);
+
+  playlist.findOne({ _id: data.playlist }, (err, doc)=>{
+
+    if(err) return sendStatus(500);
+
+    doc.tracks.push(data.song);
+    doc.save();
+
+    res.status(200).json({ status: 200, playlist: doc });
+
+  });
 };

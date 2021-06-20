@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-const { getPlaylists, newPlaylist, getPlaylist } = require('../controllers/playlistController');
+const { getPlaylists, newPlaylist, getPlaylist, addToPlaylist } = require('../controllers/playlistController');
 
 /**
  * @alias express.Router()
@@ -50,6 +50,18 @@ router.get("/get", authenticate, (req, res)=>{
  */
  router.post("/new", authenticate, (req, res)=>{
     newPlaylist(req, res);
+});
+
+/*
+* @route {GET} /view
+* @method GET
+* @function
+* @module routes/index
+* @param {String} path
+* @param {Callback}
+*/
+router.post("/music/add", authenticate, (req, res)=>{
+    addToPlaylist(req, res);
 });
 
 module.exports = router;

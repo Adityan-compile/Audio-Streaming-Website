@@ -177,3 +177,23 @@ exports.removeFromPlaylist = (req, res) => {
   //   }
   // );
 };
+
+
+/**
+ * Delete Playlist
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
+exports.deletePlaylist = (req, res)=>{
+  let id = req.query.id;
+  if(!id) return res.sendStatus(400);
+
+  playlist.findOneAndDelete({  
+    _id: id
+  }, (err, doc)=>{
+    if(err) return res.sendStatus(500);
+    res.status(200).json({ status: 200, deleted: doc });
+  });
+
+};

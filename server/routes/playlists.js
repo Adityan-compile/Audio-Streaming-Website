@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-const { getPlaylists, newPlaylist, getPlaylist, addToPlaylist, removeFromPlaylist } = require('../controllers/playlistController');
+const { getPlaylists, newPlaylist, getPlaylist, addToPlaylist, removeFromPlaylist, deletePlaylist } = require('../controllers/playlistController');
 
 /**
  * @alias express.Router()
@@ -53,27 +53,39 @@ router.get("/get", authenticate, (req, res)=>{
 });
 
 /*
-* @route {GET} /view
-* @method GET
+* @route {PATCH} /music/add
+* @method PATCH
 * @function
 * @module routes/index
 * @param {String} path
 * @param {Callback}
 */
-router.post("/music/add", authenticate, (req, res)=>{
+router.patch("/music/add", authenticate, (req, res)=>{
     addToPlaylist(req, res);
 });
 
 /*
-* @route {POST} /view
-* @method POST
+* @route {DELETE} /music/remove
+* @method DELETE
 * @function
 * @module routes/index
 * @param {String} path
 * @param {Callback}
 */
-router.post("/music/remove", authenticate, (req, res)=>{
+router.delete("/music/remove", authenticate, (req, res)=>{
     removeFromPlaylist(req, res);
+});
+
+/*
+* @route {DELETE} /delete
+* @method DELETE
+* @function
+* @module routes/index
+* @param {String} path
+* @param {Callback}
+*/
+router.delete("/delete", authenticate, (req, res)=>{
+    deletePlaylist(req, res);
 });
 
 module.exports = router;

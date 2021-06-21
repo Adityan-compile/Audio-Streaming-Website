@@ -51,7 +51,7 @@ const playlists = {
         },
         add({ commit }, payload){
             return new Promise((resolve, reject)=>{
-                instance.post('/playlists/music/add', payload).then(({status, data})=>{
+                instance.patch('/playlists/music/add', payload).then(({status, data})=>{
                     if(status === 200){
                         resolve(data);
                     }else{
@@ -64,7 +64,7 @@ const playlists = {
         },
         remove({ commit }, payload){
             return new Promise((resolve, reject)=>{
-                instance.post('/playlists/music/remove', payload).then(({status, data})=>{
+                instance.delete('/playlists/music/remove', payload).then(({status, data})=>{
                     if(status === 200){
                         resolve(data.playlist);
                     }else{

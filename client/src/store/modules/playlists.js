@@ -74,6 +74,15 @@ const playlists = {
                     reject(err);
                 });
             });      
+        },
+        delete({ commit }, id){
+            return new Promise((resolve, reject)=>{
+                instance.delete(`/playlists/delete?id=${id}`).then(({ data, status })=>{
+                    (status === 200) ? resolve(true): reject('Error');
+                }).catch(err=>{
+                    reject(err);
+                });
+            });
         }
     }
 };

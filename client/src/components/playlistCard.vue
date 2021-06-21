@@ -16,9 +16,9 @@
 
 <script>
 export default {
-    name: "PlaylistCard",
-    props: {
-        data: Object,
-    }
+  name: "PlaylistCard",
+  props: {
+    data: Object,
+  },
 };
 </script>

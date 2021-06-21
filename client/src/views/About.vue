@@ -2,7 +2,7 @@
 <div class="component p-5 text-center">
     <p class="text-danger p-5">{{ errorMessage }}</p>
     <About-Song v-bind:data="track" />
-    <Add-To-Playlist :data="playlists" :song="id"/>
+    <Add-To-Playlist :data="playlists" :song="id" class="pb-5 mb-5"/>
 </div>
 </template>
 

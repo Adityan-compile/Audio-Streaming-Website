@@ -2,7 +2,7 @@
 
 const audio = require("../models/audio");
 const playlist = require("../models/playlist");
-const _ = require('lodash');
+const _ = require("lodash");
 
 /**
  * Get all Playlists
@@ -11,10 +11,9 @@ const _ = require('lodash');
  * @returns {undefined}
  */
 exports.getPlaylists = (req, res) => {
+  let id = req.user._id;
 
-  let id = req.user._id; 
-
-  if(!id) return res.sendStatus(400);
+  if (!id) return res.sendStatus(400);
 
   playlist
     .find({ creatorId: id })
@@ -38,22 +37,18 @@ exports.getPlaylists = (req, res) => {
  * @param {require('express').Response} res
  * @returns {undefined}
  */
- exports.getPlaylist = async(req, res) => {
+exports.getPlaylist = async (req, res) => {
+  let id = req.query.id;
 
-  let id = req.query.id; 
+  if (!id) return res.sendStatus(400);
 
+  let foundPlaylist = await playlist.findOne({ _id: id });
+  await foundPlaylist.populate("tracks").execPopulate();
 
-  if(!id) return res.sendStatus(400);
-
-  let foundPlaylist = await playlist.findOne({ _id: id })
-    await foundPlaylist
-    .populate('tracks')
-    .execPopulate();
-
-      res.status(200).json({
-        status: 200,
-        playlist: foundPlaylist,
-      });
+  res.status(200).json({
+    status: 200,
+    playlist: foundPlaylist,
+  });
 };
 
 /**
@@ -62,28 +57,28 @@ exports.getPlaylists = (req, res) => {
  * @param {require('express').Response} res
  * @returns {undefined}
  */
-exports.newPlaylist = (req, res) =>{
+exports.newPlaylist = (req, res) => {
   let data = req.body;
   let id = req.user._id;
 
-  if(!data || !id) return res.sendStatus(400);
+  if (!data || !id) return res.sendStatus(400);
 
   let playlistObject = new playlist({
-     title: data.title,
-     creatorId: id,
-     tracks: []
+    title: data.title,
+    creatorId: id,
+    tracks: [],
   });
 
-  playlistObject.save((err, newPlaylist)=>{
-    if(err) return res.status(500).json({ status: 500, message: "Error Creating Playlist" });
+  playlistObject.save((err, newPlaylist) => {
+    if (err)
+      return res
+        .status(500)
+        .json({ status: 500, message: "Error Creating Playlist" });
     res.status(201).json({
       status: 201,
-      playlist: newPlaylist
-    })
-
+      playlist: newPlaylist,
+    });
   });
-
-
 };
 
 /**
@@ -92,20 +87,18 @@ exports.newPlaylist = (req, res) =>{
  * @param {require('express').Response} res
  * @returns {undefined}
  */
-exports.addToPlaylist = (req, res)=>{
+exports.addToPlaylist = (req, res) => {
   let data = req.body;
 
-  if(Object.keys(data).length < 2) return res.sendStatus(400);
+  if (Object.keys(data).length < 2) return res.sendStatus(400);
 
-  playlist.findOne({ _id: data.playlist }, (err, doc)=>{
-
-    if(err) return sendStatus(500);
+  playlist.findOne({ _id: data.playlist }, (err, doc) => {
+    if (err) return sendStatus(500);
 
     doc.tracks.push(data.song);
     doc.save();
 
     res.status(200).json({ status: 200, playlist: doc });
-
   });
 };
 
@@ -115,21 +108,72 @@ exports.addToPlaylist = (req, res)=>{
  * @param {require('express').Response} res
  * @returns {undefined}
  */
-exports.removeFromPlaylist = (req, res)=>{
+exports.removeFromPlaylist = (req, res) => {
   let data = req.body;
 
-  if(Object.keys(data).length < 2) return res.sendStatus(400);
+  console.log("data:", data.song);
 
+  if (Object.keys(data).length < 2) return res.sendStatus(400);
+
+  // playlist.updateOne(
+  //   { _id: data.playlist },
+  //   {
+  //     $pullAll: {
+  //       tracks: [data.song],
+  //     },
+  //   },
+  //   (err, doc) => {
+  //     console.log(err);
+  //     console.log(doc);
+  //     if (err) return res.sendStatus(500);
+  //     res.status(200).json({ status: 200, playlist: doc });
+  //   }
+  // );
 
   playlist.findOne({ _id: data.playlist }, (err, doc)=>{
 
-    if(err) return sendStatus(500);
+    if(err) return res.sendStatus(500);
 
-    doc.tracks.pull(data.song);
-    doc.save();
+    let idx = doc.tracks ? doc.tracks.indexOf(data.song) : -1;
 
-    res.status(200).json({ status: 200, playlist: doc });
+    if (idx !== -1) {
+      doc.tracks.splice(idx, 1);
+      doc.save(async(error, playlist)=>{
+        if(error) return res.sendStatus(500);
+        let populated = await playlist.populate('tracks').execPopulate();
+        res.status(200).json({ status: 200, playlist: populated });
+      });
+    }else{
+      return res.sendStatus(500);
+    }
+
+
+    // doc.tracks.remove(data.song);
+
+    // doc.tracks.filter((track)=>{
+    //   return track != data.song;
+    // });
+
+//    let mod =  _.pull(doc.tracks, data.song)
+
+    // doc.tracks = mod;
 
   });
 
+  // playlist.findOneAndUpdate(
+  //   {
+  //     _id: data.playlist.toString()
+  //   },
+  //   {
+  //     $pullAll: {
+  //       tracks: [data.song.toString()]
+  //     }
+  //   },
+  //   (err, doc) => {
+  //     console.log(err)
+  //     console.log(doc)
+  //     if (err) return res.sendStatus(500);
+  //     res.status(200).json({ status: 200, playlist: doc });
+  //   }
+  // );
 };

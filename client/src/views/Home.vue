@@ -6,9 +6,9 @@
           <img class="img-fluid pt-5" src="../assets/musician.png" />
         </div>
         <div
-          class="col-md-6 align-self-center p-5 fw-bold text-center typewriter"
+          class="col-md-6 align-self-center p-5 pt-5 fw-bold text-center typewriter"
         >
-          <h1 class="logo-text text-white pt-4 typewriter-text" ref="title">
+          <h1 class="logo-text text-white pt-5 typewriter-text" ref="title">
             Track Wiz
           </h1>
           <h5 class="text-white home-text pt-3">

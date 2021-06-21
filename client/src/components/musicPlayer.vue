@@ -2,7 +2,7 @@
   <div class="music-player component box-shadow sticky-bottom">
     <div class="card-footer fixed-bottom bg-dark border-top">
       <div class="d-flex flex-row justify-content-start align-items-center">
-        <div class="p-1">
+        <div class="p-1"> 
           <object
             v-bind:data="`/assets/images/${getPlaying.image}`"
             type="image/jpeg"
@@ -21,7 +21,7 @@
             />
           </object>
         </div>
-        <div class="d-flex flex-column flex-grow p-1 mt-2 w-100">
+        <div class="d-flex flex-column flex-grow w-100">
           <div class="flex-shrink mt-2">
             <div>{{ getPlaying.title }}</div>
             <div>{{ getPlaying.artistName }}</div>
@@ -30,7 +30,8 @@
             <audio
               controls
               ref="player"
-              class="align-self-center shadow rounded-pill flex-grow w-100 audio"
+              class="align-self-center shadow rounded-pill flex-grow w-100 audio" 
+              controlsList="nodownload"
               @pause="pause"
               @play="play"
               @ended="end"

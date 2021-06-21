@@ -2,7 +2,9 @@
   <div>
     <Navbar></Navbar>
     <router-view />
-    <MusicPlayer class="p-5" v-if="loggedIn && getPage != 'Home'" />
+    <div class="pt-5 mt-5">
+      <MusicPlayer v-if="loggedIn && getPage != 'Home'" />
+    </div>
   </div>
 </template>
 

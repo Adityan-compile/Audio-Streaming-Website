@@ -1,7 +1,7 @@
 <template>
-  <div class="component p-5">
+  <div class="component">
     <div class="container">
-      <h1 class="text-center p-3 pt-5">{{ playlist.title || "PLAYLIST" }}</h1>
+      <h1 class="text-center p-3 pt-5 mt-5">{{ playlist.title || "PLAYLIST" }}</h1>
       <p class="text-danger text-center">{{ error }}</p>
 
 
@@ -46,7 +46,7 @@
                 >
               </td>
               <td class="text-center align-middle">
-                {{ track.artistName.slice(0, 15) }}...
+                {{ (track.artistName) ? track.artistName.slice(0, 15) : track.artistName }}...
               </td>
               <td class="text-center align-middle h3">
                 <i

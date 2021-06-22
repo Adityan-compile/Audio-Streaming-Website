@@ -1,6 +1,7 @@
 "use strict";
 
 var audio = require("../models/audio");
+var playlist = require('../models/playlist');
 var user = require("../models/user");
 /**
  * Search for Audio and Artists
@@ -111,17 +112,46 @@ exports.getArtists = (req, res) => {
  * @param {require('express').Response} res
  * @returns {undefined}
  */
+// exports.deleteAccount = (req, res) => {
+//   let id = req.query.id;
+
+//   if(!id) return res.sendStatus(400);
+
+//   user.deleteOne({_id: id}).then(()=>{
+//     res.clearCookie('refresh_token');
+//     res.clearCookie('access_token');
+//     res.clearCookie('user');
+//     res.status(204).json({ status: 204, message: "Account Deleted Successfully" })
+//   }).catch(err=>{
+//     res.status(500).json({ status: 204, message: "Account Deletion Failed" })
+//   });
+// };
+
 exports.deleteAccount = (req, res) => {
-  let id = req.query.id;
+  let id = req.user._id;
 
   if(!id) return res.sendStatus(400);
 
   user.deleteOne({_id: id}).then(()=>{
-    res.clearCookie('refresh_token');
-    res.clearCookie('access_token');
-    res.clearCookie('user');
-    res.status(204).json({ status: 204, message: "Account Deleted Successfully" })
+    playlist.deleteMany({ creatorId: id }).then(()=>{
+       audio.deleteMany({ creatorId: id }).then(()=>{
+        res.clearCookie('refresh_token');
+        res.clearCookie('access_token');
+        res.clearCookie('user');
+        res.status(204).json({ status: 204, message: "Account Deleted Successfully" });
+       }).catch(err=>{
+        res.clearCookie('refresh_token');
+        res.clearCookie('access_token');
+        res.clearCookie('user');
+        res.status(204).json({ status: 204, message: "Account Deleted Successfully" });
+       })
+    }).catch(err=>{
+      res.clearCookie('refresh_token');
+      res.clearCookie('access_token');
+      res.clearCookie('user');
+      res.status(204).json({ status: 204, message: "Account Deleted Successfully" });
+    });
   }).catch(err=>{
-    res.status(500).json({ status: 204, message: "Account Deletion Failed" })
+    res.status(500).json({ status: 204, message: "Account Deletion Failed" });
   });
 };

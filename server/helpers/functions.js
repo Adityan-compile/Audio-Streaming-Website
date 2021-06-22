@@ -3,6 +3,7 @@
 const validator = require('email-validator');
 const jwt = require('jsonwebtoken');
 const token = require('../models/token');
+const fs = require('fs');
 
 /**
  * Validate Email Address
@@ -135,5 +136,26 @@ exports.verifyToken = async (refreshToken) => {
     } else {
       reject('error');
     }
+  });
+};
+
+/**
+ * Delete File
+ *
+ * @module helper/functions
+ *
+ * @param {String} path
+ * @returns {Promise}
+ *
+ *@example
+ *     let filePath = require('path').resolve('./text.txt');
+ *      deleteFile(filePath);
+ *
+ */
+exports.deleteFile = (path)=>{
+  return new Promise((resolve, reject)=>{
+    fs.unlink(path, (err)=>{
+      (err) ? reject(err) : resolve(true);
+    });
   });
 };

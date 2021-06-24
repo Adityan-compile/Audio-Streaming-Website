@@ -31,20 +31,29 @@
           <span class="align-middle card-text">{{ data.yearCreated }}</span>
         </div>
         <div class="col-lg-2 p-3">
-          <div class="d-flex flex-nowrap align-items-center justify-content-center">
-          <i
-            role="button"
-            class="fa fa-play-circle play align-middle p-2"
-            @click.prevent="play"
-            title="Play/Pause"
-          ></i>
-          <router-link v-bind:to="`/about/${data._id}`" class="text-white">
+          <div
+            class="d-flex flex-nowrap align-items-center justify-content-center"
+          >
             <i
               role="button"
-              class="fa fa-info-circle info align-middle p-2"
-              title="Info"
+              class="play align-middle p-2"
+              :class="{
+                playing:
+                  getIsPlaying === true && getPlayingId === data._id,
+                paused:
+                  getIsPlaying === true && getPlayingId !== data._id,
+                paused: getIsPlaying === false,
+              }"
+              @click.prevent="play"
+              title="Play/Pause"
             ></i>
-          </router-link>
+            <router-link v-bind:to="`/about/${data._id}`" class="text-white">
+              <i
+                role="button"
+                class="fa fa-info-circle info align-middle p-2"
+                title="Info"
+              ></i>
+            </router-link>
           </div>
         </div>
         <!-- <div class="col-md-1 p-3">
@@ -59,6 +68,9 @@
       </div>
     </div>
   </div>
+  <!-- 'fa fa-play-circle play align-middle p-2': getIsPlaying && getPlayingId != data._id,
+  'fa fa-play-circle play align-middle p-2': !getIsPlaying && getPlayingId != data._id,
+  'fa fa-play-circle play align-middle p-2': !getIsPlaying && getPlayingId === data._id, -->
 </template>
 
 <script>
@@ -70,6 +82,8 @@ export default {
   data() {
     return {
       staticUrl: process.env.VUE_APP_IMAGES_URL,
+      playing: "fa fa-pause-circle",
+      paused: "fa fa-play-circle"
     };
   },
   mounted() {},

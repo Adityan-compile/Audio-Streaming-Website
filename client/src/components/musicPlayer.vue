@@ -2,7 +2,7 @@
   <div class="music-player component box-shadow sticky-bottom">
     <div class="card-footer fixed-bottom bg-dark border-top">
       <div class="d-flex flex-row justify-content-start align-items-center">
-        <div class="p-1"> 
+        <div class="p-1">
           <object
             v-bind:data="`/assets/images/${getPlaying.image}`"
             type="image/jpeg"
@@ -30,7 +30,7 @@
             <audio
               controls
               ref="player"
-              class="align-self-center shadow rounded-pill flex-grow w-100 audio" 
+              class="align-self-center shadow rounded-pill flex-grow w-100 audio bg-dark" 
               controlsList="nodownload"
               @pause="pause"
               @play="play"
@@ -79,7 +79,7 @@ export default {
         forceRender();
         player.load();
         player.play();
-      }else if(change === "playCurrent"){
+      } else if (change === "playCurrent") {
         playing = true;
         forceRender();
         player.play();
@@ -111,4 +111,7 @@ export default {
 </script>
 
 <style scoped>
+.audio::-webkit-media-controls-panel {
+  background-color: #2b2b2b;
+}
 </style>

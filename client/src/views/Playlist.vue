@@ -3,12 +3,11 @@
     <div class="container">
       <h1 class="text-center p-3 pt-5 mt-5">{{ playlist.title || "PLAYLIST" }}</h1>
       <p class="text-danger text-center">{{ error }}</p>
-
-      <div class="p-5 mb-3">
+      <div class="pb-5 mb-3">
         <button class="btn btn-danger" style="float:right" @click.prevent="deletePlaylist">Delete Playlist</button>
       </div>
 
-      <div class="tracks table-responsive-sm">
+      <div class="tracks table-responsive-sm pb-5 mb-5">
         <table
           class="table table-dark table-striped table-hover table-bordered"
         >
@@ -53,7 +52,7 @@
               </td>
               <td class="text-center align-middle h3">
                 <i
-                  class="fa fa-play"
+                  class="fa fa-play align-middle p-2"
                   role="button"
                   @click.prevent="play(track)"
                   title="play/pause"
@@ -89,7 +88,7 @@ export default {
     id: String,
   },
   computed: {
-    ...mapGetters("audio", ["getPlayingId", "getIsPlaying"]),
+    ...mapGetters("audio", ["getPlayingId", "getIsPlaying", "getPaused"]),
   },
   methods: {
     play(track) {
@@ -120,7 +119,7 @@ export default {
       }).catch(err=>{
         this.error = "Failed to Delete Playlist !!";
       });
-    }
+    },
   },
   mounted() {
     this.$store

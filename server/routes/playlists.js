@@ -65,14 +65,14 @@ router.patch("/music/add", authenticate, (req, res)=>{
 });
 
 /*
-* @route {DELETE} /music/remove
-* @method DELETE
+* @route {POST} /music/remove
+* @method POST
 * @function
 * @module routes/index
 * @param {String} path
 * @param {Callback}
 */
-router.delete("/music/remove", authenticate, (req, res)=>{
+router.post("/music/remove", authenticate, (req, res)=>{
     removeFromPlaylist(req, res);
 });
 

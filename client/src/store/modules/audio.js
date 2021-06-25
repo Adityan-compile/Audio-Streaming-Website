@@ -9,6 +9,7 @@ const audio = {
         playing: {},
         playingId: '',
         isPlaying: false,
+        paused: true
     },
     getters: {
         getPlaying(state){
@@ -19,6 +20,9 @@ const audio = {
         },
         getIsPlaying(state){
             return state.isPlaying;
+        },
+        getPaused(state){
+            return state.paused;
         }
     },
     mutations: {
@@ -30,6 +34,9 @@ const audio = {
         },
         setIsPlaying(state, status){
             state.isPlaying = status;
+        },
+        setPaused(state, status){
+            state.paused = status;
         }
     },
     actions: {
@@ -39,16 +46,19 @@ const audio = {
                 commit('setPlaying', music);
                 commit('setPlayingId', music._id);
                 commit('setIsPlaying', true);
+                commit('setPaused', false);
                 emitter.emit('stateChange', 'playCurrent');
             }else{
                 commit('setPlaying', music);
                 commit('setPlayingId', music._id);
                 commit('setIsPlaying', true);
+                commit('setPaused', false);
                 emitter.emit('stateChange', 'play');
             }
         },
         pause({ commit }){
             commit('setIsPlaying', false);
+            commit('setPaused', true);
             emitter.emit('stateChange', 'pause');
         },
         fetchTrackDetails({ commit }, id){

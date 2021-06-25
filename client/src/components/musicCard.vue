@@ -36,14 +36,7 @@
           >
             <i
               role="button"
-              class="play align-middle p-2"
-              :class="{
-                playing:
-                  getIsPlaying === true && getPlayingId === data._id,
-                paused:
-                  getIsPlaying === true && getPlayingId !== data._id,
-                paused: getIsPlaying === false,
-              }"
+              :class="getBtnState"
               @click.prevent="play"
               title="Play/Pause"
             ></i>
@@ -68,9 +61,12 @@
       </div>
     </div>
   </div>
-  <!-- 'fa fa-play-circle play align-middle p-2': getIsPlaying && getPlayingId != data._id,
-  'fa fa-play-circle play align-middle p-2': !getIsPlaying && getPlayingId != data._id,
-  'fa fa-play-circle play align-middle p-2': !getIsPlaying && getPlayingId === data._id, -->
+  <!-- {
+                'fa fa-pause-circle play align-middle p-2': !getPaused && getPlayingId === data._id,
+                'fa fa-play-circle play align-middle p-2': getPaused,
+                'fa fa-play-circle play align-middle p-2': getPaused && getPlayingId != data._id,
+                'fa fa-play-circle play align-middle p-2': !getPaused && getPlayingId != data._id,
+              } -->
 </template>
 
 <script>
@@ -83,12 +79,21 @@ export default {
     return {
       staticUrl: process.env.VUE_APP_IMAGES_URL,
       playing: "fa fa-pause-circle",
-      paused: "fa fa-play-circle"
+      paused: "fa fa-play-circle",
     };
   },
   mounted() {},
   computed: {
-    ...mapGetters("audio", ["getPlayingId", "getIsPlaying"]),
+    ...mapGetters("audio", ["getPlayingId", "getIsPlaying", "getPaused"]),
+    getBtnState: function () {
+      let btnState = "fa fa-play-circle play align-middle p-2";
+      if (this.getIsPlaying && this.getPlayingId === this.data._id) {
+        btnState = "fa fa-pause-circle play align-middle p-2";
+      } else if (this.getIsPlaying && this.getPlayingId != this.data._id) {
+        btnState = "fa fa-play-circle play align-middle p-2";
+      }
+      return btnState;
+    },
   },
   props: {
     data: {

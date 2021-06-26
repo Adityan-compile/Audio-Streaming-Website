@@ -20,7 +20,8 @@
             ></i>
           </h1>
           <h2 class="pb-2">Email: {{ user.email }}</h2>
-          <button class="btn btn-danger rounded-pill" @click.prevent="deleteAccount">Delete Account</button>
+          <span class="p-2"><button class="btn btn-danger rounded-pill text-white p-2" @click.prevent="deleteAccount">Delete Account</button></span>
+          <span class="p-2"><router-link to="/user/profile/edit" class="btn btn-warning rounded-pill text-danger p-2">Edit Account</router-link></span>
         </div>
       </div>
       <div class="uploads p-3">

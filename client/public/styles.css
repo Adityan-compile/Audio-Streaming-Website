@@ -4,6 +4,7 @@
 
 :root {
   --dark: #212529;
+  --white: #fff;
 }
 
 html,
@@ -11,6 +12,20 @@ body {
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+}
+
+.text-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #434a52;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: var(--white);
+}
+.file-input {
+  background: none;
+  color: var(--white);
 }
 
 .link {

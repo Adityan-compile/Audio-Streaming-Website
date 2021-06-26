@@ -32,6 +32,12 @@ const routes = [
     component: () => import("../views/Profile.vue"),
   },
   {
+    path: "/user/profile/edit",
+    name: "Edit Profile",
+    beforeEnter: routeGuard,
+    component: () => import("../views/EditProfile.vue"),
+  },
+  {
     path: "/player",
     name: "Player",
     beforeEnter: routeGuard,

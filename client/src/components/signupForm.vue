@@ -86,8 +86,9 @@ export default {
 
 <style scoped>
 :root {
+  --dark: #212529;
   --white: #fff;
-}
+} 
 
 .text-input {
   background: none;

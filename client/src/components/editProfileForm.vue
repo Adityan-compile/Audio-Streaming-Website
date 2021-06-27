@@ -30,6 +30,7 @@
           <input
             type="password"
             v-model="password"
+            placeholder="**********"
             class="form-control text-input"
             id="password"
             name="password"
@@ -50,7 +51,7 @@
       </div>
       <div class="p-3 pt-5">
         <button type="submit" class="btn btn-primary" @click.prevent="signup">
-          Edit Profile
+          Update Profile
         </button>
       </div>
     </form>
@@ -58,8 +59,42 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "EditProfileForm",
+  data() {
+    return {
+      name: "",
+      email: "",
+      password: ""
+    }
+  },
+  created() {
+    this.name = this.user.name;
+    this.email = this.user.email;
+  },
+  computed: {
+    ...mapState('auth', ['user'])
+  },
+  methods: {
+    updateProfile(){
+      let formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("email", this.email);
+      formData.append("password", this.password);
+      formData.append("picture", this.$refs.picture.files[0]);
+
+      this.$store
+        .dispatch("user/updateProfile", formData)
+        .then((res) => {
+          this.$router.push("/user/profile");
+        })
+        .catch((err) => {
+          console.error(err);
+          this.error = "Registration Error: Please try again later:";
+        });
+    }
+  }
 };
 </script>
 

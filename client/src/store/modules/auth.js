@@ -13,6 +13,9 @@ const auth = {
     isLoggedIn(state) {
       return state.loggedIn;
     },
+    getUser(state){
+      return state.user;
+    }
   },
   mutations: {
     setUser(state, user) {

@@ -1,5 +1,6 @@
 "use strict";
 
+const { functions } = require("lodash");
 var audio = require("../models/audio");
 var playlist = require('../models/playlist');
 var user = require("../models/user");
@@ -112,21 +113,6 @@ exports.getArtists = (req, res) => {
  * @param {require('express').Response} res
  * @returns {undefined}
  */
-// exports.deleteAccount = (req, res) => {
-//   let id = req.query.id;
-
-//   if(!id) return res.sendStatus(400);
-
-//   user.deleteOne({_id: id}).then(()=>{
-//     res.clearCookie('refresh_token');
-//     res.clearCookie('access_token');
-//     res.clearCookie('user');
-//     res.status(204).json({ status: 204, message: "Account Deleted Successfully" })
-//   }).catch(err=>{
-//     res.status(500).json({ status: 204, message: "Account Deletion Failed" })
-//   });
-// };
-
 exports.deleteAccount = (req, res) => {
   let id = req.user._id;
 
@@ -153,5 +139,35 @@ exports.deleteAccount = (req, res) => {
     });
   }).catch(err=>{
     res.status(500).json({ status: 204, message: "Account Deletion Failed" });
+  });
+};
+
+/**
+ * Update User Profile
+ * @param {require('express').Request} req
+ * @param {require('express').Response} res
+ * @returns {undefined}
+ */
+exports.updateProfile = (req, res)=>{
+  let userData = req.body;
+  let picture = req.files.picture;
+
+  user.findOne({ _id: req.user._id }).then((doc)=>{
+       if(userDate && functions.validate(userData.email)){
+         if(userData.password.length !== 0 && userData.password.length >= 8){
+           userData.password = await bcrypt.hash(userData.password, 10);
+           if(picture){
+
+           }else{
+             
+           }
+         }else{
+           return res.sendStatus(400);
+         }
+       }else{
+        return res.sendStatus(400);
+       }
+  }).catch(err=>{
+    return res.sendStatus(500);
   });
 };

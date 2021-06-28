@@ -114,4 +114,7 @@ export default {
 .audio::-webkit-media-controls-panel {
   background-color: #2b2b2b;
 }
+.audio{
+  height: 40px;
+}
 </style>

@@ -101,7 +101,7 @@ export default {
     logout(){
       this.$store.dispatch('auth/logout').then(res=>{
         if(res){
-          location.replace("/");
+          window.location.replace('/')
         }else{
          alert("Logout Failed");
         }

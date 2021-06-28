@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { uploads, getUserDetails, deleteAccount } = require('../controllers/userController');
+const { uploads, getUserDetails, deleteAccount, updateProfile } = require('../controllers/userController');
 
 const { authenticate } = require('../middleware/authenticate');
 
@@ -20,6 +20,10 @@ router.get('/details', authenticate, (req, res)=>{
 
 router.delete('/account/delete', authenticate, (req, res)=>{
     deleteAccount(req, res);
+});
+
+router.patch('/account/edit', authenticate, (req, res)=>{
+  updateProfile(req, res);
 });
 
 module.exports = router;

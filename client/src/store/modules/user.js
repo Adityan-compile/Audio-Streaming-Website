@@ -1,6 +1,7 @@
 'use strict';
 
 import instance from "@/axios.js";
+import store from "../index";
 
 const user = {
   namespaced: true,
@@ -48,9 +49,11 @@ const user = {
     updateProfile({ commit }, payload){
       return new Promise((resolve, reject) => {
         instance
-          .patch(`/users/profile/edit`, payload)
+          .patch(`/users/account/edit`, payload)
           .then(({data, status}) => {
             if (status === 200) {
+              console.log(data);
+              store.commit("auth/setUser", data.user)
               resolve(true);
             } else {
               reject(`Error: ${status}`);

@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col">
           <label for="password" class="form-label">Password:</label>
           <input
             type="password"
@@ -36,21 +36,9 @@
             name="password"
           />
         </div>
-        <div class="mb-3 col-md-6">
-          <label for="profilePicture" class="form-label"
-            >Profile Picture:</label
-          >
-          <input
-            class="form-control file-input"
-            type="file"
-            id="profilePicture"
-            ref="picture"
-            accept="image/*"
-          />
-        </div>
       </div>
       <div class="p-3 pt-5">
-        <button type="submit" class="btn btn-primary" @click.prevent="signup">
+        <button type="submit" class="btn btn-primary" @click.prevent="updateProfile">
           Update Profile
         </button>
       </div>
@@ -82,7 +70,6 @@ export default {
       formData.append("name", this.name);
       formData.append("email", this.email);
       formData.append("password", this.password);
-      formData.append("picture", this.$refs.picture.files[0]);
 
       this.$store
         .dispatch("user/updateProfile", formData)

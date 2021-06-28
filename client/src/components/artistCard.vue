@@ -6,6 +6,7 @@
         v-bind:data="`/assets/images/profile/${artist.profile}`"
         type="image/jpeg"
         loading="lazy"
+        crossorigin="use-credentials"
       >
         <img src="../assets/default.png" class="card-img-top" alt="..." />
       </object>

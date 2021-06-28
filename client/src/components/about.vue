@@ -6,6 +6,7 @@
           <img
             :src="`/assets/images/${data.image}`"
             class="figure-img img-fluid shadow rounded-3"
+            crossorigin="anonymous"
           />
         </div>
       </div>

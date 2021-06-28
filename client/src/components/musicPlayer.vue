@@ -11,6 +11,7 @@
             ref="thumbnail"
             class="thumbnail align-self-center shadow rounded"
             v-bind:key="key"
+            crossorigin="anonymous"
           >
             <img
               height="70px"
@@ -18,6 +19,7 @@
               ref="thumbnail"
               class="thumbnail align-self-center shadow rounded"
               src="/assets/images/60a3c4c7a557bb0fdc2c0291-60ba33addac02b2f0d93d5f0-takij.peg"
+              crossorigin="anonymous"
             />
           </object>
         </div>

@@ -13,8 +13,9 @@
             @click.prevent="play"
             role="button"
             v-bind:title="data.title"
+            crossorigin="anonymous"
           >
-            <img src="../assets/default.png" class="thumbnail" />
+            <img src="../assets/default.png" class="thumbnail" crossorigin="anonymous" />
           </object>
         </div>
         <div class="col-lg-3 p-3">

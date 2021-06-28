@@ -10,6 +10,7 @@
               alt="Profile"
               class="rounded shadow"
               v-bind:src="`/assets/images/profile/${user.profile}`"
+              crossorigin="use-credentials"
             />
           </div>
           <div class="col-md-6 align-middle p-2">

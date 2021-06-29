@@ -111,24 +111,7 @@ exports.addToPlaylist = (req, res) => {
 exports.removeFromPlaylist = (req, res) => {
   let data = req.body;
 
-  console.log("data:", data.song);
-
   if (Object.keys(data).length < 2) return res.sendStatus(400);
-
-  // playlist.updateOne(
-  //   { _id: data.playlist },
-  //   {
-  //     $pullAll: {
-  //       tracks: [data.song],
-  //     },
-  //   },
-  //   (err, doc) => {
-  //     console.log(err);
-  //     console.log(doc);
-  //     if (err) return res.sendStatus(500);
-  //     res.status(200).json({ status: 200, playlist: doc });
-  //   }
-  // );
 
   playlist.findOne({ _id: data.playlist }, (err, doc)=>{
 
@@ -139,6 +122,7 @@ exports.removeFromPlaylist = (req, res) => {
     if (idx !== -1) {
       doc.tracks.splice(idx, 1);
       doc.save(async(error, playlist)=>{
+        console.log(playlist)
         if(error) return res.sendStatus(500);
         let populated = await playlist.populate('tracks').execPopulate();
         res.status(200).json({ status: 200, playlist: populated });
@@ -147,35 +131,7 @@ exports.removeFromPlaylist = (req, res) => {
       return res.sendStatus(500);
     }
 
-
-    // doc.tracks.remove(data.song);
-
-    // doc.tracks.filter((track)=>{
-    //   return track != data.song;
-    // });
-
-//    let mod =  _.pull(doc.tracks, data.song)
-
-    // doc.tracks = mod;
-
   });
-
-  // playlist.findOneAndUpdate(
-  //   {
-  //     _id: data.playlist.toString()
-  //   },
-  //   {
-  //     $pullAll: {
-  //       tracks: [data.song.toString()]
-  //     }
-  //   },
-  //   (err, doc) => {
-  //     console.log(err)
-  //     console.log(doc)
-  //     if (err) return res.sendStatus(500);
-  //     res.status(200).json({ status: 200, playlist: doc });
-  //   }
-  // );
 };
 
 

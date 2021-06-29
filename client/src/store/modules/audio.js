@@ -73,6 +73,19 @@ const audio = {
                     reject(err);
                 });
             });
+        },
+        delete({ commit }, id){
+                return new Promise((resolve, reject)=>{
+                    instance.delete(`/uploads/tracks/delete?id=${id}`).then(({status, data})=>{
+                        if(status === 201){
+                            resolve(true);
+                        }else{
+                            reject("Error");
+                        }
+                    }).catch(err=>{
+                        reject(err);
+                    });
+                });      
         }
     }
 }

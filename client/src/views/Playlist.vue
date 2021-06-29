@@ -1,13 +1,23 @@
 <template>
   <div class="component">
     <div class="container">
-      <h1 class="text-center p-3 pt-5 mt-5">{{ playlist.title || "PLAYLIST" }}</h1>
+      <h1 class="text-center p-3 pt-5 mt-5">
+        {{ playlist.title || "PLAYLIST" }}
+      </h1>
       <p class="text-danger text-center">{{ error }}</p>
       <div class="pb-5 mb-3">
-        <button class="btn btn-danger" style="float:right" @click.prevent="deletePlaylist">Delete Playlist</button>
+        <button
+          class="btn btn-danger"
+          style="float: right"
+          @click.prevent="deletePlaylist"
+        >
+          Delete Playlist
+        </button>
       </div>
 
-      <div class="tracks table-responsive-sm pb-5 mb-5">
+      <Track-Table :tracks="playlist.tracks" :playlistId="id" />
+
+      <!-- <div class="tracks table-responsive-sm pb-5 mb-5">
         <table
           class="table table-dark table-striped table-hover table-bordered"
         >
@@ -70,13 +80,16 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import TrackTable from "@/components/trackTable.vue";
+import emitter from "@/shared/bus.js";
+
 export default {
   name: "Playlist",
   data() {
@@ -85,6 +98,9 @@ export default {
       error: "",
     };
   },
+  components: {
+    TrackTable,
+  },
   props: {
     id: String,
   },
@@ -92,6 +108,19 @@ export default {
     ...mapGetters("audio", ["getPlayingId", "getIsPlaying", "getPaused"]),
   },
   methods: {
+    fetchPlaylist() {
+      this.$store
+        .dispatch("playlists/fetchPlaylist", this.id)
+        .then((res) => {
+          if (Object.keys(res).length === 0)
+            return (this.error = "Playlist Not Found !!");
+          this.error = "";
+          this.playlist = res;
+        })
+        .catch((err) => {
+          this.error = "Error Fetching Playlist !!";
+        });
+    },
     play(track) {
       if (!this.getIsPlaying) {
         this.$store.dispatch("audio/play", track);
@@ -108,32 +137,33 @@ export default {
           playlist: this.playlist._id,
         })
         .then((res) => {
-           this.playlist = res
+          this.playlist = res;
         })
         .catch((err) => {
-          this.error = "Error Removing Song From Playlist !!"
+          this.error = "Error Removing Song From Playlist !!";
         });
     },
-    deletePlaylist(){
-      this.$store.dispatch("playlists/delete", this.playlist._id).then((res)=>{
-        this.$router.push("/playlists");
-      }).catch(err=>{
-        this.error = "Failed to Delete Playlist !!";
-      });
+    deletePlaylist() {
+      this.$store
+        .dispatch("playlists/delete", this.playlist._id)
+        .then((res) => {
+          this.$router.push("/playlists");
+        })
+        .catch((err) => {
+          this.error = "Failed to Delete Playlist !!";
+        });
     },
   },
   mounted() {
-    this.$store
-      .dispatch("playlists/fetchPlaylist", this.id)
-      .then((res) => {
-        if (Object.keys(res).length === 0)
-          return (this.error = "Playlist Not Found !!");
-        this.error = "";
-        this.playlist = res;
-      })
-      .catch((err) => {
-        this.error = "Error Fetching Playlist !!";
-      });
+    this.fetchPlaylist();
+
+    emitter.on("songRemove", (res) => {
+      this.error = "";
+      this.playlist = res;
+    });
+    emitter.on("songRemoveFailed", (res) => {
+      this.error = res;
+    });
   },
 };
 </script>

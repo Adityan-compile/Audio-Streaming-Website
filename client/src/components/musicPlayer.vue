@@ -34,6 +34,7 @@
               ref="player"
               class="align-self-center shadow rounded-pill flex-grow w-100 audio bg-dark" 
               controlsList="nodownload"
+              crossorigin="use-credentials"
               @pause="pause"
               @play="play"
               @ended="end"

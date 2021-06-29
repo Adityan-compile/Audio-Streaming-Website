@@ -12,7 +12,7 @@
             Track Wiz
           </h1>
           <h5 class="text-white home-text pt-3">
-            Listen To Music that awakens the inner musician in You.
+            Listen To Music that Awakens the Inner Musician in You.
           </h5>
         </div>
       </div>

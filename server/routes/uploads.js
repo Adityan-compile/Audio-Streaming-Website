@@ -40,7 +40,7 @@ router.post('/tracks/new', authenticate, (req, res) => {
  * @bodyparam {File} audio
  * @bodyparam {File} image
  */
-router.get('/tracks/delete', authenticate, (req, res) => {
+router.delete('/tracks/delete', authenticate, (req, res) => {
   deleteFile(req, res);
 });
 

@@ -1,6 +1,7 @@
 "use strict";
 
 const audio = require("../models/audio");
+const user = require("../models/user");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const functions = require("../helpers/functions");
@@ -35,7 +36,7 @@ exports.upload = async (req, res) => {
     creatorId: user._id,
     artistName: data.artist,
   });
-  
+
   audioObject.save(async (err, newAudio) => {
     if (err)
       return res
@@ -74,7 +75,7 @@ exports.upload = async (req, res) => {
  * @returns {undefined}
  */
 exports.deleteFile = async (req, res) => {
-  let audioId = req.query;
+  let audioId = req.query.id;
   let user = req.user;
   let savedAudio = audio.findOne({ _id: mongoose.Types.ObjectId(audioId) });
   if (savedAudio.creatorId === user._id) {
@@ -100,9 +101,18 @@ exports.deleteFile = async (req, res) => {
                     status: 200,
                     message: "Audio Deleted from Database",
                   });
-                res
-                  .status(201)
-                  .json({ status: 201, message: "File Deleted successfully" });
+                user.findOne({ _id: user._id }, (error, doc) => {
+                  let idx = doc.uploads ? doc.uploads.indexOf(songId) : -1;
+                  if (idx !== -1) {
+                    doc.tracks.splice(idx, 1);
+                    doc.save(async (error) => {
+                      res.status(201).json({
+                        status: 201,
+                        message: "File Deleted successfully",
+                      });
+                    });
+                  }
+                });
               }
             );
           }

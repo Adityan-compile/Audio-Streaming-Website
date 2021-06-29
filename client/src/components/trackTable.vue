@@ -1,7 +1,7 @@
 <template>
   <div class="component">
     <div class="tracks table-responsive-sm pb-5 mb-5">
-      <table class="table table-dark table-striped table-hover table-bordered">
+      <table class="table table-dark table-striped table-hover table-bordered box-shadow">
         <thead>
           <tr>
             <th scope="col" class="text-center align-middle">#</th>
@@ -38,10 +38,10 @@
             </td>
             <td class="text-center align-middle">
               {{
-                track.artistName
-                  ? track.artistName.slice(0, 15)
+                (track.artistName.length>15)
+                  ? track.artistName.slice(0, 15)+ "..."
                   : track.artistName
-              }}...
+              }}
             </td>
             <td class="text-center align-middle h3">
               <i

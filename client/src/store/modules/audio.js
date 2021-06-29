@@ -78,7 +78,7 @@ const audio = {
                 return new Promise((resolve, reject)=>{
                     instance.delete(`/uploads/tracks/delete?id=${id}`).then(({status, data})=>{
                         if(status === 201){
-                            resolve(true);
+                            resolve(data.track);
                         }else{
                             reject("Error");
                         }

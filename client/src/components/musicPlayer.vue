@@ -107,7 +107,7 @@ export default {
     },
     end() {
       this.playing = false;
-      this.$store.dispatch("audio/pause");
+      this.$store.dispatch("queue/ended");
     },
   },
 };

@@ -53,7 +53,7 @@
             </td>
             <td class="text-center align-middle">
               <button class="btn btn-danger" @click.prevent="remove(track._id)">
-                Remove
+                Remove <i class="fa fa-trash"></i>
               </button>
             </td>
           </tr>

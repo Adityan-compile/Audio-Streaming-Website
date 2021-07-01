@@ -5,82 +5,27 @@
         {{ playlist.title || "PLAYLIST" }}
       </h1>
       <p class="text-danger text-center">{{ error }}</p>
-      <div class="pb-5 mb-3">
-        <button
-          class="btn btn-danger"
-          style="float: right"
-          @click.prevent="deletePlaylist"
-        >
-          Delete Playlist
-        </button>
+      <div class="pb-5 p-5 mb-3" style="float: right">
+        <span class="p-2">
+          <button
+            class="btn btn-success"
+            @click.prevent="playAll"
+          >
+            Play All <i class="fa fa-play"></i>
+          </button>
+        </span>
+        <span class="p-2">
+          <button
+            class="btn btn-danger"
+            @click.prevent="deletePlaylist"
+          >
+            Delete Playlist <i class="fa fa-trash"></i>
+          </button>
+        </span>
       </div>
 
       <Track-Table :tracks="playlist.tracks" :playlistId="id" />
 
-      <!-- <div class="tracks table-responsive-sm pb-5 mb-5">
-        <table
-          class="table table-dark table-striped table-hover table-bordered"
-        >
-          <thead>
-            <tr>
-              <th scope="col" class="text-center align-middle">#</th>
-              <th scope="col" class="text-center align-middle">Image</th>
-              <th scope="col" class="text-center align-middle">Title</th>
-              <th scope="col" class="text-center align-middle">Artist</th>
-              <th scope="col" class="text-center align-middle">Play/Pause</th>
-              <th scope="col" class="text-center align-middle">Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(track, idx) in playlist.tracks" :key="track._id">
-              <th class="text-center align-middle" scope="row">
-                {{ idx + 1 }}
-              </th>
-              <td class="text-center align-middle">
-                <router-link
-                  class="text-white link"
-                  :to="`/about/${track._id}`"
-                >
-                  <img
-                    :src="`/assets/images/${track.image}`"
-                    alt="Image"
-                    width="70"
-                    height="70"
-                    class="rounded shadow"
-                    crossorigin="anonymous"
-                  />
-                </router-link>
-              </td>
-              <td class="text-center align-middle">
-                <router-link
-                  class="text-white link"
-                  :to="`/about/${track._id}`"
-                  >{{ track.title }}</router-link
-                >
-              </td>
-              <td class="text-center align-middle">
-                {{ (track.artistName) ? track.artistName.slice(0, 15) : track.artistName }}...
-              </td>
-              <td class="text-center align-middle h3">
-                <i
-                  class="fa fa-play align-middle p-2"
-                  role="button"
-                  @click.prevent="play(track)"
-                  title="play/pause"
-                ></i>
-              </td>
-              <td class="text-center align-middle">
-                <button
-                  class="btn btn-danger"
-                  @click.prevent="remove(track._id)"
-                >
-                  Remove
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div> -->
     </div>
   </div>
 </template>
@@ -108,6 +53,10 @@ export default {
     ...mapGetters("audio", ["getPlayingId", "getIsPlaying", "getPaused"]),
   },
   methods: {
+    playAll(){
+      if(this.playlist.tracks.length === 0) return this.error = "No Songs in Playlist !!";
+      this.$store.dispatch('queue/playAll', this.playlist.tracks);
+    },
     fetchPlaylist() {
       this.$store
         .dispatch("playlists/fetchPlaylist", this.id)

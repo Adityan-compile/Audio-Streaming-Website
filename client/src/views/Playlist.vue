@@ -5,10 +5,11 @@
         {{ playlist.title || "PLAYLIST" }}
       </h1>
       <p class="text-danger text-center">{{ error }}</p>
-      <div class="pb-5 p-5 mb-3" style="float: right">
+
+      <div class="pb-5 p-5 mb-3 text-right">
         <span class="p-2">
           <button
-            class="btn btn-success"
+            class="btn btn-success mb-2"
             @click.prevent="playAll"
           >
             Play All <i class="fa fa-play"></i>
@@ -16,7 +17,7 @@
         </span>
         <span class="p-2">
           <button
-            class="btn btn-danger"
+            class="btn btn-danger mb-2"
             @click.prevent="deletePlaylist"
           >
             Delete Playlist <i class="fa fa-trash"></i>
@@ -24,7 +25,9 @@
         </span>
       </div>
 
-      <Track-Table :tracks="playlist.tracks" :playlistId="id" />
+      <div class="tracks">
+        <Track-Table :tracks="playlist.tracks" :playlistId="id" />
+      </div>
 
     </div>
   </div>

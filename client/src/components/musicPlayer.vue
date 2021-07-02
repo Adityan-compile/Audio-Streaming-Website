@@ -107,7 +107,7 @@ export default {
     },
     end() {
       this.playing = false;
-      this.$store.dispatch("queue/ended");
+      this.$store.dispatch("queue/ended", this.getPlaying);
     },
   },
 };
@@ -115,7 +115,7 @@ export default {
 
 <style scoped>
 .audio::-webkit-media-controls-panel {
-  background-color: #2b2b2b;
+  background-color: #e4e4e4;
 }
 .audio{
   height: 40px;

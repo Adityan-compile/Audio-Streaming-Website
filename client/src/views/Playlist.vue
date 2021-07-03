@@ -57,8 +57,9 @@ export default {
   },
   methods: {
     playAll(){
-      if(this.playlist.tracks.length === 0) return this.error = "No Songs in Playlist !!";
-      this.$store.dispatch('queue/playAll', this.playlist.tracks);
+      let tracks = this.playlist.tracks;
+      if(tracks.length === 0) return this.error = "No Songs in Playlist !!";
+      this.$store.dispatch('queue/playAll', tracks.slice(0));
     },
     fetchPlaylist() {
       this.$store

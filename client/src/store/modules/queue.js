@@ -20,22 +20,25 @@ const queue = {
         },
         deleteFromQueue(state, value){
             let index = state.queue.map((x)=>x._id).indexOf(value._id);
-            console.log(index)
+            console.log("index", index)
             if(index === -1){
                 return -1;
             }else{
                 let queue = state.queue;
-                queue = queue.splice(0, index);
-                return queue;
+                console.log("Queue::Before");
+                console.log(queue);
+                queue = queue.splice(index, 1);
+                console.log("Queue::After");
+                console.log(queue);
             }
         },
         replaceQueue(state, data){
-            (!Array.isArray(data)) ? -1 : state.queue = data;
+            (!Array.isArray(data)) ? -1 : state.queue = data.reverse();
         }
     },
     actions: {
         ended({ commit, rootGetters, getters, dispatch }, data){
-            console.log("Delete", commit('deleteFromQueue', data));
+            commit('deleteFromQueue', data);
             let queue = getters.getQueue;
             console.log(queue)
             if(queue.length === 0) return;
@@ -47,7 +50,7 @@ const queue = {
             commit('replaceQueue', data);
             let queue = getters.getQueue;
             let next = queue[queue.length - 1];
-            console.log(queue, next)
+            console.log(queue, next);
             dispatch("audio/play", next, { root: true });
         } 
     }

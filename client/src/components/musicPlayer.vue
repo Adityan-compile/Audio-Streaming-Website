@@ -23,16 +23,20 @@
             />
           </object>
         </div>
-        <div class="d-flex flex-column flex-grow w-100">
-          <div class="flex-shrink mt-2">
-            <div>{{ getPlaying.title }}</div>
-            <div>{{ getPlaying.artistName }}</div>
+        <div class="d-flex flex-column flex-grow w-100 justify-content-between">
+          <div class="mt-2 me-auto">
+              <div>{{ getPlaying.title }}</div>
+              <div>{{ getPlaying.artistName }}</div>
           </div>
+            <!-- <div class="ms-auto">
+              <i class="fas fa-redo p-2"></i>
+              <i class="fa fa-heart p-2"></i>
+            </div>  -->
           <div class="p-2">
             <audio
               controls
               ref="player"
-              class="align-self-center shadow rounded-pill flex-grow w-100 audio bg-dark" 
+              class="align-self-center shadow rounded-pill flex-grow w-100 audio bg-dark"
               controlsList="nodownload"
               crossorigin="use-credentials"
               @pause="pause"
@@ -55,8 +59,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import emitter from "@/shared/bus";
+import { mapGetters } from "vuex";
 
 export default {
   name: "MusicPlayer",
@@ -117,7 +121,7 @@ export default {
 .audio::-webkit-media-controls-panel {
   background-color: #e4e4e4;
 }
-.audio{
+.audio {
   height: 40px;
 }
 </style>

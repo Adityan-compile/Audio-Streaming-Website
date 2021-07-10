@@ -1,26 +1,54 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Sevillana&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sevillana&display=swap");
 
 :root {
-	--dark: #212529;
+  --dark: #212529;
+  --white: #fff;
 }
 
 html,
 body {
-	padding: 0;
-	margin: 0;
-	scroll-behaviour: smooth;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+.text-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #434a52;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  color: var(--white);
+}
+.file-input {
+  background: none;
+  color: var(--white);
+}
+
+.link {
+  text-decoration: none;
+  color: #fff;
 }
 
 .logo-text {
-	font-family: "Great Vibes", cursive;
+  font-family: "Great Vibes", cursive;
 }
 
-.component{
-	  font-family: 'Akaya Telivigala', cursive;
-	  font-weight: bold;
-	  color: #fff;
+.component {
+  font-family: "Akaya Telivigala", cursive;
+  font-weight: bold;
+  color: #fff;
+}
+
+.play {
+  font-size: 3.5rem;
+}
+
+.play:hover {
+  transform: scale(1.2);
 }
 
 /* width */
@@ -41,4 +69,42 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+@media (pointer: coarse), (hover: none) {
+  [title] {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+  }
+  [title]:focus::after {
+    content: attr(title);
+    position: absolute;
+    top: 90%;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid;
+    width: fit-content;
+    padding: 3px;
+  }
+}
+
+.text-input{
+  background: none;
+}
+
+router-link:link {
+  text-decoration: none;
+}
+router-link:visited {
+  text-decoration: none;
+}
+router-link:hover {
+  text-decoration: none;
+}
+router-link:active {
+  text-decoration: none;
+}
+
+.icon:hover{
+  transform: scale(1.2);
 }

@@ -1,21 +1,25 @@
 'use strict';
 
 import instance from '@/axios.js';
+import { isJson } from '@/shared/check';
 
 const auth = {
   namespaced: true,
   state: {
     loggedIn: localStorage.getItem('LOGGED_IN') || false,
-    user: localStorage.getItem('USER') || {},
+    user: isJson(localStorage.getItem("USER")) ? JSON.parse(localStorage.getItem('USER')) : {},
   },
   getters: {
     isLoggedIn(state) {
       return state.loggedIn;
     },
+    getUser(state){
+      return state.user;
+    }
   },
   mutations: {
     setUser(state, user) {
-      localStorage.setItem('USER', user);
+      localStorage.setItem('USER', JSON.stringify(user));
       state.user = user;
     },
     setLoginStatus(state, status) {

@@ -6,9 +6,17 @@
     <div class="artists ps-2">
       <h1 class="ps-5">Artists</h1>
       <p class="text-danger p-3">{{ artistError }}</p>
-      <div class="row">
-        <div class="col-md-6" v-for="artist in artists" v-bind:key="artist._id">
-          <ArtistCard v-bind:artist="artist" />
+      <div class="container-fluid">
+        <div class="row flex-row flex-nowrap scroll">
+          <div
+            class="col-md-3"
+            v-for="artist in artists"
+            v-bind:key="artist._id"
+          >
+            <router-link v-bind:to="`/artist/${artist._id}`" class="link">
+                 <ArtistCard v-bind:artist="artist"  class="link" title="Swipe To See More Artists"/>
+            </router-link>
+             </div>
         </div>
       </div>
     </div>
@@ -25,33 +33,32 @@
 </template>
 
 <script>
-import ArtistCard from '@/components/artistCard.vue';
-import MusicCard from '@/components/musicCard.vue';
+import ArtistCard from "@/components/artistCard.vue";
+import MusicCard from "@/components/musicCard.vue";
 
 export default {
-  name: 'Player',
+  name: "Player",
   data() {
     return {
-      time: '',
+      time: "",
       artists: [],
       tracks: [],
-      artistError: '',
-      trackError: '',
+      artistError: "",
+      trackError: "",
     };
   },
   mounted() {
-  var hour = new Date().getHours();
-  if (hour < 12) {
-    this.time = 'Morning';
-  } else if (hour < 18) {
-    this.time = 'Afternoon';
-  } else {
-    this.time = 'Evening';
-  }
-
+    var hour = new Date().getHours();
+    if (hour < 12) {
+      this.time = "Morning";
+    } else if (hour < 18) {
+      this.time = "Afternoon";
+    } else {
+      this.time = "Evening";
+    }
 
     this.$store
-      .dispatch('utils/fetchArtists')
+      .dispatch("utils/fetchArtists")
       .then((artists) => {
         if (artists.length === 0) {
           this.trackError = "Oops We Can't Find any Artists !!!";
@@ -65,7 +72,7 @@ export default {
       });
 
     this.$store
-      .dispatch('utils/fetchTracks')
+      .dispatch("utils/fetchTracks")
       .then((tracks) => {
         if (tracks.length === 0) {
           this.trackError = "Oops We Can't Find any Tracks !!!";
@@ -83,3 +90,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.scroll {
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+</style>

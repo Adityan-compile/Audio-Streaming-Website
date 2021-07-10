@@ -1,16 +1,18 @@
 'use strict';
 
-var express = require('express');
+const express = require('express');
 
 /**
  * @alias express.Router()
  */
-var router = express.Router();
+const router = express.Router()
+const { search, getArtists, getUserDetails } = require('../controllers/userController');
+const { getTrackById, getTracks } = require('../controllers/audioController');
 
-var userController = require('../controllers/userController');
-var audioController = require('../controllers/audioController');
+const { authenticate } = require('../middleware/authenticate');
 
-var authenticator = require('../middleware/authenticate');
+const { sanitize } = require("../middleware/sanitize");
+
 
 /**
  * @name Index
@@ -21,8 +23,11 @@ var authenticator = require('../middleware/authenticate');
  * @param {String} path
  * @param {Callback}
  */
-router.get('/', authenticator.authenticate, (req, res) => {
-  res.send('index');
+router.get('/', (req, res) => {
+  res.json({ 
+    status: 200,
+    message: "Welcome to the Track Wiz API. Login or Signup to Get Started"
+   });
 });
 
 /**
@@ -35,8 +40,8 @@ router.get('/', authenticator.authenticate, (req, res) => {
  * @param {Callback} search
  * @urlparam {String} query
  */
-router.get('/search', (req, res) => {
-  userController.search(req, res);
+router.get('/search', authenticate, (req, res) => {
+     search(req, res);
 });
 
 /**
@@ -49,8 +54,8 @@ router.get('/search', (req, res) => {
  * @param {Callback} getArtists
  * @urlparam {String} count
  */
-router.get('/artists', (req, res) => {
-  userController.getArtists(req, res);
+router.get('/artists', authenticate, (req, res) => {
+   getArtists(req, res);
 });
 
 /**
@@ -63,8 +68,12 @@ router.get('/artists', (req, res) => {
  * @param {Callback} getTracks
  * @urlparam {Number} sort optional
  */
-router.get('/tracks', (req, res) => {
-  audioController.getTracks(req, res);
+router.get('/tracks', authenticate, (req, res) => {
+  getTracks(req, res);
+});
+
+router.get('/tracks/get/', authenticate, (req, res)=>{
+  getTrackById(req, res);
 });
 
 module.exports = router;

@@ -1,13 +1,29 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var userController = require('../controllers/userController');
-var authenticator = require('../middleware/authenticate');
+const { uploads, getUserDetails, deleteAccount, updateProfile } = require('../controllers/userController');
 
-router.get('/uploads', authenticator.authenticate, (req, res) => {
-  userController.uploads;
+const { authenticate } = require('../middleware/authenticate');
+
+const { sanitize } = require("../middleware/sanitize");
+
+
+router.get('/uploads', authenticate, (req, res) => {
+  uploads(req, res);
+});
+
+router.get('/details', authenticate, (req, res)=>{
+   getUserDetails(req, res);
+});
+
+router.delete('/account/delete', authenticate, (req, res)=>{
+    deleteAccount(req, res);
+});
+
+router.patch('/account/edit', authenticate, (req, res)=>{
+  updateProfile(req, res);
 });
 
 module.exports = router;

@@ -44,12 +44,14 @@
     <title><%= VUE_APP_TITLE %></title>
   </head>
   <body class="bg-dark">
-    <noscript>
-      <strong class="text-white"
-        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
-        properly without JavaScript enabled. Please enable it to
-        continue.</strong
-      >
+    <noscript class="d-flex align-item-center justify-content-center">
+      <div class="p-5 align-middle">
+        <strong class="text-white">
+          We're sorry but <%= VUE_APP_TITLE %> doesn't work
+          properly without JavaScript enabled. Please enable it to
+          continue.
+        </strong>
+      </div>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->

@@ -32,6 +32,19 @@ const uploads = {
           });
       });
     },
+    fetchUploads({ commit }, id){
+      return new Promise((resolve, reject)=>{
+        instance.get(`/users/uploads?id=${id}`).then(({ data, status })=>{
+          if(status === 200){
+             resolve(data.uploads);
+          }else{
+            reject(`Error: ${status}`);
+          }
+        }).catch(err=>{
+          reject(err);
+        });
+      });
+    }
   },
 };
 

@@ -2,14 +2,16 @@
   <div>
     <Navbar></Navbar>
     <router-view />
-    <MusicPlayer v-if="isLoggedIn && getPage != 'Home'" />
+    <div class="pt-5 mt-5">
+      <MusicPlayer v-if="loggedIn && getPage != 'Home'" />
+    </div>
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/navbar';
 import MusicPlayer from "@/components/musicPlayer";
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   data(){
@@ -21,7 +23,7 @@ export default {
     MusicPlayer
   },
   computed: {
-    ...mapGetters('auth', ['isLoggedIn']),
+    ...mapState('auth', ['loggedIn']),
     ...mapGetters('utils', ['getPage'])
   }
 };

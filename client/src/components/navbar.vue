@@ -1,5 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<div class="nav">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border-bottom">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">
         <div class="logo-text">
@@ -25,39 +26,39 @@
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/search">SEARCH</router-link>
+            <router-link class="nav-link" to="/search" v-if="loggedIn">SEARCH</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/browse">BROWSE</router-link>
+            <router-link class="nav-link" to="/browse" v-if="loggedIn">BROWSE</router-link>
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="loggedIn">
             <router-link class="nav-link" to="/playlists"
               >PLAYLISTS</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="loggedIn">
             <router-link class="nav-link" to="/tracks/new"
               >NEW TRACK</router-link
             >
           </li>
-          <li class="nav-item" v-if="isLoggedIn">
+          <li class="nav-item" v-if="loggedIn">
             <router-link class="nav-link" to="/player"
               >PLAYER</router-link
             >
           </li>
         </ul>
         <div v-if="isLoggedIn">
-          <div class="dropdown">
-            <button
-              class="btn btn-warning dropdown-toggle"
-              type="button"
+          <div class=" nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-muted"
               id="dropdownMenuButton1"
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              role="button"
             >
               Account
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
               <li>
                 <router-link class="dropdown-item" to="/user/profile"
                   >Profile</router-link
@@ -75,39 +76,44 @@
             </ul>
           </div>
         </div>
-        <div v-else>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link" to="/login">LOGIN</router-link>
+              <router-link class="nav-link" v-if="!isLoggedIn" to="/login">LOGIN</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/signup">SIGNUP</router-link>
+              <router-link class="nav-link" v-if="!isLoggedIn" to="/signup">SIGNUP</router-link>
             </li>
           </ul>
-        </div>
       </div>
     </div>
   </nav>
+  </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 export default {
   name: 'Navbar',
   data() {
     return {};
   },
+  methods: {
+    logout(){
+      this.$store.dispatch('auth/logout').then(res=>{
+        if(res){
+          window.location.replace('/')
+        }else{
+         alert("Logout Failed");
+        }
+      }).catch(err=>{
+        alert("Logout Failed");
+      });
+    }
+  },
   computed: {
     ...mapGetters('auth', ['isLoggedIn']),
+    ...mapState('auth', ['loggedIn'])
   },
-  // logout() {
-  //   store /     .dispatch("auth/l ut")
-  //     .then((res) => {
-  // rt("Logged Out Successfully");        wi w.location.reload;
-  //  })
-  //     .catch((err) {
-  //       console.log(err);
-  //    alert("Error Logging Out");        thi route
 };
 </script>
 
@@ -123,7 +129,7 @@ export default {
 }
 
 .nav-item:hover {
-  font-size: 1.1rem;
+  transform: scale(1.03);
 }
 
 .dropdown {

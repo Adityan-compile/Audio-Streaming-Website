@@ -1,6 +1,7 @@
 "use strict";
 
 const audio = require("../models/audio");
+const user = require("../models/user");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const functions = require("../helpers/functions");
@@ -35,8 +36,6 @@ exports.upload = async (req, res) => {
     creatorId: user._id,
     artistName: data.artist,
   });
-  console.log(audioObject);
-  //   res.sendStatus(201);
 
   audioObject.save(async (err, newAudio) => {
     if (err)
@@ -76,41 +75,42 @@ exports.upload = async (req, res) => {
  * @returns {undefined}
  */
 exports.deleteFile = async (req, res) => {
-  let audioId = req.query;
+  let audioId = req.query.id;
   let user = req.user;
-  let savedAudio = audio.findOne({ _id: mongoose.Types.ObjectId(audioId) });
-  if (savedAudio.creatorId === user._id) {
-    audio.remove(
-      mongoose.Types.ObjectId(audioId),
-      async (err, removedAudio) => {
-        if (err || !removedAudio)
+  let savedAudio = await audio.findOne({
+    _id: mongoose.Types.ObjectId(audioId),
+  });
+  if (savedAudio.creatorId.equals(user._id)) {
+    audio.deleteOne(
+      { _id: mongoose.Types.ObjectId(audioId) },
+      async (err, removed) => {
+        process.env.ENV.toLowerCase === 'development' && console.log(err, removed);
+        if (err)
           return res
             .status(406)
             .json({ status: 406, message: "Delete Failed" });
-        await fs.unlink(
-          `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.image}`,
+        await fs.unlink(path.resolve(`./${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${savedAudio.image}`),
           async (unlinkErr) => {
-            if (unlinkErr)
-              return res
-                .status(200)
-                .json({ status: 200, message: "Audio Deleted from Database" });
-            await fs.unlink(
-              `${__dirname}/${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${removedAudio.audio}`,
-              (unlinkError) => {
-                if (unlinkError)
-                  return res.status(200).json({
-                    status: 200,
-                    message: "Audio Deleted from Database",
-                  });
-                res
-                  .status(201)
-                  .json({ status: 201, message: "File Deleted successfully" });
-              }
+            console.log(unlinkErr);
+            await fs.unlink(path.resolve(`./${process.env.UPLOAD_PATH}/${process.env.AUDIO_FOLDER}/${savedAudio.audio}`),
+                user.findOne({ _id: user._id }, (error, doc) => {
+                  let idx = doc.uploads
+                    ? doc.uploads.indexOf(savedAudio._id)
+                    : -1;
+                  if (idx !== -1) {
+                    doc.tracks.splice(idx, 1);
+                    doc.save(async (error) => {
+                      res.status(201).json({
+                        status: 201,
+                        message: "File Deleted successfully",
+                        track: savedAudio,
+                      });
+                    });
+                  }
+                })
+            )}
             );
-          }
-        );
-      }
-    );
+          });
   } else {
     res.status(406).json({ status: 406, message: "Delete Failed" });
   }

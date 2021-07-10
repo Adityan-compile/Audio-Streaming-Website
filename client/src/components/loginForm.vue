@@ -1,4 +1,5 @@
 <template>
+<div class="component p-5">
   <form>
     <p class="text-danger">{{ errorMessage }}</p>
 
@@ -28,6 +29,7 @@
       </button>
     </div>
   </form>
+  </div>
 </template>
 
 <script>
@@ -49,12 +51,12 @@ export default {
         })
         .then((res) => {
           this.errorMessage = '';
-          this.$router.push('/');
+          this.$router.go('/');
         })
         .catch((err) => {
           console.error(err);
           this.errorMessage = 'Login Error: Check Credentials';
-          this.$router.push('/login');
+          this.$router.go('/login');
         });
     },
   },

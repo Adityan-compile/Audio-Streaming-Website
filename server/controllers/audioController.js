@@ -40,3 +40,16 @@ exports.getTracks = async (req, res) => {
       });
   }
 };
+
+exports.getTrackById = (req, res)=>{
+  if(!req.query.id) return res.sendStatus(400);
+  let id = req.query.id;
+
+  audio.findOne({ _id: id}).then(track=>{
+    res.status(200).json({status: 200, track: track});
+  }).catch(err=>{
+    console.log(err);
+    res.status(500).json({status:500, message: 'Error Fetching Track'});
+  });
+
+};

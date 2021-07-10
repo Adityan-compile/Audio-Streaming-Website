@@ -10,13 +10,13 @@ const upload = require('express-fileupload');
 const logger = require('morgan');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
-const sanitizer = require('./middleware/sanitize');
+const { sanitize } = require('./middleware/sanitize');
 const authenticator = require('./middleware/authenticate');
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const uploadsRouter = require('./routes/uploads');
+const playlistRouter = require('./routes/playlists');
 
 const errorHandler = require('./middleware/errorHandler');
 
@@ -72,7 +72,7 @@ app.use(
   })
 );
 
-// app.use(sanitizer.clean());
+app.use(sanitize);
 
 app.use(
   history({
@@ -84,7 +84,12 @@ app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/uploads', uploadsRouter);
+app.use("/api/playlists", playlistRouter);
 app.use('*/assets/images', express.static('Uploads/Images'));
+
+//Authenticate and send profile images to client
+app.use('*/assets/images/profile', authenticator.authenticate);
+app.use('*/assets/images/profile', express.static(path.join(__dirname, 'Uploads', 'Profile')));
 
 // Authenticate and send audio files to client 
 app.use('*/streams/audio', authenticator.authenticate);

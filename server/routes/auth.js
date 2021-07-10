@@ -7,7 +7,9 @@ const express = require('express');
  */
 const router = express.Router();
 
-const authController = require('../controllers/authController');
+const { login, signUp, logout } = require('../controllers/authController');
+
+const { sanitize } = require("../middleware/sanitize");
 
 /**
  * @name Login
@@ -21,7 +23,7 @@ const authController = require('../controllers/authController');
  * @bodyparam {String} password
  */
 router.post('/login', (req, res) => {
-  authController.login(req, res);
+  login(req, res);
 });
 
 /**
@@ -37,21 +39,22 @@ router.post('/login', (req, res) => {
  * @bodyparam {String} password
  */
 router.post('/signup', (req, res) => {
-  authController.signUp(req, res);
+  signUp(req, res);
 });
 
 /**
- * @name RefreshTokens
- * @route {POST} /auth/tokens/refresh
- * @method POST
+ * @name= Logout
+ * @route {POST,GET} /auth/logout
+ * @method POST,GET
  * @function
  * @module routes/auth
  * @param {String} path
- * @param {Callback} regenerateToken
- * @bodyparam {String} refreshToken
+ * @param {Callback} logout
  */
-router.post('/tokens/refresh', (req, res) => {
-  authController.regenerateToken(req, res);
+router.route('/logout').get((req, res) => {
+  logout(req, res);
+}).post((req, res) => {
+  logout(req, res);
 });
 
 module.exports = router;

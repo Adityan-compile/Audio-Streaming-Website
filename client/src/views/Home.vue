@@ -1,14 +1,18 @@
 <template>
   <div class="home component">
-    <div style="position: relative">
+    <div>
       <div class="row">
         <div class="col-md-6 text-center align-self-center">
           <img class="img-fluid pt-5" src="../assets/musician.png" />
         </div>
-        <div class="col-md-6 align-self-center p-5 fw-bold text-center">
-          <h1 class="logo-text text-white pt-4">Track Wiz</h1>
+        <div
+          class="col-md-6 align-self-center p-5 pt-5 fw-bold text-center typewriter"
+        >
+          <h1 class="logo-text text-white pt-5 typewriter-text" ref="title">
+            Track Wiz
+          </h1>
           <h5 class="text-white home-text pt-3">
-            Listen To Music that awakens the inner musician in You.
+            Listen To Music that Awakens the Inner Musician in You.
           </h5>
         </div>
       </div>
@@ -36,19 +40,19 @@
 
     <Footer />
 
-       <CookieConsent v-if="!hidden" @hide="Hide"/>
+    <CookieConsent v-if="!hidden" @hide="Hide" />
   </div>
 </template>
 
 <script>
-import Footer from '@/components/footer.vue';
+import Footer from "@/components/footer.vue";
 import CookieConsent from "@/components/cookieConsent";
-import {mapGetters} from 'vuex';
+import { mapGetters } from "vuex";
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     Footer,
-    CookieConsent
+    CookieConsent,
   },
   data() {
     return {
@@ -57,13 +61,13 @@ export default {
     };
   },
   methods: {
-        Hide(status) {
-            this.hidden = true;
-            this.$store.commit("user/setConsent", true);
-        },
+    Hide() {
+      this.hidden = true;
+      this.$store.commit("user/setConsent", true);
+    },
   },
   computed: {
-    ...mapGetters('auth', ['isLoggedIn']),
+    ...mapGetters("auth", ["isLoggedIn"]),
   },
 };
 </script>
@@ -75,6 +79,31 @@ export default {
 
 .home-text {
   font-size: 3rem;
-  font-family: 'Sevillana', cursive;
+  font-family: "Sevillana", cursive;
+}
+
+.typewriter {
+  font-family: Courier, monospace;
+  display: inline-block;
+}
+
+.typewriter-text {
+  display: inline-block;
+  overflow: hidden;
+  letter-spacing: 2px;
+  animation: typing 5s steps(30, end);
+  white-space: nowrap;
+  font-size: 5rem;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+
+@keyframes typing {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 </style>

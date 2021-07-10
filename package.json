@@ -10,9 +10,12 @@
     "generate-docs": "./node_modules/.bin/jsdoc -c ./jsdoc.json",
     "docs-server": "cd docs && python3 -m http.server",
     "format": "./node_modules/.bin/prettier --semi --single-quote --trailing-comma es5 --print-width 80 --write --no-bracket-spacing --fix **/*.js **/**/*.js **/**/*.vue **/**/**/*.vue **/**/**/*.js **/**/**/**/*.js",
-    "lint": "./node_modules/.bin/standard"
+    "lint": "./node_modules/.bin/standard",
+    "count-code": "cloc --exclude-dir=node_modules .",
+    "dump-code-stats": "cloc --exclude-dir=node_modules --json . > stats.json"
   },
   "devDependencies": {
+    "cloc": "^2.8.0",
     "jsdoc": "^3.6.6",
     "jsdoc-route-plugin": "^0.1.0",
     "prettier": "^2.3.0",
